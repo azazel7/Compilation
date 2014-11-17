@@ -170,8 +170,8 @@ extern int column;
 char *file_name = NULL;
 
 void yyerror (const char *s) {
-    /*fflush (stdout);*/
-    /*fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);*/
+    fflush (stdout);
+    fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
 }
 
 
