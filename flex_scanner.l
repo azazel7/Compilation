@@ -4,12 +4,13 @@ L[a-zA-Z_]
 %{
 #include <stdio.h>
 #include <string.h>
-#include "parser.tab.h"
+#define YY_DECL extern "C" int yylex()
+
+#include "bison_grammar.h"
 void count();
 int comment ();
 int check_type ();
 %}
-
 %option yylineno
 %%
 "/*"		{ comment(); }
@@ -60,14 +61,14 @@ int yywrap() {
 }
 
 int comment() {
-	char c, c1;
+	/*char c, c1;*/
 
-loop:
-	while ((c = input()) != '*' && c != 0);
-	if ((c1 = input()) != '/' && c != 0) {
-		unput(c1);
-		goto loop;
-	}
+/*loop:*/
+	/*while ((c = input()) != '*' && c != 0);*/
+	/*if ((c1 = input()) != '/' && c != 0) {*/
+		/*unput(c1);*/
+		/*goto loop;*/
+	/*}*/
 	return 0;
 }
 

@@ -15,19 +15,22 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
+FILE=flex_scanner.o bison_grammar.o 
 
-gazl: flex_scanner.c bison_grammar.c Function.o
-	$(CC) $(OPTION) $? -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)
+gazl: $(FILE) 
+	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)
 
-lex_scanner.c: flex_scanner.l
-	flex -o flex_scanner.c flex_scanner.l
+flex_scanner.o: flex_scanner.l bison_grammar.o
+	flex -o flex_scanner.cpp flex_scanner.l
+	g++ flex_scanner.cpp -c -o flex_scanner.o
 
-bison_grammar.c: bison_grammar.y
-	bison --defines=bison_grammar.h --output=bison_grammar.c bison_grammar.y
+bison_grammar.o: bison_grammar.y
+	bison --defines=bison_grammar.h --output=bison_grammar.cpp bison_grammar.y
+	g++ bison_grammar.cpp -c -o bison_grammar.o
 
 %.o : %.cpp
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)
 
 clean:
-	rm -f flex_scanner.c bison_grammar.c *.o
+	rm -f flex_scanner.c flex_scanner.cpp bison_grammar.cpp bison_grammar.c *.o
 

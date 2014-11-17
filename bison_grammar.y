@@ -1,8 +1,12 @@
 %{
     #include <stdio.h>
-    extern int yylineno;
-    int yylex ();
-    int yyerror ();
+extern "C" int yylex();
+extern "C" int yyparse();
+extern "C" int yylineno;
+extern "C" char* yytext;
+extern "C" FILE *yyin;
+
+void yyerror(const char *s);
 
 %}
 
@@ -158,19 +162,16 @@ function_definition
 
 %%
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-extern char yytext[];
 extern int column;
-extern int yylineno;
-extern FILE *yyin;
 
 char *file_name = NULL;
 
-int yyerror (char *s) {
-    fflush (stdout);
-    fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
-    return 0;
+void yyerror (const char *s) {
+    /*fflush (stdout);*/
+    /*fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);*/
 }
 
 
