@@ -32,5 +32,5 @@ bison_grammar.o: bison_grammar.y
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)
 
 clean:
-	rm -f flex_scanner.c flex_scanner.cpp bison_grammar.cpp bison_grammar.c *.o
+	rm -f flex_scanner.cpp bison_grammar.cpp *.o $(EXEC)
 
