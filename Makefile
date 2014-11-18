@@ -3,9 +3,9 @@
 #EXEC=gazl
 
 CC=g++
-DEBUGFLAG=-O2 -Os 
+DEBUGFLAG=-O0 #-O2 -Os -march=native -pipe
 LINK=
-OPTION=-std=c++11
+OPTION=-std=c++11  
 WARNINGFLAG=
 
 ifeq ($(DEBUG),1)
@@ -15,7 +15,7 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
-FILE=flex_scanner.o bison_grammar.o Function.o Type.o 
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o 
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)
