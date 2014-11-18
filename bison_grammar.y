@@ -199,20 +199,21 @@ comparison_expression
 
 expression
 : IDENTIFIER '=' comparison_expression {std::cout << "expression -> IDENTIFIER = comparison_expression" << std::endl;
-		Node* tmp = new Node($1);
-		tmp->addChild(*(new Node("=")));
+		Node* tmp = new Node();
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
+		tmp->addChild(*(new Node("=")));
+		tmp->addChild(*(new Node($1)));
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER '[' expression ']' '=' comparison_expression {std::cout << "expression -> IDENTIFIER [expression] = comparison_expression" << std::endl;
 		Node* tmp = new Node($1);
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*(new Node("] = ")));
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
 		tmp->addChild(*(new Node("[")));
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
-		tmp->addChild(*(new Node("] =")));
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
 		}
 | comparison_expression {std::cout << "expression -> comparison_expression " << std::endl;}
@@ -244,13 +245,13 @@ declarator_list
 
 type_name
 : VOID  {std::cout << "type_name -> VOID " << std::endl; 
-		stackForTree.push_front(new Node("VOID"));
+		stackForTree.push_front(new Node("VOID "));
 	}
 | INT   {std::cout << "type_name -> INT" << std::endl;
-		stackForTree.push_front(new Node("INT"));
+		stackForTree.push_front(new Node("INT "));
 	}
 | FLOAT {std::cout << "type_name -> FLOAT" << std::endl;
-		stackForTree.push_front(new Node("FLOAT"));
+		stackForTree.push_front(new Node("FLOAT "));
 	}
 ;
 ;
@@ -277,9 +278,9 @@ declarator
 		}
 | declarator '(' ')' {std::cout << "declarator -> declarator ()" << std::endl;
 		Node* tmp = new Node();
+		tmp->addChild(*(new Node(" ()")));
 		tmp->addChild(*stackForTree.front()); //Take decarator as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("()")));
 		stackForTree.push_front(tmp); //Put this declarator without value
 		}
 ;
@@ -322,19 +323,21 @@ compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
-		Node* tmp = new Node("{\n");
+		Node* tmp = new Node();
+		tmp->addChild(*(new Node("\n}\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("\n}\n")));
+		tmp->addChild(*(new Node("\n{\n")));
 		stackForTree.push_front(tmp);
 		}
 | '{' declaration_list statement_list '}' {std::cout << "compound_statement -> { declaration_list statement_list }" << std::endl;
-		Node* tmp = new Node("{\n");
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
+		Node* tmp = new Node();
 		tmp->addChild(*(new Node("\n}\n")));
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*(new Node("\n{\n")));
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -367,9 +370,9 @@ expression_statement
 : ';' {std::cout << "expression_statement -> ;" << std::endl;}
 | expression ';' {std::cout << "expression_statement -> expression ;" << std::endl;
 		Node* tmp = new Node();
+		tmp->addChild(*(new Node(";\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(";")));
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -379,21 +382,22 @@ selection_statement
 		Node* tmp = new Node("IF (");
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
+		tmp->addChild(*(new Node(")\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
 		}
 | IF '(' expression ')' statement ELSE statement {std::cout << "selection_statement -> IF ( expression ) statement ELSE statement" << std::endl;
-		Node* tmp = new Node("IF (");
+		Node* tmp = new Node();
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*(new Node(" \nELSE\n ")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node(") ")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(" ELSE ")));
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
+		tmp->addChild(*(new Node("IF (")));
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -409,16 +413,17 @@ iteration_statement
 		stackForTree.push_front(tmp);
 		}
 | FOR '(' expression_statement expression_statement expression ')' statement {std::cout << "iteration_statement -> FOR ( expression_statement expression_statement expression ) statement" << std::endl;
-		Node* tmp = new Node("FOR (");
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
+		Node* tmp = new Node();
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node(")")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		tmp->addChild(*(new Node("\nFOR (")));
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -430,9 +435,9 @@ jump_statement
 		}
 | RETURN expression ';' {std::cout << "jump_statement -> RETURN expression ;" << std::endl;
 		Node* tmp = new Node("RETURN ");
+		tmp->addChild(*(new Node(";\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(";")));
 		stackForTree.push_front(tmp);
 		}
 ;
