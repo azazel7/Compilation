@@ -15,7 +15,7 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
-FILE=flex_scanner.o bison_grammar.o 
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o 
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)

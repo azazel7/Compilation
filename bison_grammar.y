@@ -1,5 +1,12 @@
 %{
-    #include <stdio.h>
+#include <cstdio>
+#include <iostream>
+#include <list>
+#include <map>
+
+class Type;
+std::list<std::map<std::string, Type&> > allSymbole;
+
 extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" int yylineno;
