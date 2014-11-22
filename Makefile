@@ -22,11 +22,11 @@ gazl: $(FILE)
 
 flex_scanner.o: flex_scanner.l bison_grammar.o
 	flex -o flex_scanner.cpp flex_scanner.l
-	g++ flex_scanner.cpp -c -o flex_scanner.o
+	g++ $(OPTION)  flex_scanner.cpp -c -o flex_scanner.o
 
 bison_grammar.o: bison_grammar.y
 	bison --defines=bison_grammar.h --output=bison_grammar.cpp bison_grammar.y
-	g++ bison_grammar.cpp -c -o bison_grammar.o
+	g++ $(OPTION) bison_grammar.cpp -c -o bison_grammar.o
 
 %.o : %.cpp
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)

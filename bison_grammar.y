@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include "Node.hpp"
+#include "Function.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -53,10 +54,10 @@ primary_expression
 		}
 | IDENTIFIER '(' argument_expression_list ')' {std::cout << "primary_expression -> IDENTIFIER( argument_expression_list )" << std::endl;
 		Node* tmp = new Node($1);
-		tmp->addChild(*(new Node("(")));
+		tmp->addChild(*(new Node(")")));
 		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
+		tmp->addChild(*(new Node("(")));
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
@@ -199,7 +200,7 @@ comparison_expression
 
 expression
 : IDENTIFIER '=' comparison_expression {std::cout << "expression -> IDENTIFIER = comparison_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_EXPRESSION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("=")));
@@ -207,7 +208,7 @@ expression
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER '[' expression ']' '=' comparison_expression {std::cout << "expression -> IDENTIFIER [expression] = comparison_expression" << std::endl;
-		Node* tmp = new Node($1);
+		Node* tmp = new Node($1, ID_EXPRESSION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("] = ")));
@@ -221,7 +222,7 @@ expression
 
 declaration
 : type_name declarator_list ';' {std::cout << "declaration -> type_name declarator_list" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_DECLARATION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*stackForTree.front());
@@ -245,39 +246,39 @@ declarator_list
 
 type_name
 : VOID  {std::cout << "type_name -> VOID " << std::endl; 
-		stackForTree.push_front(new Node("VOID "));
+		stackForTree.push_front(new Node("VOID ", ID_TYPE));
 	}
 | INT   {std::cout << "type_name -> INT" << std::endl;
-		stackForTree.push_front(new Node("INT "));
+		stackForTree.push_front(new Node("INT ", ID_TYPE));
 	}
 | FLOAT {std::cout << "type_name -> FLOAT" << std::endl;
-		stackForTree.push_front(new Node("FLOAT "));
+		stackForTree.push_front(new Node("FLOAT ", ID_TYPE));
 	}
 ;
 ;
 
 declarator
 : IDENTIFIER   {std::cout << "declarator -> IDENTIFIER" << std::endl;
-		stackForTree.push_front(new Node($1));
+		stackForTree.push_front(new Node($1, ID_DECLARATOR));
 		}
 | '*' IDENTIFIER {std::cout << "declarator -> * IDENTIFIER" << std::endl;
 		//FIXME Don't know the problem stackForTree.push_front(new Node(std::string('*') + std::string($1)));
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER [ ICONSTANT ]" << std::endl;
-		stackForTree.push_front(new Node($1));
+		stackForTree.push_front(new Node($1, ID_DECLARATOR));
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_DECLARATOR);
+		tmp->addChild(*(new Node(")")));
 		tmp->addChild(*stackForTree.front()); //Take decarator as child
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("(")));
 		tmp->addChild(*stackForTree.front()); //Take parameter_list as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
 		stackForTree.push_front(tmp); //Put this declarator without value
 		}
 | declarator '(' ')' {std::cout << "declarator -> declarator ()" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_DECLARATOR);
 		tmp->addChild(*(new Node(" ()")));
 		tmp->addChild(*stackForTree.front()); //Take decarator as child
 		stackForTree.pop_front();
@@ -310,20 +311,30 @@ parameter_declaration
 ;
 
 statement
-: compound_statement {std::cout << "statement -> compound_statement" << std::endl;}
-| expression_statement  {std::cout << "statement -> expression_statement" << std::endl;}
-| selection_statement {std::cout << "statement -> selection_statement" << std::endl;}
-| iteration_statement {std::cout << "statement -> iteration_statement" << std::endl;}
-| jump_statement {std::cout << "statement -> jump_statement" << std::endl;}
+: compound_statement {std::cout << "statement -> compound_statement" << std::endl;
+		stackForTree.front()->setId(ID_STATEMENT);
+		}
+| expression_statement  {std::cout << "statement -> expression_statement" << std::endl;
+		stackForTree.front()->setId(ID_STATEMENT);
+		}
+| selection_statement {std::cout << "statement -> selection_statement" << std::endl;
+		stackForTree.front()->setId(ID_STATEMENT);
+		}
+| iteration_statement {std::cout << "statement -> iteration_statement" << std::endl;
+		stackForTree.front()->setId(ID_STATEMENT);
+		}
+| jump_statement {std::cout << "statement -> jump_statement" << std::endl;
+		stackForTree.front()->setId(ID_STATEMENT);
+		}
 ;
 
 compound_statement
 : '{' '}' {std::cout << "compound_statement ->  { }" << std::endl;
-		Node* tmp = new Node("{ }");
+		Node* tmp = new Node("{ }", ID_COUMPOUND_STATEMENT);
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COUMPOUND_STATEMENT);
 		tmp->addChild(*(new Node("\n}\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
@@ -331,7 +342,7 @@ compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' declaration_list statement_list '}' {std::cout << "compound_statement -> { declaration_list statement_list }" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COUMPOUND_STATEMENT);
 		tmp->addChild(*(new Node("\n}\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
@@ -357,7 +368,7 @@ declaration_list
 statement_list
 : statement {std::cout << "statement_list -> statement" << std::endl;}
 | statement_list statement {std::cout << "statement_list -> statement_list statement" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_STATEMENT_LIST);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*stackForTree.front());
@@ -445,7 +456,7 @@ jump_statement
 program
 : external_declaration {std::cout << "program -> external_declaration" << std::endl;}
 | program external_declaration {std::cout << "program -> program external_declaration" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_EXTERNAL_DECLARATION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*stackForTree.front());
@@ -456,18 +467,23 @@ program
 
 external_declaration
 : function_definition {std::cout << "external_declaration -> function_definition" << std::endl;}
-| declaration {std::cout << "external_declaration -> declaration" << std::endl;}
+| declaration {std::cout << "external_declaration -> declaration" << std::endl;
+		stackForTree.front()->setId(ID_GLOBAL_DECLARATOR);
+		}
 ;
 
 function_definition
 : type_name declarator compound_statement {std::cout << "function_definition -> type_name declarator compound_statement" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*stackForTree.front());
+		Node* body = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* argument = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node * type = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new Function(*type, *argument, *body);
+		tmp->addChild(*body);
+		tmp->addChild(*argument);
+		tmp->addChild(*type);
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -495,8 +511,9 @@ int main (int argc, char *argv[]) {
 	if (input) {
 	    yyin = input;
 	    yyparse();
-		std::cout << std::endl << stackForTree.size() << std::endl;
-		stackForTree.front()->print();
+		/*std::cout << std::endl << stackForTree.size() << std::endl;*/
+		/*stackForTree.front()->flattenFunction();*/
+		stackForTree.front()->printTree(0, 20);
 	}
 	else {
 	  fprintf (stderr, "%s: Could not open %s\n", *argv, argv[1]);
