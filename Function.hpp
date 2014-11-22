@@ -18,6 +18,5 @@ class Function : public Node
 	public:
 		Function(Node& type, Node& argumentNode, Node& bodyNode);
 		void printAsm(int fd);	
-		void flattenStatement(void);
 };
 #endif

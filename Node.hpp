@@ -15,6 +15,7 @@
 #define ID_STATEMENT 10
 class Node
 {
+	protected:
 	std::list<Node*> children;
 	int id = -1;
 	void getNodeById(std::list<Node*> &listToFill, int id);

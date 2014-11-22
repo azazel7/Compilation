@@ -5,6 +5,7 @@
 #include <map>
 #include "Node.hpp"
 #include "Function.hpp"
+#include "CompoundStatement.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -312,7 +313,11 @@ parameter_declaration
 
 statement
 : compound_statement {std::cout << "statement -> compound_statement" << std::endl;
-		stackForTree.front()->setId(ID_STATEMENT);
+		//Add an inter node because we want an additional layer for compound_statement
+		Node* tmp = new Node(ID_STATEMENT);
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		stackForTree.push_front(tmp);
 		}
 | expression_statement  {std::cout << "statement -> expression_statement" << std::endl;
 		stackForTree.front()->setId(ID_STATEMENT);
@@ -330,11 +335,11 @@ statement
 
 compound_statement
 : '{' '}' {std::cout << "compound_statement ->  { }" << std::endl;
-		Node* tmp = new Node("{ }", ID_COUMPOUND_STATEMENT);
+		Node* tmp = new CompoundStatement("{ }", ID_COUMPOUND_STATEMENT);
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
-		Node* tmp = new Node(ID_COUMPOUND_STATEMENT);
+		Node* tmp = new CompoundStatement(ID_COUMPOUND_STATEMENT);
 		tmp->addChild(*(new Node("\n}\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
@@ -342,7 +347,7 @@ compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' declaration_list statement_list '}' {std::cout << "compound_statement -> { declaration_list statement_list }" << std::endl;
-		Node* tmp = new Node(ID_COUMPOUND_STATEMENT);
+		Node* tmp = new CompoundStatement(ID_COUMPOUND_STATEMENT);
 		tmp->addChild(*(new Node("\n}\n")));
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
@@ -512,7 +517,8 @@ int main (int argc, char *argv[]) {
 	    yyin = input;
 	    yyparse();
 		/*std::cout << std::endl << stackForTree.size() << std::endl;*/
-		/*stackForTree.front()->flattenFunction();*/
+		stackForTree.front()->flattenFunction();
+		stackForTree.front()->flattenStatement();
 		stackForTree.front()->printTree(0, 20);
 	}
 	else {

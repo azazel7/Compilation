@@ -4,10 +4,6 @@
 Function::Function(Node& type, Node& argument, Node& body) : Node(ID_FUNCTION), typeNode(type), argumentNode(argument), bodyNode(body)
 {}
 
-void Function::flattenStatement(void)
-{
-}
-
 void Function::printAsm(int fd)
 {
 	for(Instruction* i : allInstruction)
