@@ -13,25 +13,31 @@
 #define ID_COUMPOUND_STATEMENT 8
 #define ID_STATEMENT_LIST 9
 #define ID_STATEMENT 10
+#define ID_DECLARATION_LIST 11
+#define ID_PARAMETER 12
 class Node
 {
 	protected:
 	std::list<Node*> children;
 	int id = -1;
-	void getNodeById(std::list<Node*> &listToFill, int id);
 	void deleteAllChildFromId(int id);
-	public:
 	std::string name;
+	public:
 		Node();
 		Node(int id);
 		Node(std::string name, int i = -1);
 		~Node();
 		void addChild(Node& node);
-		void print(void);
+		virtual void print(void);
 		void printTree(int deepth, int maxDeepth = -1);
 		void flattenFunction(void);
+		void getNodeById(std::list<Node*> &listToFill, int id);
 		virtual void flattenStatement(void);
+		virtual void flattenParameter(void);
 		void setId(int id);
+		int countChildren(void) const;
+		std::string getName(void);
+		int getId(void) const;
 };
 //TODO TO THINK No need to flatten declarator_list -> just convert it into a symbols table 
 #endif

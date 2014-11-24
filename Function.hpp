@@ -7,8 +7,9 @@ class Instruction;
 
 class Function : public Node
 {
-	Node& typeNode;
-	Node& argumentNode;
+	std::list<Node*> allParameter;
+	std::string nameFunction;
+	Node& typeNode; //TODO not sure about it now -> return int* for exemple
 	Node& bodyNode; 
 
 	std::list<Instruction*> allInstruction;
@@ -16,7 +17,8 @@ class Function : public Node
 	//Contain all offset of the variable in the stack frame
 	std::map<std::string, int> allVariableOffset;
 	public:
-		Function(Node& type, Node& argumentNode, Node& bodyNode);
+		Function(Node* type, Node* argumentNode, Node* bodyNode);
 		void printAsm(int fd);	
+		void print(void);
 };
 #endif

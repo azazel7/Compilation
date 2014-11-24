@@ -10,13 +10,30 @@ CompoundStatement::CompoundStatement(int id):Node(id)
 CompoundStatement::CompoundStatement(std::string name, int id): Node(name, id)
 {
 }
+CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(ID_COUMPOUND_STATEMENT)
+{
+	if(declaration != nullptr)
+		declaration->getNodeById(allDeclaration, ID_DECLARATION);
+	statement->printTree(0, 14);
+	statement->getNodeById(allStatement, ID_STATEMENT);
+	std::cout << std::endl << allStatement.size() << std::endl;
+	statement->printTree(0, 14);
+}
 void CompoundStatement::flattenStatement(void)
 {
-	//Get all statement among his children
-	std::list<Node*> tmpStatement;
-	getNodeById(tmpStatement, ID_STATEMENT);	
-	children.insert(children.begin(), tmpStatement.begin(), tmpStatement.end());	
-	for(Node* n : children)
-		n->flattenStatement();
-	deleteAllChildFromId(ID_STATEMENT_LIST);
+}
+
+void CompoundStatement::print(void)
+{
+	std::cout << std::endl << "{" << std::endl;
+	for(Node* n : allDeclaration)
+	{
+		n->print();
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+
+	for(Node* n : allStatement)
+		n->print();
+	std::cout << "}" << std::endl;
 }

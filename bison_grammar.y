@@ -6,6 +6,7 @@
 #include "Node.hpp"
 #include "Function.hpp"
 #include "CompoundStatement.hpp"
+#include "VariableDeclaration.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -223,19 +224,25 @@ expression
 
 declaration
 : type_name declarator_list ';' {std::cout << "declaration -> type_name declarator_list" << std::endl;
-		Node* tmp = new Node(ID_DECLARATION);
-		tmp->addChild(*stackForTree.front());
+		Node* identifier = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* type = stackForTree.front();
 		stackForTree.pop_front();
+		Node* tmp = new VariableDeclaration(type, identifier);
+		tmp->setId(ID_DECLARATION); 
 		stackForTree.push_front(tmp);
 		}
 ;
 
 declarator_list
-: declarator {std::cout << "declarator_list -> declarator" << std::endl;}
+: declarator {std::cout << "declarator_list -> declarator" << std::endl;
+		Node* tmp = new Node(ID_STATEMENT_LIST);
+		tmp->addChild(*stackForTree.front());
+		stackForTree.pop_front();
+		stackForTree.push_front(tmp);
+		}
 | declarator_list ',' declarator {std::cout << "declarator_list -> declarator_list, declarator" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_STATEMENT_LIST);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node(",")));
@@ -269,21 +276,21 @@ declarator
 		stackForTree.push_front(new Node($1, ID_DECLARATOR));
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
-		Node* tmp = new Node(ID_DECLARATOR);
-		tmp->addChild(*(new Node(")")));
-		tmp->addChild(*stackForTree.front()); //Take decarator as child
+		Node* parameterList = stackForTree.front(); //Take decarator as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("(")));
-		tmp->addChild(*stackForTree.front()); //Take parameter_list as child
+		Node* tmp = stackForTree.front(); //Take parameter_list as child
 		stackForTree.pop_front();
+		tmp->setId(ID_DECLARATOR);
+		tmp->addChild(*parameterList);
 		stackForTree.push_front(tmp); //Put this declarator without value
 		}
 | declarator '(' ')' {std::cout << "declarator -> declarator ()" << std::endl;
-		Node* tmp = new Node(ID_DECLARATOR);
-		tmp->addChild(*(new Node(" ()")));
-		tmp->addChild(*stackForTree.front()); //Take decarator as child
-		stackForTree.pop_front();
-		stackForTree.push_front(tmp); //Put this declarator without value
+		/*Node* tmp = new Node(ID_DECLARATOR);*/
+		/*tmp->addChild(*(new Node(" ()")));*/
+		/*tmp->addChild(*stackForTree.front()); //Take decarator as child*/
+		/*stackForTree.pop_front();*/
+		/*stackForTree.push_front(tmp); //Put this declarator without value*/
+		stackForTree.front()->setId(ID_DECLARATOR);
 		}
 ;
 
@@ -302,11 +309,12 @@ parameter_list
 
 parameter_declaration
 : type_name declarator {std::cout << "parameter_declaration -> type_name declarator" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*stackForTree.front());
+		Node* type = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* id = stackForTree.front();
 		stackForTree.pop_front();
+		Node* tmp = new VariableDeclaration(type, id);
+		tmp->setId(ID_PARAMETER);
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -339,21 +347,18 @@ compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
-		Node* tmp = new CompoundStatement(ID_COUMPOUND_STATEMENT);
-		tmp->addChild(*(new Node("\n}\n")));
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("\n{\n")));
+		Node* tmp = new CompoundStatement(statement);
 		stackForTree.push_front(tmp);
 		}
 | '{' declaration_list statement_list '}' {std::cout << "compound_statement -> { declaration_list statement_list }" << std::endl;
-		Node* tmp = new CompoundStatement(ID_COUMPOUND_STATEMENT);
-		tmp->addChild(*(new Node("\n}\n")));
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* declaration = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("\n{\n")));
+		Node* tmp = new CompoundStatement(statement, declaration);
+		tmp->setId(ID_COUMPOUND_STATEMENT);
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -484,11 +489,11 @@ function_definition
 		Node* argument = stackForTree.front();
 		stackForTree.pop_front();
 		Node * type = stackForTree.front(); 
-		stackForTree.pop_front();
-		Node* tmp = new Function(*type, *argument, *body);
-		tmp->addChild(*body);
-		tmp->addChild(*argument);
-		tmp->addChild(*type);
+		stackForTree.pop_front(); //FIXME Error when type_name is a pointer -> Because of an error  with declarator* Keep in mind
+		Node* tmp = new Function(type, argument, body);
+		/*tmp->addChild(*body);*/
+		/*tmp->addChild(*argument);*/
+		/*tmp->addChild(*type);*/
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -518,8 +523,9 @@ int main (int argc, char *argv[]) {
 	    yyparse();
 		/*std::cout << std::endl << stackForTree.size() << std::endl;*/
 		stackForTree.front()->flattenFunction();
-		stackForTree.front()->flattenStatement();
-		stackForTree.front()->printTree(0, 20);
+		/*stackForTree.front()->flattenStatement();*/
+		/*stackForTree.front()->printTree(0, 20);*/
+		stackForTree.front()->print();
 	}
 	else {
 	  fprintf (stderr, "%s: Could not open %s\n", *argv, argv[1]);

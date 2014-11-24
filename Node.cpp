@@ -77,14 +77,12 @@ void Node::addChild(Node & node)
 }
 void Node::print(void)
 {
-	//std::cout << this->name;
+	std::cout << this->name ;
 	for(auto it = children.begin(); it != children.end(); it++)
 		if(*it != nullptr)
 		{
-			std::cout << (*it)->id << " ";
-			std::cout << (*it)->name << std::endl;
+			(*it)->print();
 		}
-			//(*it)->print();
 }
 
 void Node::printTree(int deepth, int maxDeepth)
@@ -98,12 +96,36 @@ void Node::printTree(int deepth, int maxDeepth)
 	for(auto it = children.begin(); it != children.end(); it++)
 		if(*it != nullptr)
 		{
+			if((*it)->id == ID_DECLARATION)
+			{
+				std::cout << padding << (*it)->id << " ";
+				std::cout << (*it)->name << std::endl;
+			}
+			else
 			std::cout << padding << (*it)->id << std::endl;
 			(*it)->printTree(deepth+1, maxDeepth);
 		}
 }
 
+void Node::flattenParameter(void)
+{
+	for(Node* n : children)
+		n->flattenParameter();
+}
+
 void Node::setId(int id)
 {
 	this->id = id;
+}
+int Node::countChildren(void) const
+{
+	return children.size();
+}
+std::string Node::getName(void)
+{
+	return name;
+}
+int Node::getId(void) const
+{
+	return id;
 }
