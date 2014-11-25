@@ -13,11 +13,13 @@ CompoundStatement::CompoundStatement(std::string name, int id): Node(name, id)
 CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(ID_COUMPOUND_STATEMENT)
 {
 	if(declaration != nullptr)
+	{
+		declaration->print();
 		declaration->getNodeById(allDeclaration, ID_DECLARATION);
-	statement->printTree(0, 14);
+		if(allDeclaration.size() == 0)
+			allDeclaration.push_front(declaration);
+	}
 	statement->getNodeById(allStatement, ID_STATEMENT);
-	std::cout << std::endl << allStatement.size() << std::endl;
-	statement->printTree(0, 14);
 }
 void CompoundStatement::flattenStatement(void)
 {

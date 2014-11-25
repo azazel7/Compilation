@@ -25,6 +25,7 @@ void yyerror(const char *s);
 
 %token <str> IDENTIFIER ICONSTANT FCONSTANT
 %token INC_OP DEC_OP LE_OP GE_OP EQ_OP NE_OP
+%token POINTER
 %token INT FLOAT VOID
 %token IF ELSE WHILE RETURN FOR
 %union {
@@ -270,7 +271,7 @@ declarator
 		stackForTree.push_front(new Node($1, ID_DECLARATOR));
 		}
 | '*' IDENTIFIER {std::cout << "declarator -> * IDENTIFIER" << std::endl;
-		//FIXME Don't know the problem stackForTree.push_front(new Node(std::string('*') + std::string($1)));
+		/*stackForTree.push_front(new Node(std::string('*') + std::string($1)));*/
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER [ ICONSTANT ]" << std::endl;
 		stackForTree.push_front(new Node($1, ID_DECLARATOR));
