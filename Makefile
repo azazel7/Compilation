@@ -2,7 +2,7 @@
 #OBJDIR=obj/
 #EXEC=gazl
 
-CC=g++
+CC=clang++
 DEBUGFLAG=-O0 -g #-O2 -Os -march=native -pipe
 LINK=
 OPTION=-std=c++11  
@@ -15,7 +15,7 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
-FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o 
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o 
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)

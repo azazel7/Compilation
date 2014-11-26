@@ -9,15 +9,23 @@ Function::Function(Node* type, Node* argument, Node* body) : Node(ID_FUNCTION), 
 
 void Function::print(void)
 {
-	std::cout << typeNode.getName() << " " << nameFunction << " " << std::endl << "Arg:";
+	std::cout << typeNode.getName() << " " << nameFunction << " (";
 	for(Node* n : allParameter)
 		n->print();
-	std::cout << std::endl;
+	std::cout << ")" << std::endl;
 	bodyNode.print();
 
 }
 void Function::printAsm(int fd)
 {
-	for(Instruction* i : allInstruction)
-		i->printAsm(fd);
+}
+
+void Function::getSymbole(std::map<std::string, Type*> & symbole) const
+{
+}
+void Function::createSymboleTable(void)
+{
+	for(Node* n : allParameter)
+		n->getSymbole(symboleTable);
+	bodyNode.createSymboleTable();
 }

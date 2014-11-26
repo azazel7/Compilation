@@ -36,22 +36,16 @@ void yyerror(const char *s);
 
 primary_expression
 : IDENTIFIER { std::cout << "primary_expression -> IDENTIFIER" << std::endl;
-		stackForTree.push_front(new Node($1));
+		stackForTree.push_front(new Node($1, ID_IDENTIFIER));
 		}
 | ICONSTANT {std::cout << "primary_expression -> ICONSTANT" << std::endl;
-		stackForTree.push_front(new Node($1));
+		stackForTree.push_front(new Node($1, ID_CONSTANTE));
 		}
 | FCONSTANT	{std::cout << "primary_expression -> FCONSTANT" << std::endl;
-		stackForTree.push_front(new Node($1));
+		stackForTree.push_front(new Node($1, ID_CONSTANTE));
 		}
 | '(' expression ')' {std::cout << "primary_expression -> ( expression )" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*(new Node("(")));
-		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
-		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
-		stackForTree.push_front(tmp);
-		}
+			}
 | IDENTIFIER '(' ')' {std::cout << "primary_expression -> IDENTIFIER()" << std::endl;
 		stackForTree.push_front(new Node(std::string($1) + "()"));
 		}
@@ -95,13 +89,13 @@ argument_expression_list
 unary_expression
 : primary_expression {std::cout << "unary_expression -> primary_expression" << std::endl;} 
 | '-' unary_expression {std::cout << "unary_expression -> - unary_expression" << std::endl;
-		Node* tmp = new Node("-");
+		Node* tmp = new Node("-", ID_UNARY_EXPRESSION);
 		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
 		}
 | '!' unary_expression {std::cout << "unary_expression -> ! unary_expression" << std::endl;
-		Node* tmp = new Node("!");
+		Node* tmp = new Node("!", ID_UNARY_EXPRESSION);
 		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
@@ -111,10 +105,10 @@ unary_expression
 multiplicative_expression
 : unary_expression {std::cout << "multiplicative_expression -> unary_expression" << std::endl;}
 | multiplicative_expression '*' unary_expression {std::cout << "multiplicative_expression -> multiplicative_expression * unary_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_MULTIPLICATIVE);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("*")));
+		/*tmp->addChild(*(new Node("*")));*/
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
@@ -124,19 +118,19 @@ multiplicative_expression
 additive_expression
 : multiplicative_expression {std::cout << "additive_expression -> multiplicative_expression" << std::endl;}
 | additive_expression '+' multiplicative_expression {std::cout << "additive_expression -> additive_expression + multiplicative_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_ADDITIVE);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("+")));
+		/*tmp->addChild(*(new Node("+")));*/
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
 		}
 | additive_expression '-' multiplicative_expression {std::cout << "additive_expression -> additive_expression - multiplicative_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_ADDITIVE);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("-")));
+		/*tmp->addChild(*(new Node("-")));*/
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
@@ -146,7 +140,7 @@ additive_expression
 comparison_expression
 : additive_expression {std::cout << "comparison_expression -> additive_expression" << std::endl;}
 | additive_expression '<' additive_expression {std::cout << "comparison_expression -> additive_expression < additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("<")));
@@ -155,7 +149,7 @@ comparison_expression
 		stackForTree.push_front(tmp);
 		}
 | additive_expression '>' additive_expression {std::cout << "comparison_expression -> additive_expression > additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node(">")));
@@ -164,7 +158,7 @@ comparison_expression
 		stackForTree.push_front(tmp);
 		}
 | additive_expression LE_OP additive_expression {std::cout << "comparison_expression -> additive_expression LE_OP additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("<=")));
@@ -173,7 +167,7 @@ comparison_expression
 		stackForTree.push_front(tmp);
 		}
 | additive_expression GE_OP additive_expression {std::cout << "comparison_expression -> additive_expression GE_OP additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node(">=")));
@@ -182,7 +176,7 @@ comparison_expression
 		stackForTree.push_front(tmp);
 		}
 | additive_expression EQ_OP additive_expression {std::cout << "comparison_expression -> additive_expression EQ_OP additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("==")));
@@ -191,7 +185,7 @@ comparison_expression
 		stackForTree.push_front(tmp);
 		}
 | additive_expression NE_OP additive_expression {std::cout << "comparison_expression -> additive_expression NE_OP additive_expression" << std::endl;
-		Node* tmp = new Node();
+		Node* tmp = new Node(ID_COMPARISON);
 		tmp->addChild(*stackForTree.front()); 
 		stackForTree.pop_front();
 		tmp->addChild(*(new Node("!=")));
@@ -206,18 +200,19 @@ expression
 		Node* tmp = new Node(ID_EXPRESSION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("=")));
-		tmp->addChild(*(new Node($1)));
+		/*tmp->addChild(*(new Node("=")));*/
+		tmp->addChild(*(new Node($1, ID_IDENTIFIER)));
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER '[' expression ']' '=' comparison_expression {std::cout << "expression -> IDENTIFIER [expression] = comparison_expression" << std::endl;
-		Node* tmp = new Node($1, ID_EXPRESSION);
+		Node* tmp = new Node(ID_EXPRESSION);
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("] = ")));
+		/*tmp->addChild(*(new Node("] = ")));*/
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("[")));
+		/*tmp->addChild(*(new Node("[")));*/
+		tmp->addChild(*(new Node($1, ID_IDENTIFIER)));
 		stackForTree.push_front(tmp);
 		}
 | comparison_expression {std::cout << "expression -> comparison_expression " << std::endl;}
@@ -310,9 +305,9 @@ parameter_list
 
 parameter_declaration
 : type_name declarator {std::cout << "parameter_declaration -> type_name declarator" << std::endl;
-		Node* type = stackForTree.front();
-		stackForTree.pop_front();
 		Node* id = stackForTree.front();
+		stackForTree.pop_front();
+		Node* type = stackForTree.front();
 		stackForTree.pop_front();
 		Node* tmp = new VariableDeclaration(type, id);
 		tmp->setId(ID_PARAMETER);
@@ -392,7 +387,7 @@ expression_statement
 : ';' {std::cout << "expression_statement -> ;" << std::endl;}
 | expression ';' {std::cout << "expression_statement -> expression ;" << std::endl;
 		Node* tmp = new Node();
-		tmp->addChild(*(new Node(";\n")));
+		/*tmp->addChild(*(new Node(";\n")));*/
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
@@ -492,9 +487,6 @@ function_definition
 		Node * type = stackForTree.front(); 
 		stackForTree.pop_front(); //FIXME Error when type_name is a pointer -> Because of an error  with declarator* Keep in mind
 		Node* tmp = new Function(type, argument, body);
-		/*tmp->addChild(*body);*/
-		/*tmp->addChild(*argument);*/
-		/*tmp->addChild(*type);*/
 		stackForTree.push_front(tmp);
 		}
 ;

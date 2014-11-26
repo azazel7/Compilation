@@ -2,6 +2,7 @@
 #define NODE_HPP 
 #include <iostream>
 #include <list>
+#include <map>
 
 #define ID_FUNCTION 1
 #define ID_TYPE 2
@@ -15,6 +16,17 @@
 #define ID_STATEMENT 10
 #define ID_DECLARATION_LIST 11
 #define ID_PARAMETER 12
+
+#define ID_UNARY_EXPRESSION 13
+#define ID_MULTIPLICATIVE 14
+#define ID_ADDITIVE 15
+#define ID_COMPARISON 16
+#define ID_PARENTHESE_EXPRESSION 17
+#define ID_IDENTIFIER 18
+#define ID_CONSTANTE 19
+
+class Type;
+
 class Node
 {
 	protected:
@@ -34,6 +46,8 @@ class Node
 		void getNodeById(std::list<Node*> &listToFill, int id);
 		virtual void flattenStatement(void);
 		virtual void flattenParameter(void);
+		virtual void getSymbole(std::map<std::string, Type*> & symbole) const;
+		virtual void createSymboleTable(void);
 		void setId(int id);
 		int countChildren(void) const;
 		std::string getName(void);

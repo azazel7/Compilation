@@ -8,6 +8,7 @@ class CompoundStatement : public Node
 	std::list<Node*> allDeclaration;
 	std::list<Node*> allStatement;
 	
+	std::map<std::string, Type*> symboleTable;
 	public:
 		CompoundStatement();
 		CompoundStatement(int id);
@@ -15,6 +16,8 @@ class CompoundStatement : public Node
 		CompoundStatement(Node* statement, Node* declaration = nullptr);
 		void flattenStatement(void);
 		void print(void);
+		void getSymbole(std::map<std::string, Type*> & symbole) const;
+		void createSymboleTable(void);
 };
 #endif 
 

@@ -129,3 +129,13 @@ int Node::getId(void) const
 {
 	return id;
 }
+
+void Node::createSymboleTable(void)
+{
+	for(Node* n : children)
+		n->createSymboleTable();
+}
+void Node::getSymbole(std::map<std::string, Type*> & symbole) const
+{
+
+}

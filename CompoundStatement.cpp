@@ -20,6 +20,8 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 			allDeclaration.push_front(declaration);
 	}
 	statement->getNodeById(allStatement, ID_STATEMENT);
+	if(allStatement.size() == 0)
+		allStatement.push_front(statement);
 }
 void CompoundStatement::flattenStatement(void)
 {
@@ -36,6 +38,19 @@ void CompoundStatement::print(void)
 	std::cout << std::endl;
 
 	for(Node* n : allStatement)
+	{
 		n->print();
+		n->printTree(0);
+	}
 	std::cout << "}" << std::endl;
+}
+void CompoundStatement::getSymbole(std::map<std::string, Type*> & symbole) const
+{
+}
+void CompoundStatement::createSymboleTable(void)
+{
+	for(Node* n : allDeclaration)
+		n->getSymbole(symboleTable);
+	for(Node* n : allStatement)
+		n->createSymboleTable();
 }

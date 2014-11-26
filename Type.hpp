@@ -3,6 +3,6 @@
 class Type
 {
 	public:
-	virtual bool operator==(Type&) = 0;
+	virtual bool operator==(Type const&) const = 0;
 };
 #endif
