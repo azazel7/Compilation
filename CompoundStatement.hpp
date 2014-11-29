@@ -16,7 +16,6 @@ class CompoundStatement : public Node
 		CompoundStatement(Node* statement, Node* declaration = nullptr);
 		void flattenStatement(void);
 		void print(void);
-		void getSymbole(std::map<std::string, Type*> & symbole) const;
 		void createSymboleTable(void);
 };
 #endif 

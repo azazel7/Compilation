@@ -7,8 +7,6 @@ Function::Function(Node* type, Node* argument, Node* body) : Node(ID_FUNCTION), 
 {
 	argument->getNodeById(allParameter, ID_PARAMETER);
 	nameFunction = argument->getName();
-	for(Node* n : allParameter)
-		n->getSymbole(symboleTable);
 }
 
 void Function::print(void)
@@ -26,8 +24,9 @@ void Function::printAsm(int fd)
 
 void Function::getSymbole(std::map<std::string, Type*> & symbole) const
 {
-	if(symbole.count(nameFunction) >= 1)
-		throw std::invalid_argument("Name of function already " + nameFunction + " exist");
+	//TODO enable for later, but now I'm too lazy to create a good c file to compile
+	//if(symbole.count(nameFunction) >= 1)
+		//throw std::invalid_argument("Name of function already " + nameFunction + " exist");
 	Type* returnType = new PrimitiveType(typeNode.getName());
 	FunctionType* type = new FunctionType(*returnType);
 	Type* tmp;
@@ -38,5 +37,7 @@ void Function::getSymbole(std::map<std::string, Type*> & symbole) const
 }
 void Function::createSymboleTable(void)
 {
+	for(Node* n : allParameter)
+		n->getSymbole(symboleTable);
 	bodyNode.createSymboleTable();
 }

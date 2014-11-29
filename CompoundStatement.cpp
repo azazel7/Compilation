@@ -44,9 +44,6 @@ void CompoundStatement::print(void)
 	}
 	std::cout << "}" << std::endl;
 }
-void CompoundStatement::getSymbole(std::map<std::string, Type*> & symbole) const
-{
-}
 void CompoundStatement::createSymboleTable(void)
 {
 	for(Node* n : allDeclaration)

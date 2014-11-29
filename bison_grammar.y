@@ -518,6 +518,7 @@ int main (int argc, char *argv[]) {
 		stackForTree.front()->flattenFunction();
 		/*stackForTree.front()->flattenStatement();*/
 		/*stackForTree.front()->printTree(0, 20);*/
+		stackForTree.front()->createSymboleTable();
 		stackForTree.front()->print();
 	}
 	else {

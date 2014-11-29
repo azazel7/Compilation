@@ -29,3 +29,12 @@ Type* VariableDeclaration::getType(void)
 {
 	return new PrimitiveType(type);
 }
+void VariableDeclaration::getSymbole(std::map<std::string, Type*> & symbole) const
+{
+	for(std::string name : id)
+		if(symbole.count(name) == 0)
+			symbole[name] = new PrimitiveType(type);
+		//TODO enable for later, but now I'm too lazy to create a good c file to compile
+		//else
+			//throw std::invalid_argument("Variable " + name + " already exist");
+}
