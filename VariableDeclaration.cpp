@@ -1,4 +1,5 @@
 #include "VariableDeclaration.hpp"
+#include "PrimitiveType.hpp"
 
 VariableDeclaration::VariableDeclaration(Node* type, Node* identifier)
 {
@@ -23,4 +24,8 @@ void VariableDeclaration::print(void)
 	std::cout << type << " ";
 	for(auto i : id)
 		std::cout << i << ", ";
+}
+Type* VariableDeclaration::getType(void)
+{
+	return new PrimitiveType(type);
 }

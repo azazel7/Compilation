@@ -139,3 +139,7 @@ void Node::getSymbole(std::map<std::string, Type*> & symbole) const
 {
 
 }
+Type* Node::getType(void)
+{
+	return nullptr;
+}

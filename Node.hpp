@@ -3,6 +3,7 @@
 #include <iostream>
 #include <list>
 #include <map>
+#include "Type.hpp"
 
 #define ID_FUNCTION 1
 #define ID_TYPE 2
@@ -48,6 +49,7 @@ class Node
 		virtual void flattenParameter(void);
 		virtual void getSymbole(std::map<std::string, Type*> & symbole) const;
 		virtual void createSymboleTable(void);
+		virtual Type* getType(void);
 		void setId(int id);
 		int countChildren(void) const;
 		std::string getName(void);

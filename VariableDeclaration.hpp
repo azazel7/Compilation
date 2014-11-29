@@ -2,6 +2,8 @@
 #define VARIABLE_DECLARATION_HPP 
 #include "Node.hpp"
 
+class Type;
+
 class VariableDeclaration : public Node 
 {
 	std::string type;
@@ -9,5 +11,6 @@ class VariableDeclaration : public Node
 	public:
 	VariableDeclaration(Node* type, Node* identifier);
 	void print(void);
+	Type* getType(void);
 };
 #endif
