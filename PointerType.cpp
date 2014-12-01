@@ -1,4 +1,6 @@
 #include "PointerType.hpp"
+#include <iostream>
+
 PointerType::PointerType(Type & pType):pointedType(pType)
 {
 }
@@ -9,5 +11,10 @@ bool PointerType::operator==(Type const& ty) const
 	if(t == nullptr)
 		return false;
 	return pointedType == t->pointedType;
+}
+void PointerType::print(void) const
+{
+	std::cout << "*";
+	pointedType.print();
 }
 

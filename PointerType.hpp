@@ -9,6 +9,7 @@ class PointerType: public Type
 	public:
 	PointerType(Type & pType);
 	bool operator==(Type const&) const;
+	void print(void) const;
 };
 #endif
 

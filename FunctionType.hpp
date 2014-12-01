@@ -12,6 +12,7 @@ class FunctionType: public Type
 	FunctionType(Type const& returnType);
 	void addParameter(Type* para);
 	bool operator==(Type const&) const;
+	void print(void) const;
 };
 #endif
 

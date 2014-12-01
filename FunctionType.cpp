@@ -1,4 +1,5 @@
 #include "FunctionType.hpp"
+#include <iostream>
 
 
 FunctionType::FunctionType(Type const& retType): returnType(retType)
@@ -23,4 +24,15 @@ bool FunctionType::operator==(Type const& ty) const
 		if(**it != **jt)
 			return false;
 	return true;
+}
+void FunctionType::print(void) const
+{
+	returnType.print();
+	std::cout << " (";
+	for(Type* t : parameterType)
+	{
+		t->print();
+		std::cout << ", ";
+	}
+	std::cout << ")";
 }

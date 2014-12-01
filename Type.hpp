@@ -3,6 +3,7 @@
 class Type
 {
 	public:
+	virtual void print(void) const = 0;
 	virtual bool operator==(Type const&) const = 0;
 	virtual bool operator!=(Type const&) const;
 };
