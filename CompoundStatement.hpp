@@ -17,6 +17,7 @@ class CompoundStatement : public Node
 		void flattenStatement(void);
 		void print(void);
 		void createSymboleTable(void);
+		void printSymboleTable(void) const;
 };
 #endif 
 

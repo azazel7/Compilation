@@ -41,3 +41,15 @@ void Function::createSymboleTable(void)
 		n->getSymbole(symboleTable);
 	bodyNode.createSymboleTable();
 }
+void Function::printSymboleTable(void) const
+{
+	std::cout <<"{" << std::endl;
+	for(auto symbole : symboleTable)
+	{
+		std::cout << symbole.first << " ";
+		symbole.second->print();
+		std::cout << std::endl;
+	}
+	bodyNode.printSymboleTable();
+	std::cout <<"}" << std::endl;
+}

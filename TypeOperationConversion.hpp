@@ -3,7 +3,7 @@
 
 #include <map>
 
-class Type;
+#include "Type.hpp"
 
 #define OPERATION_ADD '+'
 #define OPERATION_SUB '+' //Same as OPERATION_SUB
@@ -14,7 +14,9 @@ class Type;
 
 class TypeOperationConversion
 {
+	static std::map<char, std::map<char, std::map<char, char>>> table;
 	public:
+		static void initTable(void);
 		static Type* getTypeOperation(char operation, Type& t1, Type& t2);
 };
 #endif

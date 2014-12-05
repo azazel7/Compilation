@@ -51,3 +51,16 @@ void CompoundStatement::createSymboleTable(void)
 	for(Node* n : allStatement)
 		n->createSymboleTable();
 }
+void CompoundStatement::printSymboleTable(void) const
+{
+	std::cout <<"{" << std::endl;
+	for(auto symbole : symboleTable)
+	{
+		std::cout << symbole.first << " ";
+		symbole.second->print();
+		std::cout << std::endl;
+	}
+	for(Node* statement : allStatement)
+		statement->printSymboleTable();
+	std::cout <<"}" << std::endl;
+}

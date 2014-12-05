@@ -49,6 +49,8 @@ class Node
 		virtual void flattenParameter(void);
 		virtual void getSymbole(std::map<std::string, Type*> & symbole) const;
 		virtual void createSymboleTable(void);
+		virtual void semanticsCheck(void) const;
+		virtual void printSymboleTable(void) const;
 		virtual Type* getType(void);
 		void setId(int id);
 		int countChildren(void) const;

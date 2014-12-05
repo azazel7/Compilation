@@ -135,6 +135,16 @@ void Node::createSymboleTable(void)
 	for(Node* n : children)
 		n->createSymboleTable();
 }
+void Node::semanticsCheck(void) const
+{
+	for(Node* n : children)
+		n->semanticsCheck();
+}
+void Node::printSymboleTable(void) const
+{
+	for(Node* n : children)
+		n->printSymboleTable();
+}
 void Node::getSymbole(std::map<std::string, Type*> & symbole) const
 {
 
