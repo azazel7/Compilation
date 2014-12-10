@@ -16,3 +16,7 @@ void PrimitiveType::print(void) const
 {
 	std::cout << nameType;
 }
+char PrimitiveType::getType(void)
+{
+	return INT_TYPE;
+}

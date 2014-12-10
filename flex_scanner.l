@@ -22,6 +22,7 @@ int check_type ();
 "return"	{ count(); return(RETURN); }
 "void"		{ count(); return(VOID); }
 "while"		{ count(); return(WHILE); }
+"pfor"		{ count(); return(PFOR); }
 "for"		{ count(); return(FOR); }
 
 {L}({L}|{D})*	{ count(); yylval.str=strdup(yytext); return(IDENTIFIER); }

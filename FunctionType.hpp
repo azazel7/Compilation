@@ -13,6 +13,7 @@ class FunctionType: public Type
 	void addParameter(Type* para);
 	bool operator==(Type const&) const;
 	void print(void) const;
+	char getType(void);
 };
 #endif
 

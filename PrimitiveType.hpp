@@ -10,6 +10,7 @@ class PrimitiveType : public Type
 	PrimitiveType(std::string type);
 	void print(void) const;
 	bool operator==(Type const&) const;
+	char getType(void);
 };
 #endif
 

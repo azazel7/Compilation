@@ -10,6 +10,7 @@ class PointerType: public Type
 	PointerType(Type & pType);
 	bool operator==(Type const&) const;
 	void print(void) const;
+	char getType(void);
 };
 #endif
 

@@ -7,6 +7,8 @@
 #include "Function.hpp"
 #include "CompoundStatement.hpp"
 #include "VariableDeclaration.hpp"
+#include "TypeOperationConversion.hpp"
+#include "Expression.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -27,7 +29,7 @@ void yyerror(const char *s);
 %token INC_OP DEC_OP LE_OP GE_OP EQ_OP NE_OP
 %token POINTER
 %token INT FLOAT VOID
-%token IF ELSE WHILE RETURN FOR
+%token IF ELSE WHILE RETURN FOR PFOR
 %union {
   char *str;
 }
@@ -197,11 +199,8 @@ comparison_expression
 
 expression
 : IDENTIFIER '=' comparison_expression {std::cout << "expression -> IDENTIFIER = comparison_expression" << std::endl;
-		Node* tmp = new Node(ID_EXPRESSION);
-		tmp->addChild(*stackForTree.front());
+		Node* tmp = new Expression($1, *stackForTree.front());
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("=")));*/
-		tmp->addChild(*(new Node($1, ID_IDENTIFIER)));
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER '[' expression ']' '=' comparison_expression {std::cout << "expression -> IDENTIFIER [expression] = comparison_expression" << std::endl;
@@ -443,6 +442,8 @@ iteration_statement
 		tmp->addChild(*(new Node("\nFOR (")));
 		stackForTree.push_front(tmp);
 		}
+| PFOR '(' ICONSTANT ';' expression_statement expression_statement expression ')' statement {std::cout << "iteration_statement -> PFOR ( expression_statement expression_statement expression ) statement" << std::endl;
+		}
 ;
 
 jump_statement
@@ -508,6 +509,7 @@ void yyerror (const char *s) {
 
 int main (int argc, char *argv[]) {
     FILE *input = NULL;
+	TypeOperationConversion::initTable();
     if (argc==2) {
 	input = fopen (argv[1], "r");
 	file_name = strdup (argv[1]);

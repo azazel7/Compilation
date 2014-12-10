@@ -36,3 +36,7 @@ void FunctionType::print(void) const
 	}
 	std::cout << ")";
 }
+char FunctionType::getType(void)
+{
+	return FUNCTION_TYPE;
+};
