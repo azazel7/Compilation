@@ -4,8 +4,17 @@ std::map<char, std::map<char, std::map<char, char>>> TypeOperationConversion::ta
 
 Type* TypeOperationConversion::getTypeOperation(char operation, Type& t1, Type& t2)
 {
-	//TODO Find a way to do it. I have no ideas.
-	return nullptr;
+	if(table.count(operation) == 0)
+		return nullptr;
+	std::map<char, std::map<char, char> > canard = table[operation];
+	if(canard.count(t1.getType()) == 0)
+		return nullptr;
+	std::map<char, char> loutre = canard[t1.getType()];
+	if(loutre.count(t2.getType()) == 0)
+		return nullptr;
+	if(loutre[t2.getType()])
+		return &t2;
+	return &t1;
 }
 void TypeOperationConversion::initTable(void)
 {
@@ -13,19 +22,18 @@ void TypeOperationConversion::initTable(void)
 	std::map<char, std::map<char, char> > canard;
 
 	//ADD operation
-	loutre[POINTER_TYPE] = POINTER_TYPE;
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = INT_TYPE;
+	loutre[POINTER_TYPE] = 1;
+	loutre[INT_TYPE] = 0;
+	loutre[FLOAT_TYPE] = 0;
 	canard[INT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = FLOAT_TYPE;
+	loutre[INT_TYPE] = 1;
+	loutre[FLOAT_TYPE] = 0;
 	canard[FLOAT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[POINTER_TYPE] = POINTER_TYPE;
-	loutre[INT_TYPE] = POINTER_TYPE;
+	loutre[INT_TYPE] = 0;
 	canard[POINTER_TYPE] = loutre;
 	loutre.clear();
 
@@ -33,19 +41,18 @@ void TypeOperationConversion::initTable(void)
 	table[OPERATION_ADD] = canard;
 
 	//SUB operation
-	loutre[POINTER_TYPE] = POINTER_TYPE;
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = INT_TYPE;
+	loutre[POINTER_TYPE] = 1;
+	loutre[INT_TYPE] = 0;
+	loutre[FLOAT_TYPE] = 1;
 	canard[INT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = FLOAT_TYPE;
+	loutre[INT_TYPE] = 1;
+	loutre[FLOAT_TYPE] = 0;
 	canard[FLOAT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[POINTER_TYPE] = POINTER_TYPE;
-	loutre[INT_TYPE] = POINTER_TYPE;
+	loutre[INT_TYPE] = 0;
 	canard[POINTER_TYPE] = loutre;
 	loutre.clear();
 
@@ -53,26 +60,26 @@ void TypeOperationConversion::initTable(void)
 	table[OPERATION_SUB] = canard;
 
 	//BY operation
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = INT_TYPE;
+	loutre[INT_TYPE] = 0;
+	loutre[FLOAT_TYPE] = 1;
 	canard[INT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = FLOAT_TYPE;
+	loutre[INT_TYPE] = 1;
+	loutre[FLOAT_TYPE] = 0;
 	canard[FLOAT_TYPE] = loutre;
 	loutre.clear();
 
 	table[OPERATION_BY] = canard;
 
 	//DIV operation
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = INT_TYPE;
+	loutre[INT_TYPE] = 0;
+	loutre[FLOAT_TYPE] = 1;
 	canard[INT_TYPE] = loutre;
 	loutre.clear();
 
-	loutre[INT_TYPE] = INT_TYPE;
-	loutre[FLOAT_TYPE] = FLOAT_TYPE;
+	loutre[INT_TYPE] = 0;
+	loutre[FLOAT_TYPE] = 0;
 	canard[FLOAT_TYPE] = loutre;
 	loutre.clear();
 
