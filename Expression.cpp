@@ -11,6 +11,7 @@ Expression::Expression(std::string iden, Node& expr, Node* offset): Node(ID_EXPR
 void Expression::semanticsCheck(void) const
 {
 	Type* typeSymbole = StackSymboleTable::getSymbole(id);
+	//TODO if typeSymbole is a pointer think about deference from this pointer
 	if(typeSymbole == nullptr)
 		throw std::invalid_argument("Can't find symbole");
 	if(expressionOffset != nullptr)
@@ -24,4 +25,12 @@ void Expression::semanticsCheck(void) const
 	Type* typeExpression = expression.getType();
 	if(!typeExpression || *typeExpression != *typeSymbole)
 		throw std::invalid_argument("Id type != expression type");
+	if(!expressionOffset)
+		expressionOffset->semanticsCheck();
+	expression.semanticsCheck();
 }
+Type* Expression::getType()
+{
+	//TODO probably an error here
+	return StackSymboleTable::getSymbole(id);
+};

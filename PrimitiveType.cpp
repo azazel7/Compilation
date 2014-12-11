@@ -1,6 +1,10 @@
 #include "PrimitiveType.hpp"
 #include <iostream>
 
+const std::string PrimitiveType::int_type = "INT";
+const std::string PrimitiveType::float_type = "FLOAT";
+const std::string PrimitiveType::void_type = "VOID";
+
 PrimitiveType::PrimitiveType(std::string type)
 {
 	nameType = type;

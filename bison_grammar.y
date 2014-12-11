@@ -9,6 +9,10 @@
 #include "VariableDeclaration.hpp"
 #include "TypeOperationConversion.hpp"
 #include "Expression.hpp"
+#include "PrimitiveType.hpp"
+#include "ComparisonExpression.hpp"
+#include "AdditiveExpression.hpp"
+#include "MultiplicativeExpression.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -107,12 +111,11 @@ unary_expression
 multiplicative_expression
 : unary_expression {std::cout << "multiplicative_expression -> unary_expression" << std::endl;}
 | multiplicative_expression '*' unary_expression {std::cout << "multiplicative_expression -> multiplicative_expression * unary_expression" << std::endl;
-		Node* tmp = new Node(ID_MULTIPLICATIVE);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("*")));*/
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new MultiplicativeExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -120,21 +123,19 @@ multiplicative_expression
 additive_expression
 : multiplicative_expression {std::cout << "additive_expression -> multiplicative_expression" << std::endl;}
 | additive_expression '+' multiplicative_expression {std::cout << "additive_expression -> additive_expression + multiplicative_expression" << std::endl;
-		Node* tmp = new Node(ID_ADDITIVE);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("+")));*/
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new AdditiveExpression(*right, *left, AdditiveExpression::add); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression '-' multiplicative_expression {std::cout << "additive_expression -> additive_expression - multiplicative_expression" << std::endl;
-		Node* tmp = new Node(ID_ADDITIVE);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("-")));*/
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new AdditiveExpression(*right, *left, AdditiveExpression::sub); 
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -142,57 +143,51 @@ additive_expression
 comparison_expression
 : additive_expression {std::cout << "comparison_expression -> additive_expression" << std::endl;}
 | additive_expression '<' additive_expression {std::cout << "comparison_expression -> additive_expression < additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("<")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression '>' additive_expression {std::cout << "comparison_expression -> additive_expression > additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(">")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression LE_OP additive_expression {std::cout << "comparison_expression -> additive_expression LE_OP additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("<=")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression GE_OP additive_expression {std::cout << "comparison_expression -> additive_expression GE_OP additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(">=")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression EQ_OP additive_expression {std::cout << "comparison_expression -> additive_expression EQ_OP additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("==")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression NE_OP additive_expression {std::cout << "comparison_expression -> additive_expression NE_OP additive_expression" << std::endl;
-		Node* tmp = new Node(ID_COMPARISON);
-		tmp->addChild(*stackForTree.front()); 
+		Node* left = stackForTree.front(); 
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("!=")));
-		tmp->addChild(*stackForTree.front()); 
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new ComparisonExpression(*right, *left); 
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -249,13 +244,13 @@ declarator_list
 
 type_name
 : VOID  {std::cout << "type_name -> VOID " << std::endl; 
-		stackForTree.push_front(new Node("VOID ", ID_TYPE));
+		stackForTree.push_front(new Node(PrimitiveType::void_type, ID_TYPE));
 	}
 | INT   {std::cout << "type_name -> INT" << std::endl;
-		stackForTree.push_front(new Node("INT ", ID_TYPE));
+		stackForTree.push_front(new Node(PrimitiveType::int_type, ID_TYPE));
 	}
 | FLOAT {std::cout << "type_name -> FLOAT" << std::endl;
-		stackForTree.push_front(new Node("FLOAT ", ID_TYPE));
+		stackForTree.push_front(new Node(PrimitiveType::float_type, ID_TYPE));
 	}
 ;
 ;

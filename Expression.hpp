@@ -11,6 +11,6 @@ class Expression: public Node
 	public:
 		Expression(std::string iden, Node& expr, Node* offset = nullptr);
 		void semanticsCheck(void) const;
-
+		Type* getType();
 };
 #endif

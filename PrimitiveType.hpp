@@ -3,6 +3,8 @@
 #include <string>
 #include "Type.hpp"
 
+
+
 class PrimitiveType : public Type
 {
 	std::string nameType;
@@ -11,6 +13,9 @@ class PrimitiveType : public Type
 	void print(void) const;
 	bool operator==(Type const&) const;
 	char getType(void);
+	static const std::string int_type;
+	static const std::string float_type;
+	static const std::string void_type;
 };
 #endif
 
