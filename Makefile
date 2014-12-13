@@ -15,7 +15,7 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
-FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)

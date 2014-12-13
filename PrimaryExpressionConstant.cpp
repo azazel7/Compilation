@@ -1,4 +1,5 @@
 #include "PrimaryExpressionConstant.hpp"
+#include <iostream>
 #include <stdexcept>
 #include "StackSymboleTable.hpp"
 #include "PrimitiveType.hpp"
@@ -13,11 +14,11 @@ PrimaryExpressionConstant::PrimaryExpressionConstant(std::string value, char ty)
 		
 }
 void PrimaryExpressionConstant::semanticsCheck(void) const
-{}
+{
+}
 Type* PrimaryExpressionConstant::getType()
 {
-	
-	return StackSymboleTable::getSymbole(name);
+	return type;
 }
 
 PrimaryExpressionConstant::~PrimaryExpressionConstant()

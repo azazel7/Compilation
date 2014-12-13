@@ -16,6 +16,7 @@
 #include "UnaryExpression.hpp"
 #include "PrimaryExpressionIdentifier.hpp"
 #include "PrimaryExpressionConstant.hpp"
+#include "PrimaryExpressionIdentifierOperation.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -67,10 +68,10 @@ primary_expression
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
-		stackForTree.push_front(new Node(std::string($1) + "++"));
+		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
 		}
 | IDENTIFIER DEC_OP {std::cout << "primary_expression -> IDENTIFIER DEC_OP" << std::endl;
-		stackForTree.push_front(new Node(std::string($1) + "--"));
+		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
 		}
 | IDENTIFIER '[' expression ']' {std::cout << "primary_expression -> IDENTIFIER [ expression ]" << std::endl;
 		Node* tmp = new Node($1);
@@ -266,7 +267,7 @@ declarator
 		/*stackForTree.push_front(new Node(std::string('*') + std::string($1)));*/
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << $1 << ") ]" << std::endl;
-		stackForTree.push_front(new Node($1, ID_DECLARATOR));
+		stackForTree.push_front(new Node($1, ID_DECLARATOR)); //TODO How put its type into a pointer ... ?
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
 		Node* parameterList = stackForTree.front(); //Take decarator as child
@@ -519,6 +520,7 @@ int main (int argc, char *argv[]) {
 		/*stackForTree.front()->flattenStatement();*/
 		/*stackForTree.front()->printTree(0, 20);*/
 		stackForTree.front()->createSymboleTable();
+		stackForTree.front()->semanticsCheck();
 		/*stackForTree.front()->printSymboleTable();*/
 		stackForTree.front()->print();
 	}

@@ -1,4 +1,5 @@
 #include "CompoundStatement.hpp"
+#include <iostream>
 #include <list>
 #include "StackSymboleTable.hpp"
 
