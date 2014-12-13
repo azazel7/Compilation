@@ -37,8 +37,8 @@ void TypeOperationConversion::initTable(void)
 	canard[POINTER_TYPE] = loutre;
 	loutre.clear();
 
-	loutre.clear();
 	table[OPERATION_ADD] = canard;
+	canard.clear();
 
 	//SUB operation
 	loutre[POINTER_TYPE] = 1;
@@ -58,6 +58,7 @@ void TypeOperationConversion::initTable(void)
 
 	loutre.clear();
 	table[OPERATION_SUB] = canard;
+	canard.clear();
 
 	//BY operation
 	loutre[INT_TYPE] = 0;
@@ -71,6 +72,7 @@ void TypeOperationConversion::initTable(void)
 	loutre.clear();
 
 	table[OPERATION_BY] = canard;
+	canard.clear();
 
 	//DIV operation
 	loutre[INT_TYPE] = 0;
@@ -84,4 +86,41 @@ void TypeOperationConversion::initTable(void)
 	loutre.clear();
 
 	table[OPERATION_DIV] = canard;
+	canard.clear();
+
+	loutre[INT_TYPE] = 0;
+	canard[INT_TYPE] = loutre;
+	loutre.clear();
+
+	table[OPERATION_MINUS] = canard;
+	canard.clear();
+
+	loutre[INT_TYPE] = 0;
+	canard[INT_TYPE] = loutre;
+	loutre.clear();
+
+	table[OPERATION_DIF] = canard;
+	canard.clear();
+
+	loutre[INT_TYPE] = 0;
+	canard[INT_TYPE] = loutre;
+	loutre.clear();
+
+	loutre[POINTER_TYPE] = 0;
+	canard[POINTER_TYPE] = loutre;
+	loutre.clear();
+
+	table[OPERATION_DEC] = canard;
+	canard.clear();
+
+	loutre[INT_TYPE] = 0;
+	canard[INT_TYPE] = loutre;
+	loutre.clear();
+
+	loutre[POINTER_TYPE] = 0;
+	canard[POINTER_TYPE] = loutre;
+	loutre.clear();
+
+	table[OPERATION_INC] = canard;
+	canard.clear();
 }

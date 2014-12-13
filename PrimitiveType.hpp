@@ -3,8 +3,6 @@
 #include <string>
 #include "Type.hpp"
 
-
-
 class PrimitiveType : public Type
 {
 	std::string nameType;

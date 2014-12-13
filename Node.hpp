@@ -39,18 +39,24 @@ class Node
 		Node();
 		Node(int id);
 		Node(std::string name, int i = -1);
-		~Node();
+		virtual ~Node();
 		void addChild(Node& node);
 		virtual void print(void);
 		void printTree(int deepth, int maxDeepth = -1);
 		void flattenFunction(void);
 		void getNodeById(std::list<Node*> &listToFill, int id);
+		//Bring all statement at the same level
 		virtual void flattenStatement(void);
+		//Bring all parameter at the same level
 		virtual void flattenParameter(void);
+		//Fill the map with symbole inside the node if it has symboles
 		virtual void getSymbole(std::map<std::string, Type*> & symbole) const;
+		//Create local symbole table for the node if needed
 		virtual void createSymboleTable(void);
+		//Check the semantics throw invalid argument if there is an error
 		virtual void semanticsCheck(void) const;
 		virtual void printSymboleTable(void) const;
+		//Return the type of the node (use only in semanticsCheck to check type and operation)
 		virtual Type* getType(void);
 		void setId(int id);
 		int countChildren(void) const;

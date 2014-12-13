@@ -13,6 +13,9 @@
 #include "ComparisonExpression.hpp"
 #include "AdditiveExpression.hpp"
 #include "MultiplicativeExpression.hpp"
+#include "UnaryExpression.hpp"
+#include "PrimaryExpressionIdentifier.hpp"
+#include "PrimaryExpressionConstant.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -42,13 +45,13 @@ void yyerror(const char *s);
 
 primary_expression
 : IDENTIFIER { std::cout << "primary_expression -> IDENTIFIER" << std::endl;
-		stackForTree.push_front(new Node($1, ID_IDENTIFIER));
+		stackForTree.push_front(new PrimaryExpressionIdentifier($1));
 		}
 | ICONSTANT {std::cout << "primary_expression -> ICONSTANT" << std::endl;
-		stackForTree.push_front(new Node($1, ID_CONSTANTE));
+		stackForTree.push_front(new PrimaryExpressionConstant($1, CONSTANT_INT));
 		}
 | FCONSTANT	{std::cout << "primary_expression -> FCONSTANT" << std::endl;
-		stackForTree.push_front(new Node($1, ID_CONSTANTE));
+		stackForTree.push_front(new PrimaryExpressionConstant($1, CONSTANT_INT));
 		}
 | '(' expression ')' {std::cout << "primary_expression -> ( expression )" << std::endl;
 			}
@@ -95,15 +98,15 @@ argument_expression_list
 unary_expression
 : primary_expression {std::cout << "unary_expression -> primary_expression" << std::endl;} 
 | '-' unary_expression {std::cout << "unary_expression -> - unary_expression" << std::endl;
-		Node* tmp = new Node("-", ID_UNARY_EXPRESSION);
-		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new UnaryExpression(*right);
 		stackForTree.push_front(tmp);
 		}
 | '!' unary_expression {std::cout << "unary_expression -> ! unary_expression" << std::endl;
-		Node* tmp = new Node("!", ID_UNARY_EXPRESSION);
-		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
+		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
+		Node* tmp = new UnaryExpression(*right);
 		stackForTree.push_front(tmp);
 		}
 ;

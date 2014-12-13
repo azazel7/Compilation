@@ -4,3 +4,5 @@ bool Type::operator!=(Type const& t) const
 {
 	return !(t == *this);
 }
+Type::~Type()
+{}

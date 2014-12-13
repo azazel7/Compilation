@@ -11,6 +11,8 @@
 #define OPERATION_DIV '/'
 #define OPERATION_DEC 'a'
 #define OPERATION_INC 'a'
+#define OPERATION_MINUS 'm'
+#define OPERATION_DIF '!'
 
 class TypeOperationConversion
 {
