@@ -23,5 +23,6 @@ class Function : public Node
 		void getSymbole(std::map<std::string, Type*> & symbole) const;
 		void createSymboleTable(void);
 		void printSymboleTable(void) const;
+		void semanticsCheck(void) const;
 };
 #endif

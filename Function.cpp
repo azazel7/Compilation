@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "FunctionType.hpp"
 #include "PrimitiveType.hpp"
+#include "StackSymboleTable.hpp"
 
 Function::Function(Node* type, Node* argument, Node* body) : Node(ID_FUNCTION), typeNode(*type), bodyNode(*body)
 {
@@ -20,6 +21,12 @@ void Function::print(void)
 }
 void Function::printAsm(int fd)
 {
+}
+void Function::semanticsCheck(void) const
+{
+	StackSymboleTable::push(symboleTable);
+	bodyNode.semanticsCheck();
+	StackSymboleTable::pop();
 }
 
 void Function::getSymbole(std::map<std::string, Type*> & symbole) const

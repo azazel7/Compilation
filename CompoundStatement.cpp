@@ -1,5 +1,6 @@
 #include "CompoundStatement.hpp"
 #include <list>
+#include "StackSymboleTable.hpp"
 
 CompoundStatement::CompoundStatement():Node()
 {
@@ -25,6 +26,13 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 }
 void CompoundStatement::flattenStatement(void)
 {
+}
+void CompoundStatement::semanticsCheck(void) const
+{
+	StackSymboleTable::push(symboleTable);
+	for(Node* statement : allStatement)
+		statement->semanticsCheck();
+	StackSymboleTable::pop();
 }
 
 void CompoundStatement::print(void)
