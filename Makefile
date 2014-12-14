@@ -15,6 +15,7 @@ endif
 ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
+EXEC=gazl
 FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o PrimaryExpressionFunctionCall.o
 
 gazl: $(FILE) 
@@ -32,5 +33,6 @@ bison_grammar.o: bison_grammar.y
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)
 
 clean:
-	rm -f flex_scanner.cpp bison_grammar.cpp *.o $(EXEC)
+	rm -f flex_scanner.cpp bison_grammar.cpp *.o gazl
 
+rebuild: clean gazl

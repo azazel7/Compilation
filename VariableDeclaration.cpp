@@ -29,7 +29,7 @@ Type* VariableDeclaration::getType(void)
 {
 	return new PrimitiveType(type);
 }
-void VariableDeclaration::getSymbole(std::map<std::string, Type*> & symbole) const
+void VariableDeclaration::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
 	for(std::string name : id)
 		if(symbole.count(name) == 0)

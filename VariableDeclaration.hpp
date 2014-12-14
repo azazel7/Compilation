@@ -12,6 +12,6 @@ class VariableDeclaration : public Node
 	VariableDeclaration(Node* type, Node* identifier);
 	void print(void);
 	Type* getType(void);
-	void getSymbole(std::map<std::string, Type*> & symbole) const;
+	void getSymbole(std::map<std::string, Type const*> & symbole) const;
 };
 #endif

@@ -18,7 +18,7 @@ void Expression::semanticsCheck(void) const
 	Type const* typeSymbole = StackSymboleTable::getSymbole(id);
 	//TODO if typeSymbole is a pointer think about deference from this pointer
 	if(typeSymbole == nullptr)
-		throw std::invalid_argument(std::string("Can't find symbole ") + id);
+		throw std::invalid_argument(std::string("[Expression::semanticsCheck] Can't find symbole ") + id);
 	if(expressionOffset != nullptr)
 	{
 		Type const* typeOffset = expressionOffset->getType();

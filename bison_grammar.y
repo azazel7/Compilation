@@ -17,6 +17,7 @@
 #include "PrimaryExpressionIdentifier.hpp"
 #include "PrimaryExpressionConstant.hpp"
 #include "PrimaryExpressionIdentifierOperation.hpp"
+#include "PrimaryExpressionFunctionCall.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -60,11 +61,13 @@ primary_expression
 		stackForTree.push_front(new Node(std::string($1) + "()"));
 		}
 | IDENTIFIER '(' argument_expression_list ')' {std::cout << "primary_expression -> IDENTIFIER( argument_expression_list )" << std::endl;
-		Node* tmp = new Node($1);
-		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
+		Node* argTree = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->printTree(0,20);
-		stackForTree.push_front(tmp);
+		std::list<Node*> argList = argTree->getChildren();
+		delete argTree;
+		Node* functionCall = new PrimaryExpressionFunctionCall($1, argList);
+		/*tmp->printTree(0,20);*/
+		stackForTree.push_front(functionCall);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
 		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
