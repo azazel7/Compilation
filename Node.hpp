@@ -17,6 +17,7 @@
 #define ID_STATEMENT 10
 #define ID_DECLARATION_LIST 11
 #define ID_PARAMETER 12
+#define ID_ARGUMENT_EXPRESSION_LIST 20
 
 #define ID_UNARY_EXPRESSION 13
 #define ID_MULTIPLICATIVE 14
@@ -50,14 +51,16 @@ class Node
 		//Bring all parameter at the same level
 		virtual void flattenParameter(void);
 		//Fill the map with symbole inside the node if it has symboles
-		virtual void getSymbole(std::map<std::string, Type*> & symbole) const;
+		virtual void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		//Create local symbole table for the node if needed
 		virtual void createSymboleTable(void);
 		//Check the semantics throw invalid argument if there is an error
 		virtual void semanticsCheck(void) const;
 		virtual void printSymboleTable(void) const;
 		//Return the type of the node (use only in semanticsCheck to check type and operation)
-		virtual Type* getType(void);
+		virtual Type const* getType(void);
+		//This will return the children et delete them from this node
+		std::list<Node*> getChildren(void);
 		void setId(int id);
 		int countChildren(void) const;
 		std::string getName(void);

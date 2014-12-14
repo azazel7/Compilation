@@ -14,7 +14,7 @@ class PrimaryExpressionConstant: public Node
 	public:
 		PrimaryExpressionConstant(std::string value, char type);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 		~PrimaryExpressionConstant();
 
 };

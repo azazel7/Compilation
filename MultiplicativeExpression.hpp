@@ -9,6 +9,6 @@ class MultiplicativeExpression : public Node
 	public:
 		MultiplicativeExpression(Node& r, Node& l);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 };
 #endif

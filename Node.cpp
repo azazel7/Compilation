@@ -145,11 +145,17 @@ void Node::printSymboleTable(void) const
 	for(Node* n : children)
 		n->printSymboleTable();
 }
-void Node::getSymbole(std::map<std::string, Type*> & symbole) const
+void Node::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
 
 }
-Type* Node::getType(void)
+Type const* Node::getType(void)
 {
 	return nullptr;
+}
+std::list<Node*> Node::getChildren(void)
+{
+	std::list<Node*> tmp = children;
+	children.clear();
+	return tmp;
 }

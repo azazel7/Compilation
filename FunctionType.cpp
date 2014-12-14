@@ -5,7 +5,7 @@
 FunctionType::FunctionType(Type const& retType): returnType(retType)
 {
 }
-void FunctionType::addParameter(Type* para)
+void FunctionType::addParameter(Type const* para)
 {
 	parameterType.push_back(para);
 }
@@ -29,14 +29,18 @@ void FunctionType::print(void) const
 {
 	returnType.print();
 	std::cout << " (";
-	for(Type* t : parameterType)
+	for(Type const* t : parameterType)
 	{
 		t->print();
 		std::cout << ", ";
 	}
 	std::cout << ")";
 }
-char FunctionType::getType(void)
+char FunctionType::getType(void) const
 {
 	return FUNCTION_TYPE;
-};
+}
+Type const* FunctionType::getReturnType(void) const
+{
+	return &returnType;
+}

@@ -16,7 +16,7 @@ PrimaryExpressionConstant::PrimaryExpressionConstant(std::string value, char ty)
 void PrimaryExpressionConstant::semanticsCheck(void) const
 {
 }
-Type* PrimaryExpressionConstant::getType()
+Type const* PrimaryExpressionConstant::getType()
 {
 	return type;
 }

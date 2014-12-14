@@ -19,6 +19,6 @@ class TypeOperationConversion
 	static std::map<char, std::map<char, std::map<char, char>>> table;
 	public:
 		static void initTable(void);
-		static Type* getTypeOperation(char operation, Type& t1, Type& t2);
+		static Type const* getTypeOperation(char operation, Type const& t1, Type const& t2);
 };
 #endif

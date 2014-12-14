@@ -11,7 +11,7 @@ void PrimaryExpressionIdentifier::semanticsCheck(void) const
 	if(StackSymboleTable::getSymbole(name) == nullptr)
 		throw std::invalid_argument("Name doesn't exist : " + name);
 }
-Type* PrimaryExpressionIdentifier::getType()
+Type const* PrimaryExpressionIdentifier::getType()
 {
 	return StackSymboleTable::getSymbole(name);
 }

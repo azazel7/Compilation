@@ -29,14 +29,14 @@ void Function::semanticsCheck(void) const
 	StackSymboleTable::pop();
 }
 
-void Function::getSymbole(std::map<std::string, Type*> & symbole) const
+void Function::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
 	//TODO enable for later, but now I'm too lazy to create a good c file to compile
-	//if(symbole.count(nameFunction) >= 1)
-		//throw std::invalid_argument("Name of function already " + nameFunction + " exist");
+	if(symbole.count(nameFunction) >= 1)
+		throw std::invalid_argument("Name of function already " + nameFunction + " exist");
 	Type* returnType = new PrimitiveType(typeNode.getName());
 	FunctionType* type = new FunctionType(*returnType);
-	Type* tmp;
+	Type const* tmp;
 	for(Node* n : allParameter)
 		if(tmp = n->getType())
 			type->addParameter(tmp);

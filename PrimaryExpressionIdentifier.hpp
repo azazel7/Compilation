@@ -9,7 +9,7 @@ class PrimaryExpressionIdentifier: public Node
 	public:
 		PrimaryExpressionIdentifier(std::string name);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 
 };
 #endif

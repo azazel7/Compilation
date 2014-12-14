@@ -8,7 +8,7 @@ class UnaryExpression: public Node
 	public:
 		UnaryExpression(Node& l);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 };
 #endif
 

@@ -2,7 +2,7 @@
 
 std::map<char, std::map<char, std::map<char, char>>> TypeOperationConversion::table;
 
-Type* TypeOperationConversion::getTypeOperation(char operation, Type& t1, Type& t2)
+Type const* TypeOperationConversion::getTypeOperation(char operation, Type const& t1, Type const& t2)
 {
 	if(table.count(operation) == 0)
 		return nullptr;

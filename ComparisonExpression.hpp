@@ -10,6 +10,6 @@ class ComparisonExpression : public Node
 	public:
 		ComparisonExpression(Node& right, Node &left);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 };
 #endif

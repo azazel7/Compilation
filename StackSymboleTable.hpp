@@ -8,11 +8,11 @@ class Type;
 
 class StackSymboleTable
 {
-	static std::list<std::map<std::string, Type*> > stack;
+	static std::list<std::map<std::string, Type const*> > stack;
 	public:
-	static void push(std::map<std::string, Type*> table);
+	static void push(std::map<std::string, Type const*> table);
 	static void pop(void);
-	static Type* getSymbole(std::string name);
+	static Type const* getSymbole(std::string name);
 	
 };
 #endif

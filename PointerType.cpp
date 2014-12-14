@@ -18,7 +18,7 @@ void PointerType::print(void) const
 	pointedType.print();
 }
 
-char PointerType::getType(void)
+char PointerType::getType(void) const
 {
 	return POINTER_TYPE;
 }

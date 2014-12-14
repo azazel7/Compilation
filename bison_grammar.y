@@ -52,7 +52,7 @@ primary_expression
 		stackForTree.push_front(new PrimaryExpressionConstant($1, CONSTANT_INT));
 		}
 | FCONSTANT	{std::cout << "primary_expression -> FCONSTANT" << std::endl;
-		stackForTree.push_front(new PrimaryExpressionConstant($1, CONSTANT_INT));
+		stackForTree.push_front(new PrimaryExpressionConstant($1, CONSTANT_FLOAT));
 		}
 | '(' expression ')' {std::cout << "primary_expression -> ( expression )" << std::endl;
 			}
@@ -61,10 +61,9 @@ primary_expression
 		}
 | IDENTIFIER '(' argument_expression_list ')' {std::cout << "primary_expression -> IDENTIFIER( argument_expression_list )" << std::endl;
 		Node* tmp = new Node($1);
-		tmp->addChild(*(new Node(")")));
 		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("(")));
+		tmp->printTree(0,20);
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
@@ -86,13 +85,18 @@ primary_expression
 argument_expression_list
 : expression {std::cout << "argument_expression_list -> expression" << std::endl;}
 | argument_expression_list ',' expression {std::cout << "argument_expression_list ->argument_expression_list,  expression" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
+		Node* expression = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(",")));
-		tmp->addChild(*stackForTree.front()); //Take unary_expression as child
+		Node* argList = stackForTree.front();
 		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		if(argList->getId() != ID_ARGUMENT_EXPRESSION_LIST)
+		{
+			Node* tmp = new Node(ID_ARGUMENT_EXPRESSION_LIST);
+			tmp->addChild(*argList);
+			argList = tmp;
+		}
+		argList->addChild(*expression);
+		stackForTree.push_front(argList);
 		}
 ;
 
@@ -386,6 +390,7 @@ expression_statement
 | expression ';' {std::cout << "expression_statement -> expression ;" << std::endl;
 		Node* tmp = new Node();
 		/*tmp->addChild(*(new Node(";\n")));*/
+		//TODO when generate this code, think for a pop a the end because no need of the result
 		tmp->addChild(*stackForTree.front());
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);

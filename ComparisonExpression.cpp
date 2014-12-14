@@ -10,7 +10,7 @@ void ComparisonExpression::semanticsCheck(void) const
 	right.semanticsCheck();
 	left.semanticsCheck();
 }
-Type* ComparisonExpression::getType()
+Type const* ComparisonExpression::getType()
 {
 	return type;
 };

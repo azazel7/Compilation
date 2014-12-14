@@ -15,12 +15,12 @@ class Function : public Node
 
 	//Contain all offset of the variable in the stack frame
 	std::map<std::string, int> allVariableOffset;
-	std::map<std::string, Type*> symboleTable;
+	std::map<std::string, Type const*> symboleTable;
 	public:
 		Function(Node* type, Node* argumentNode, Node* bodyNode);
 		void printAsm(int fd);	
 		void print(void);
-		void getSymbole(std::map<std::string, Type*> & symbole) const;
+		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		void createSymboleTable(void);
 		void printSymboleTable(void) const;
 		void semanticsCheck(void) const;

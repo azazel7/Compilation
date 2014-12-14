@@ -13,7 +13,7 @@ class Type
 	virtual void print(void) const = 0;
 	virtual bool operator==(Type const&) const = 0;
 	virtual bool operator!=(Type const&) const;
-	virtual char getType(void) = 0;
+	virtual char getType(void) const = 0;
 	virtual ~Type();
 };
 #endif

@@ -10,7 +10,7 @@ class AdditiveExpression : public Node
 	public:
 		AdditiveExpression(Node& r, Node& l, char t);
 		void semanticsCheck(void) const;
-		Type* getType();
+		Type const* getType();
 	static const char sub;
 	static const char add;
 };

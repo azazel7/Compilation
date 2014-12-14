@@ -20,7 +20,7 @@ void PrimitiveType::print(void) const
 {
 	std::cout << nameType;
 }
-char PrimitiveType::getType(void)
+char PrimitiveType::getType(void) const
 {
 	return INT_TYPE;
 }

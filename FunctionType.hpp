@@ -7,13 +7,14 @@
 class FunctionType: public Type
 {
 	Type const& returnType;
-	std::list<Type*> parameterType;	
+	std::list<Type const*> parameterType;	
 	public:
 	FunctionType(Type const& returnType);
-	void addParameter(Type* para);
+	void addParameter(Type const* para);
 	bool operator==(Type const&) const;
 	void print(void) const;
-	char getType(void);
+	char getType(void) const;
+	Type const* getReturnType(void) const;
 };
 #endif
 
