@@ -19,6 +19,7 @@ class CompoundStatement : public Node
 		void createSymboleTable(void);
 		void printSymboleTable(void) const;
 		void semanticsCheck(void) const;
+		~CompoundStatement();
 };
 #endif 
 

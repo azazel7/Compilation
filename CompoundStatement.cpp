@@ -20,10 +20,14 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 		declaration->getNodeById(allDeclaration, ID_DECLARATION);
 		if(allDeclaration.size() == 0)
 			allDeclaration.push_front(declaration);
+		else
+			delete declaration;
 	}
 	statement->getNodeById(allStatement, ID_STATEMENT);
 	if(allStatement.size() == 0)
 		allStatement.push_front(statement);
+	else
+		delete statement;
 }
 void CompoundStatement::flattenStatement(void)
 {
@@ -72,4 +76,12 @@ void CompoundStatement::printSymboleTable(void) const
 	for(Node* statement : allStatement)
 		statement->printSymboleTable();
 	std::cout <<"}" << std::endl;
+}
+CompoundStatement::~CompoundStatement()
+{
+	for(Node* node : allStatement)
+		delete node;
+	for(Node* node : allDeclaration)
+		delete node;
+	//TODO find a way to delete symboleTable
 }
