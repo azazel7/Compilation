@@ -20,6 +20,8 @@
 #include "PrimaryExpressionFunctionCall.hpp"
 #include "ReturnStatement.hpp"
 #include "IfStatement.hpp"
+#include "WhileStatement.hpp"
+#include "ForStatement.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -421,27 +423,24 @@ selection_statement
 
 iteration_statement
 : WHILE '(' expression ')' statement {std::cout << "iteration_statement -> WHILE ( expression ) statement" << std::endl;
-		Node* tmp = new Node("WHILE (");
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
-		tmp->addChild(*stackForTree.front());
+		Node* expression = stackForTree.front();
 		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		Node* ifStatement = new IfStatement(*expression, *statement);
+		stackForTree.push_front(ifStatement);
 		}
 | FOR '(' expression_statement expression_statement expression ')' statement {std::cout << "iteration_statement -> FOR ( expression_statement expression_statement expression ) statement" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")")));
-		tmp->addChild(*stackForTree.front());
+		Node* exprVar = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* exprCond = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* exprInit = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("\nFOR (")));
-		stackForTree.push_front(tmp);
+		Node* forStatement = new ForStatement(*exprInit, *exprCond, *exprVar, *statement);
+		stackForTree.push_front(forStatement);
 		}
 | PFOR '(' ICONSTANT ';' expression_statement expression_statement expression ')' statement {std::cout << "iteration_statement -> PFOR ( expression_statement expression_statement expression ) statement" << std::endl;
 		}
