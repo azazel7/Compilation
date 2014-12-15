@@ -26,7 +26,7 @@ void VariableDeclaration::print(void)
 	for(auto i : id)
 		std::cout << i << ", ";
 }
-bool VariableDeclaration::isPointedId(std::string id) const
+bool VariableDeclaration::isPointedId(std::string const& id)
 {
 	if(id.size() >= 2 && id[0] == '*')
 		return true;
