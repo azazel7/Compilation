@@ -18,6 +18,8 @@
 #include "PrimaryExpressionConstant.hpp"
 #include "PrimaryExpressionIdentifierOperation.hpp"
 #include "PrimaryExpressionFunctionCall.hpp"
+#include "ReturnStatement.hpp"
+#include "IfStatement.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -58,15 +60,15 @@ primary_expression
 | '(' expression ')' {std::cout << "primary_expression -> ( expression )" << std::endl;
 			}
 | IDENTIFIER '(' ')' {std::cout << "primary_expression -> IDENTIFIER()" << std::endl;
-		stackForTree.push_front(new Node(std::string($1) + "()"));
+		std::list<Node*> argList;
+		stackForTree.push_front(new PrimaryExpressionFunctionCall($1, argList));
 		}
 | IDENTIFIER '(' argument_expression_list ')' {std::cout << "primary_expression -> IDENTIFIER( argument_expression_list )" << std::endl;
 		Node* argTree = stackForTree.front();
 		stackForTree.pop_front();
 		std::list<Node*> argList = argTree->getChildren();
-		delete argTree;
+		delete argTree; //argTree is now useless because out of the stack and without children
 		Node* functionCall = new PrimaryExpressionFunctionCall($1, argList);
-		/*tmp->printTree(0,20);*/
 		stackForTree.push_front(functionCall);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
@@ -76,7 +78,7 @@ primary_expression
 		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
 		}
 | IDENTIFIER '[' expression ']' {std::cout << "primary_expression -> IDENTIFIER [ expression ]" << std::endl;
-		Node* tmp = new Node($1);
+		Node* tmp = new Node($1); //TODO find something to check that !!!
 		tmp->addChild(*(new Node("[")));
 		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
 		stackForTree.pop_front();
@@ -264,7 +266,6 @@ type_name
 		stackForTree.push_front(new Node(PrimitiveType::float_type, ID_TYPE));
 	}
 ;
-;
 
 declarator
 : IDENTIFIER   {std::cout << "declarator -> IDENTIFIER" << std::endl;
@@ -274,7 +275,7 @@ declarator
 		/*stackForTree.push_front(new Node(std::string('*') + std::string($1)));*/
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << $1 << ") ]" << std::endl;
-		stackForTree.push_front(new Node($1, ID_DECLARATOR)); //TODO How put its type into a pointer ... ?
+		stackForTree.push_front(new Node($1, ID_DECLARATOR)); //TODO How to get ICONSTANT and create the type
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
 		Node* parameterList = stackForTree.front(); //Take decarator as child
@@ -286,11 +287,6 @@ declarator
 		stackForTree.push_front(tmp); //Put this declarator without value
 		}
 | declarator '(' ')' {std::cout << "declarator -> declarator ()" << std::endl;
-		/*Node* tmp = new Node(ID_DECLARATOR);*/
-		/*tmp->addChild(*(new Node(" ()")));*/
-		/*tmp->addChild(*stackForTree.front()); //Take decarator as child*/
-		/*stackForTree.pop_front();*/
-		/*stackForTree.push_front(tmp); //Put this declarator without value*/
 		stackForTree.front()->setId(ID_DECLARATOR);
 		}
 ;
@@ -344,13 +340,14 @@ statement
 
 compound_statement
 : '{' '}' {std::cout << "compound_statement ->  { }" << std::endl;
-		Node* tmp = new CompoundStatement("{ }", ID_COUMPOUND_STATEMENT);
+		Node* tmp = new CompoundStatement("{ }", ID_COUMPOUND_STATEMENT);//Even if this node is useless, we have to let it here, else the stackForTree will be empty for the next rule using compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
 		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
 		Node* tmp = new CompoundStatement(statement);
+		//From here, we can't be sure if statement has been freed, but CompoundStatement will manage itself everything about it
 		stackForTree.push_front(tmp);
 		}
 | '{' declaration_list statement_list '}' {std::cout << "compound_statement -> { declaration_list statement_list }" << std::endl;
@@ -359,6 +356,7 @@ compound_statement
 		Node* declaration = stackForTree.front();
 		stackForTree.pop_front();
 		Node* tmp = new CompoundStatement(statement, declaration);
+		//From here, we can't be sure if statement and declaration have been freed, but CompoundStatement will manage itself everything about it
 		tmp->setId(ID_COUMPOUND_STATEMENT);
 		stackForTree.push_front(tmp);
 		}
@@ -391,37 +389,33 @@ statement_list
 expression_statement
 : ';' {std::cout << "expression_statement -> ;" << std::endl;}
 | expression ';' {std::cout << "expression_statement -> expression ;" << std::endl;
-		Node* tmp = new Node();
+		/*Node* tmp = new Node();*/
 		/*tmp->addChild(*(new Node(";\n")));*/
 		//TODO when generate this code, think for a pop a the end because no need of the result
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		/*tmp->addChild(*stackForTree.front());*/
+		/*stackForTree.pop_front();*/
+		/*stackForTree.push_front(tmp);*/
 		}
 ;
 
 selection_statement
 : IF '(' expression ')' statement {std::cout << "selection_statement -> IF ( expression ) statement" << std::endl;
-		Node* tmp = new Node("IF (");
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(")\n")));
-		tmp->addChild(*stackForTree.front());
+		Node* expression = stackForTree.front();
 		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		Node* ifStatement = new IfStatement(*expression, *statement);
+		stackForTree.push_front(ifStatement);
 		}
 | IF '(' expression ')' statement ELSE statement {std::cout << "selection_statement -> IF ( expression ) statement ELSE statement" << std::endl;
-		Node* tmp = new Node();
-		tmp->addChild(*stackForTree.front());
+		Node* elseStatement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(" \nELSE\n ")));
-		tmp->addChild(*stackForTree.front());
+		Node* statement = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node(") ")));
-		tmp->addChild(*stackForTree.front());
+		Node* expression = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("IF (")));
-		stackForTree.push_front(tmp);
+		Node* ifStatement = new IfStatement(*expression, *statement, elseStatement);
+		stackForTree.push_front(ifStatement);
 		}
 ;
 
@@ -455,13 +449,11 @@ iteration_statement
 
 jump_statement
 : RETURN ';' {std::cout << "jump_statement -> RETURN ;" << std::endl;
-		Node* tmp = new Node("RETURN ;");
+		Node* tmp = new ReturnStatement();
 		stackForTree.push_front(tmp);
 		}
 | RETURN expression ';' {std::cout << "jump_statement -> RETURN expression ;" << std::endl;
-		Node* tmp = new Node("RETURN ");
-		tmp->addChild(*(new Node(";\n")));
-		tmp->addChild(*stackForTree.front());
+		Node* tmp = new ReturnStatement(stackForTree.front());
 		stackForTree.pop_front();
 		stackForTree.push_front(tmp);
 		}

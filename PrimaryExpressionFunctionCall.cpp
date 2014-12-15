@@ -11,6 +11,8 @@ PrimaryExpressionFunctionCall::PrimaryExpressionFunctionCall(std::string id, std
 }
 void PrimaryExpressionFunctionCall::semanticsCheck(void) const
 {
+	for(Node* node : argumentList)
+		node->semanticsCheck();
 	Type const* type = StackSymboleTable::getSymbole(id);
 	if(type == nullptr)
 		throw std::invalid_argument("Cannot find symbol " + id);
@@ -18,8 +20,11 @@ void PrimaryExpressionFunctionCall::semanticsCheck(void) const
 	if(typeFunction == nullptr)
 		throw std::invalid_argument(id + " isn't a function");
 		
+	//FIXME it will be the same pointer, probably delete twice
+	FunctionType* typeCompare = new FunctionType(*typeFunction->getReturnType());
+	//FIXME remember, type return by getType are forbidden from deletion ! And typeCompare will probably delete them
 	for(Node* node : argumentList)
-		node->semanticsCheck();
+		typeCompare->addParameter(node->getType());
 }
 Type const* PrimaryExpressionFunctionCall::getType()
 {
