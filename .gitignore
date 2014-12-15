@@ -1,0 +1,7 @@
+*.o
+*.swp
+*.swo
+bison_grammar.cpp
+bison_grammar.h
+flex_scanner.cpp
+tags
