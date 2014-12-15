@@ -484,7 +484,7 @@ function_definition
 		Node* argument = stackForTree.front();
 		stackForTree.pop_front();
 		Node * type = stackForTree.front(); 
-		stackForTree.pop_front(); //FIXME Error when type_name is a pointer -> Because of an error  with declarator* Keep in mind
+		stackForTree.pop_front(); 
 		Node* tmp = new Function(type, argument, body);
 		stackForTree.push_front(tmp);
 		}

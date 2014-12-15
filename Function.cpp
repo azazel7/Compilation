@@ -3,11 +3,14 @@
 #include "FunctionType.hpp"
 #include "PrimitiveType.hpp"
 #include "StackSymboleTable.hpp"
+#include "VariableDeclaration.hpp"
+#include "PointerType.hpp"
 
 Function::Function(Node* type, Node* argument, Node* body) : Node(ID_FUNCTION), typeNode(*type), bodyNode(*body)
 {
 	argument->getNodeById(allParameter, ID_PARAMETER);
 	nameFunction = argument->getName();
+	//TODO does argument is useful now ?
 }
 
 void Function::print(void)
@@ -31,16 +34,21 @@ void Function::semanticsCheck(void) const
 
 void Function::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
-	//TODO enable for later, but now I'm too lazy to create a good c file to compile
+	std::string name = nameFunction;
 	if(symbole.count(nameFunction) >= 1)
 		throw std::invalid_argument("Name of function already " + nameFunction + " exist");
 	Type* returnType = new PrimitiveType(typeNode.getName());
+	if(VariableDeclaration::isPointedId(nameFunction))
+	{
+		name.erase(name.begin());
+		returnType = new PointerType(*returnType);
+	}
 	FunctionType* type = new FunctionType(*returnType);
 	Type const* tmp;
 	for(Node* n : allParameter)
 		if(tmp = n->getType())
 			type->addParameter(tmp);
-	symbole[nameFunction] = type;
+	symbole[name] = type;
 }
 void Function::createSymboleTable(void)
 {
