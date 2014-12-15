@@ -214,17 +214,17 @@ expression
 		stackForTree.push_front(tmp);
 		}
 | IDENTIFIER '[' expression ']' '=' comparison_expression {std::cout << "expression -> IDENTIFIER [expression] = comparison_expression" << std::endl;
-		Node* tmp = new Node(ID_EXPRESSION);
-		tmp->addChild(*stackForTree.front());
+		Node* comparisonExpression = stackForTree.front();
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("] = ")));*/
-		tmp->addChild(*stackForTree.front());
+		Node* expression = stackForTree.front();
 		stackForTree.pop_front();
-		/*tmp->addChild(*(new Node("[")));*/
-		tmp->addChild(*(new Node($1, ID_IDENTIFIER)));
+		Node* tmp = new Expression($1, *comparisonExpression, expression);
 		stackForTree.push_front(tmp);
 		}
-| comparison_expression {std::cout << "expression -> comparison_expression " << std::endl;}
+| comparison_expression {std::cout << "expression -> comparison_expression " << std::endl;
+	//TODO the others rule use comparison_expression, so if we enter in this rule, it's mean there is no equal. Probably add a pop to remove the previous result
+	//TODO or not because for offset we need to take the result somewhere
+	}
 ;
 
 declaration
@@ -535,3 +535,19 @@ int main (int argc, char *argv[]) {
     }
     return 0;
 }
+//Les types: les types de base sont void, int et float. DONE
+//Les types construits sont les tableaux et les fonctions.
+//Les tableaux ne peuvent être que des tableaux à une dimension, de taille quelconque.
+//Les tableaux peuvent être alloués statiquement ou dynamiquement.
+//Ils peuvent être déclarés soit comme des pointeurs soit comme des tableaux (alloués statiquement dans ce cas).
+//Les fonctions: les fonctions sont toutes globales et on ne peut pas déclarer de fonction dans des fonctions. DONE
+//Les paramètres: Dans une définition de fonction, les paramètres peuvent être des tableaux, des entiers ou des flottants.
+//Il est possible de déclarer des fonctions sans les définir. Cela permet de déclarer et d'appeler des fonctions qui seront définies par des bibliothèques externes. On veuillera à respecter le protocole d'appel afin de permettre cette fonctionnalité.
+//Les fonctions "printiint(int)" et "printfloat(float)" seront connues par l'utilisateur et pourront être utilisées sans déclaration dans un programme. 
+//Les operations: les règles de typage sont celles du C. DONE
+//Par ailleurs, on interdira les calculs sur les pointeurs.
+//L'affectation: comme en C. Dans une affectation, un pointeur peut prendre la valeur soit d'un autre pointeur, soit d'un tableau défini statiquement.
+//Un tableau statique (déclaré avec t[cste]) ne pourra être à gauche de l'affectation.
+//Les boucles: les boucles for et while se comportent comme les boucles C DONE
+//Un bloc d'instructions: comme en C DONE
+//Le if: la conditionnelle if pourra avoir ou non une partie else. DONE

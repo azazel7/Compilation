@@ -28,6 +28,9 @@ void Expression::semanticsCheck(void) const
 		}
 	}
 	Type const* typeExpression = expression.getType();
+	if(expressionOffset != nullptr)
+	{}
+		//TODO watch at the pointed type
 	if(!typeExpression || *typeExpression != *typeSymbole)
 		throw std::invalid_argument("Id type != expression type");
 }
