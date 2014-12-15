@@ -6,4 +6,8 @@ ForStatement::ForStatement(Node& expressionInit, Node& expressionCondition, Node
 }
 void ForStatement::semanticsCheck(void) const
 {
+	expressionInit.semanticsCheck();
+	expressionCondition.semanticsCheck();
+	expressionVariation.semanticsCheck();
+	statement.semanticsCheck();
 }

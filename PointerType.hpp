@@ -5,12 +5,13 @@
 
 class PointerType: public Type
 {
-	Type& pointedType;
+	Type const& pointedType;
 	public:
-	PointerType(Type & pType);
+	PointerType(Type const& pType);
 	bool operator==(Type const&) const;
 	void print(void) const;
 	char getType(void) const;
+	~PointerType();
 };
 #endif
 

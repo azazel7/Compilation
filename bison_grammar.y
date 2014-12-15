@@ -273,11 +273,11 @@ declarator
 : IDENTIFIER   {std::cout << "declarator -> IDENTIFIER" << std::endl;
 		stackForTree.push_front(new Node($1, ID_DECLARATOR));
 		}
-| '*' IDENTIFIER {std::cout << "declarator -> * IDENTIFIER" << std::endl;
-		/*stackForTree.push_front(new Node(std::string('*') + std::string($1)));*/
+| IDENTIFIER '*' {std::cout << "declarator -> * IDENTIFIER" << std::endl;//Be careful, usually, the star is before IDENTIFIER 
+		stackForTree.push_front(new Node(std::string("*") + std::string($1), ID_DECLARATOR));
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << $1 << ") ]" << std::endl;
-		stackForTree.push_front(new Node($1, ID_DECLARATOR)); //TODO How to get ICONSTANT and create the type
+		stackForTree.push_front(new Node(std::string("*") + std::string($1), ID_DECLARATOR)); //TODO How to get ICONSTANT and create the type
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
 		Node* parameterList = stackForTree.front(); //Take decarator as child

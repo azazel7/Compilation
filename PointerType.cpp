@@ -1,7 +1,7 @@
 #include "PointerType.hpp"
 #include <iostream>
 
-PointerType::PointerType(Type & pType):pointedType(pType)
+PointerType::PointerType(Type const& pType):pointedType(pType)
 {
 }
 
@@ -21,4 +21,10 @@ void PointerType::print(void) const
 char PointerType::getType(void) const
 {
 	return POINTER_TYPE;
+}
+
+PointerType::~PointerType()
+{
+	//TODO not sure if it's good to delete this way
+	delete &pointedType;
 }

@@ -8,6 +8,7 @@ class VariableDeclaration : public Node
 {
 	std::string type;
 	std::list<std::string> id;
+	bool isPointedId(std::string id) const;
 	public:
 	VariableDeclaration(Node* type, Node* identifier);
 	void print(void);

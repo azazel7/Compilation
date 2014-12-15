@@ -1,5 +1,6 @@
 #include "VariableDeclaration.hpp"
 #include "PrimitiveType.hpp"
+#include "PointerType.hpp"
 
 VariableDeclaration::VariableDeclaration(Node* type, Node* identifier)
 {
@@ -25,6 +26,12 @@ void VariableDeclaration::print(void)
 	for(auto i : id)
 		std::cout << i << ", ";
 }
+bool VariableDeclaration::isPointedId(std::string id) const
+{
+	if(id.size() >= 2 && id[0] == '*')
+		return true;
+	return false;
+}
 Type* VariableDeclaration::getType(void)
 {
 	return new PrimitiveType(type);
@@ -32,9 +39,21 @@ Type* VariableDeclaration::getType(void)
 void VariableDeclaration::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
 	for(std::string name : id)
+	{
 		if(symbole.count(name) == 0)
-			symbole[name] = new PrimitiveType(type);
-		//TODO enable for later, but now I'm too lazy to create a good c file to compile
+		{
+			Type* tmpType = new PrimitiveType(type);
+			if(isPointedId(name))
+			{
+				tmpType = new PointerType(*tmpType);
+				name.erase(name.begin());
+				std::cout << "Pointed var " << name << std::endl;
+			}
+			symbole[name] = tmpType;
+		}
 		else
+		{
 			throw std::invalid_argument("Variable " + name + " already exist");
+		}
+	}
 }
