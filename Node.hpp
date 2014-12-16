@@ -31,11 +31,11 @@ class Type;
 
 class Node
 {
+	std::string name;
 	protected:
 	std::list<Node*> children;
 	int id = -1;
 	void deleteAllChildFromId(int id);
-	std::string name;
 	public:
 		Node();
 		Node(int id);

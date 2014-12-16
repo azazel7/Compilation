@@ -22,6 +22,7 @@
 #include "IfStatement.hpp"
 #include "WhileStatement.hpp"
 #include "ForStatement.hpp"
+#include "IdentifierDeclarator.hpp"
 
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
@@ -271,13 +272,13 @@ type_name
 
 declarator
 : IDENTIFIER   {std::cout << "declarator -> IDENTIFIER" << std::endl;
-		stackForTree.push_front(new Node($1, ID_DECLARATOR));
+		stackForTree.push_front(new IdentifierDeclarator($1));
 		}
-| IDENTIFIER '*' {std::cout << "declarator -> * IDENTIFIER" << std::endl;//Be careful, usually, the star is before IDENTIFIER 
-		stackForTree.push_front(new Node(std::string("*") + std::string($1), ID_DECLARATOR));
+| '*' IDENTIFIER {std::cout << "declarator -> * IDENTIFIER" << std::endl;//Be careful, usually, the star is before IDENTIFIER 
+		stackForTree.push_front(new IdentifierDeclarator($2, true));
 		}
-| IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << $1 << ") ]" << std::endl;
-		stackForTree.push_front(new Node(std::string("*") + std::string($1), ID_DECLARATOR)); //TODO How to get ICONSTANT and create the type
+| IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << atoi($3) << ") ]" << std::endl;
+		stackForTree.push_front(new IdentifierDeclarator($1, atoi($3))); //TODO How to get ICONSTANT and create the type
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
 		Node* parameterList = stackForTree.front(); //Take decarator as child

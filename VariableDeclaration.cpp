@@ -1,10 +1,13 @@
 #include "VariableDeclaration.hpp"
+#include <string>
 #include "PrimitiveType.hpp"
 #include "PointerType.hpp"
+#include "IdentifierDeclarator.hpp"
 
 VariableDeclaration::VariableDeclaration(Node* type, Node* identifier)
 {
 	this->type = type->getName();
+	delete type;
 	std::list<Node*> tmpId;
 	if(identifier->getId() == ID_DECLARATOR)
 	{
@@ -13,18 +16,26 @@ VariableDeclaration::VariableDeclaration(Node* type, Node* identifier)
 	else
 	{
 		identifier->getNodeById(tmpId, ID_DECLARATOR);
+		delete identifier;
 	}
+	
 	for(Node* n : tmpId)
 	{
-		id.push_front(n->getName());
-		delete n;
+		id.push_front(dynamic_cast<IdentifierDeclarator*>(n));
 	}
 }
 void VariableDeclaration::print(void)
 {
 	std::cout << type << " ";
 	for(auto i : id)
-		std::cout << i << ", ";
+	{
+		std::string isPointed = "", array = "";
+		if(i->isPointed())
+			isPointed = "*";
+		if(i->getSize() > 0)
+			array = "[" + std::to_string(i->getSize()) + "]";	
+		std::cout << isPointed << i->getName() << array << ", ";
+	}
 }
 bool VariableDeclaration::isPointedId(std::string const& id)
 {
@@ -38,22 +49,26 @@ Type* VariableDeclaration::getType(void)
 }
 void VariableDeclaration::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
-	for(std::string name : id)
+	for(IdentifierDeclarator* idNode : id)
 	{
-		if(symbole.count(name) == 0)
+		if(symbole.count(idNode->getName()) == 0)
 		{
 			Type* tmpType = new PrimitiveType(type);
-			if(isPointedId(name))
+			if(idNode->isPointed())
 			{
 				tmpType = new PointerType(*tmpType);
-				name.erase(name.begin());
-				std::cout << "Pointed var " << name << std::endl;
+				std::cout << "Pointed variable " << idNode->getName() << std::endl;
 			}
-			symbole[name] = tmpType;
+			else if(idNode->getSize() > 0)
+			{
+				tmpType = new PointerType(*tmpType, idNode->getSize());
+				std::cout << "Static array " << idNode->getName() << std::endl;
+			}
+			symbole[idNode->getName()] = tmpType;
 		}
 		else
 		{
-			throw std::invalid_argument("Variable " + name + " already exist");
+			throw std::invalid_argument("Variable " + idNode->getName() + " already exist");
 		}
 	}
 }

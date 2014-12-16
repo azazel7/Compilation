@@ -24,3 +24,15 @@ char PrimitiveType::getType(void) const
 {
 	return INT_TYPE;
 }
+int PrimitiveType::getSize() const
+{
+	if(nameType == int_type)
+		return sizeof(int);
+	if(nameType == float_type)
+		return sizeof(float);
+	return 0;
+}
+std::string PrimitiveType::getString(void) const
+{
+	return nameType;
+}

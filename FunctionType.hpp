@@ -15,6 +15,8 @@ class FunctionType: public Type
 	void print(void) const;
 	char getType(void) const;
 	Type const* getReturnType(void) const;
+	int getSize() const;
+	std::string getString(void) const;
 };
 #endif
 

@@ -44,3 +44,15 @@ Type const* FunctionType::getReturnType(void) const
 {
 	return &returnType;
 }
+int FunctionType::getSize() const
+{
+	return 0;
+}
+std::string FunctionType::getString(void) const
+{
+	std::string parameters;
+	for(Type const* type : parameterType)
+		parameters += ", " + type->getString();
+	parameters = " (" + parameters + ")";
+	return returnType.getString() + parameters; 
+}

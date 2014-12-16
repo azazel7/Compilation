@@ -1,7 +1,7 @@
 #include "PointerType.hpp"
 #include <iostream>
 
-PointerType::PointerType(Type const& pType):pointedType(pType)
+PointerType::PointerType(Type const& pType, int size):pointedType(pType), size(size)
 {
 }
 
@@ -27,4 +27,18 @@ PointerType::~PointerType()
 {
 	//TODO not sure if it's good to delete this way
 	delete &pointedType;
+}
+int PointerType::getSize(void) const
+{
+	if(size == 0)
+		return sizeof(void*);
+	return size*pointedType.getSize();
+}
+bool PointerType::isStaticArray(void) const
+{
+	return size == 0;
+}
+std::string PointerType::getString(void) const
+{
+	return "*" + pointedType.getString();
 }

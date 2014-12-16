@@ -14,6 +14,8 @@ class PrimitiveType : public Type
 	static const std::string int_type;
 	static const std::string float_type;
 	static const std::string void_type;
+	int getSize() const;
+	std::string getString(void) const;
 };
 #endif
 

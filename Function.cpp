@@ -54,6 +54,12 @@ void Function::createSymboleTable(void)
 {
 	for(Node* n : allParameter)
 		n->getSymbole(symboleTable);
+	int currentOffset = 0;
+	for(auto symbole : symboleTable)
+	{
+		offsetTable[symbole.first] = currentOffset;
+		currentOffset += symbole.second->getSize();
+	}
 	bodyNode.createSymboleTable();
 }
 void Function::printSymboleTable(void) const

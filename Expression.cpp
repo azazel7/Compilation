@@ -18,13 +18,13 @@ void Expression::semanticsCheck(void) const
 	Type const* typeSymbole = StackSymboleTable::getSymbole(id);
 	//TODO if typeSymbole is a pointer think about deference from this pointer
 	if(typeSymbole == nullptr)
-		throw std::invalid_argument(std::string("[Expression::semanticsCheck] Can't find symbole ") + id);
+		throw std::invalid_argument("Can't find symbole " + id);
 	if(expressionOffset != nullptr)
 	{
 		Type const* typeOffset = expressionOffset->getType();
 		if(typeOffset->getType() != INT_TYPE)
 		{
-			throw std::invalid_argument("Error of index type expression");
+			throw std::invalid_argument("Error of index type expression : " + typeOffset->getString());
 		}
 	}
 	Type const* typeExpression = expression.getType();
@@ -32,7 +32,7 @@ void Expression::semanticsCheck(void) const
 	{}
 		//TODO watch at the pointed type
 	if(!typeExpression || *typeExpression != *typeSymbole)
-		throw std::invalid_argument("Id type != expression type");
+		throw std::invalid_argument(typeSymbole->getString() + " != " + typeExpression->getString());
 }
 Type const* Expression::getType()
 {
