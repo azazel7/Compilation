@@ -14,7 +14,6 @@ class Function : public Node
 	Node& bodyNode; 
 
 	//Contain all offset of the variable in the stack frame
-	std::map<std::string, int> allVariableOffset;
 	std::map<std::string, Type const*> symboleTable;
 	std::map<std::string, int> offsetTable;
 	

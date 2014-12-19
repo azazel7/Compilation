@@ -1,5 +1,4 @@
-#ifndef TYPE_HPP 
-#define TYPE_HPP 
+#pragma once
 
 #include <string>
 #define INT_TYPE 1
@@ -19,4 +18,3 @@ class Type
 	virtual std::string getString(void) const = 0;
 	virtual ~Type();
 };
-#endif

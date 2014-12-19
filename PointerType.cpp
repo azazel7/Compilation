@@ -42,3 +42,7 @@ std::string PointerType::getString(void) const
 {
 	return "*" + pointedType.getString();
 }
+Type const* PointerType::getPointedType(void) const
+{
+	return &pointedType;
+}

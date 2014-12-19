@@ -16,7 +16,7 @@ ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
 EXEC=gazl
-FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o PrimaryExpressionFunctionCall.o ReturnStatement.o IfStatement.o WhileStatement.o ForStatement.o IdentifierDeclarator.o
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o PrimaryExpressionFunctionCall.o ReturnStatement.o IfStatement.o WhileStatement.o ForStatement.o IdentifierDeclarator.o PrimaryExpressionArrayAccess.o ProgramNode.o
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)
@@ -29,7 +29,7 @@ bison_grammar.o: bison_grammar.y
 	bison --defines=bison_grammar.h --output=bison_grammar.cpp bison_grammar.y
 	$(CC) $(OPTION) bison_grammar.cpp -c -o bison_grammar.o
 
-%.o : %.cpp
+%.o : %.cpp %.hpp
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)
 
 clean:

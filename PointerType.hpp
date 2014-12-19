@@ -16,6 +16,7 @@ class PointerType: public Type
 	int getSize(void) const;
 	bool isStaticArray(void) const;
 	std::string getString(void) const;
+	Type const* getPointedType(void) const;
 };
 #endif
 

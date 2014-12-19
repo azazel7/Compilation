@@ -18,12 +18,13 @@
 #include "PrimaryExpressionConstant.hpp"
 #include "PrimaryExpressionIdentifierOperation.hpp"
 #include "PrimaryExpressionFunctionCall.hpp"
+#include "PrimaryExpressionArrayAccess.hpp"
 #include "ReturnStatement.hpp"
 #include "IfStatement.hpp"
 #include "WhileStatement.hpp"
 #include "ForStatement.hpp"
 #include "IdentifierDeclarator.hpp"
-
+#include "ProgramNode.hpp"
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
 std::list<Node*> stackForTree;
@@ -81,11 +82,9 @@ primary_expression
 		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
 		}
 | IDENTIFIER '[' expression ']' {std::cout << "primary_expression -> IDENTIFIER [ expression ]" << std::endl;
-		Node* tmp = new Node($1); //TODO find something to check that !!!
-		tmp->addChild(*(new Node("[")));
-		tmp->addChild(*stackForTree.front()); //Take argument_expression_list as child
+		Node* expr = stackForTree.front(); //Take argument_expression_list as child
 		stackForTree.pop_front();
-		tmp->addChild(*(new Node("]")));
+		Node* tmp = new PrimaryExpressionArrayAccess($1, *expr); //TODO find something to check that !!!
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -462,12 +461,18 @@ jump_statement
 program
 : external_declaration {std::cout << "program -> external_declaration" << std::endl;}
 | program external_declaration {std::cout << "program -> program external_declaration" << std::endl;
-		Node* tmp = new Node(ID_EXTERNAL_DECLARATION);
-		tmp->addChild(*stackForTree.front());
+		Node* external_declaration = stackForTree.front();
 		stackForTree.pop_front();
-		tmp->addChild(*stackForTree.front());
+		Node* program = stackForTree.front();
 		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		if(program->getId() != ID_PROGRAM)
+		{
+			Node* tmp = new ProgramNode();
+			tmp->addChild(*program);
+			program = tmp;
+		}
+		program->addChild(*external_declaration);
+		stackForTree.push_front(program);
 		}
 ;
 

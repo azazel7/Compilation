@@ -1,5 +1,4 @@
-#ifndef PRIMARY_EXPRESSION_FUNCTION_CALL_HPP
-#define PRIMARY_EXPRESSION_FUNCTION_CALL_HPP
+#pragma once
 #include "Node.hpp"
 #include <list>
 
@@ -13,4 +12,3 @@ class PrimaryExpressionFunctionCall : public Node
 		Type const* getType();
 		~PrimaryExpressionFunctionCall();
 };
-#endif
