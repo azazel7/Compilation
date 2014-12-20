@@ -25,6 +25,10 @@ void PrimaryExpressionFunctionCall::semanticsCheck(void) const
 	//FIXME remember, type return by getType are forbidden from deletion ! And typeCompare will probably delete them
 	for(Node* node : argumentList)
 		typeCompare->addParameter(node->getType());
+	if(*typeCompare != *type)
+		throw std::invalid_argument("Error in arguments type when calling " + id);
+	std::cout << "CANARD 1" << std::endl;
+		
 }
 Type const* PrimaryExpressionFunctionCall::getType()
 {

@@ -71,7 +71,10 @@ primary_expression
 		Node* argTree = stackForTree.front();
 		stackForTree.pop_front();
 		std::list<Node*> argList = argTree->getChildren();
-		delete argTree; //argTree is now useless because out of the stack and without children
+		if(argList.size() == 0)
+			argList.push_front(argTree);
+		else
+			delete argTree; //argTree is now useless because out of the stack and without children
 		Node* functionCall = new PrimaryExpressionFunctionCall($1, argList);
 		stackForTree.push_front(functionCall);
 		}
