@@ -50,7 +50,7 @@ void yyerror(const char *s);
 }
 %start program
 %%
-
+//TODO How handle void variable ?
 primary_expression
 : IDENTIFIER { std::cout << "primary_expression -> IDENTIFIER" << std::endl;
 		stackForTree.push_front(new PrimaryExpressionIdentifier($1));
@@ -280,7 +280,7 @@ declarator
 		stackForTree.push_front(new IdentifierDeclarator($2, true));
 		}
 | IDENTIFIER '[' ICONSTANT ']' {std::cout << "declarator -> IDENTIFIER(" << $1 << ") [ ICONSTANT (" << atoi($3) << ") ]" << std::endl;
-		stackForTree.push_front(new IdentifierDeclarator($1, atoi($3))); //TODO How to get ICONSTANT and create the type
+		stackForTree.push_front(new IdentifierDeclarator($1, atoi($3))); 
 		}
 | declarator '(' parameter_list ')' {std::cout << "declarator -> declarator (parameter_list )" << std::endl;
 		Node* parameterList = stackForTree.front(); //Take decarator as child
