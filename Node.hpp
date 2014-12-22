@@ -60,6 +60,7 @@ class Node
 		//Return the type of the node (use only in semanticsCheck to check type and operation)
 		virtual Type const* getType(void);
 		//This will return the children et delete them from this node
+		virtual void generateCode(int const fd) const;
 		std::list<Node*> getChildren(void);
 		void setId(int id);
 		int countChildren(void) const;
