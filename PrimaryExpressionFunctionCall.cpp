@@ -18,7 +18,7 @@ void PrimaryExpressionFunctionCall::semanticsCheck(void) const
 		throw std::invalid_argument("Cannot find symbol " + id);
 	FunctionType const* typeFunction = dynamic_cast<FunctionType const*>(type);
 	if(typeFunction == nullptr)
-		throw std::invalid_argument(id + " isn't a function");
+		throw std::invalid_argument(id + " isn't a function it's " + type->getString());
 		
 	//FIXME it will be the same pointer, probably delete twice
 	FunctionType* typeCompare = new FunctionType(*typeFunction->getReturnType());

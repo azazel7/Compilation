@@ -31,6 +31,13 @@ void Expression::semanticsCheck(void) const
 			throw std::invalid_argument("Error of index type expression : " + typeOffset->getString());
 		typeSymbole = pointedTypeSymbole->getPointedType();
 	}
+	else
+	{
+		PointerType const* pointedTypeSymbole= dynamic_cast<PointerType const*>(typeSymbole);
+		if(pointedTypeSymbole != nullptr && pointedTypeSymbole->isStaticArray())
+			throw std::invalid_argument(id + " is a static array");
+			
+	}
 	if(expressionOffset != nullptr)
 	{}
 		//TODO watch at the pointed type
