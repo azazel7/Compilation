@@ -12,6 +12,7 @@ class ForStatement: public Node
 	public:
 		ForStatement(Node& expressionInit, Node& expressionCondition, Node& expressionVariation, Node& statement);
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 };
 #endif
 

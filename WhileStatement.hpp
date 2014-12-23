@@ -10,6 +10,7 @@ class WhileStatement: public Node
 	public:
 		WhileStatement(Node& expression, Node& statement);
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 };
 #endif
 

@@ -11,5 +11,6 @@ class IfStatement : public Node
 	public:
 		IfStatement(Node& expression, Node& statement, Node* elseStatement = nullptr );
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 };
 #endif

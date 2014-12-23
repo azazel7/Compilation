@@ -1,5 +1,4 @@
-#ifndef NODE_HPP 
-#define NODE_HPP 
+#pragma once
 #include <iostream>
 #include <list>
 #include <map>
@@ -60,7 +59,7 @@ class Node
 		//Return the type of the node (use only in semanticsCheck to check type and operation)
 		virtual Type const* getType(void);
 		//This will return the children et delete them from this node
-		virtual void generateCode(int const fd) const;
+		virtual void generateCode(FILE * fd) const;
 		std::list<Node*> getChildren(void);
 		void setId(int id);
 		int countChildren(void) const;
@@ -68,4 +67,3 @@ class Node
 		int getId(void) const;
 };
 //TODO TO THINK No need to flatten declarator_list -> just convert it into a symbols table 
-#endif

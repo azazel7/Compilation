@@ -159,7 +159,7 @@ std::list<Node*> Node::getChildren(void)
 	children.clear();
 	return tmp;
 }
-void Node::generateCode(int const fd) const
+void Node::generateCode(FILE * fd) const
 {
 	for(Node const* node : children)
 		node->generateCode(fd);

@@ -8,6 +8,7 @@ class ReturnStatement : public Node
 	public:
 		ReturnStatement(Node* l = nullptr);
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 //TODO how to check if the return type of the function is the same as the expression type ?
 };
 #endif
