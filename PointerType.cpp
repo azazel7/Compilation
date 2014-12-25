@@ -36,7 +36,7 @@ int PointerType::getSize(void) const
 }
 bool PointerType::isStaticArray(void) const
 {
-	return size == 0;
+	return size != 0;
 }
 std::string PointerType::getString(void) const
 {
