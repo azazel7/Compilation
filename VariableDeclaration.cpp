@@ -4,7 +4,7 @@
 #include "PointerType.hpp"
 #include "IdentifierDeclarator.hpp"
 
-VariableDeclaration::VariableDeclaration(Node* type, Node* identifier)
+VariableDeclaration::VariableDeclaration(Node* type, Node* identifier): Node(ID_DECLARATION)
 {
 	this->type = type->getName();
 	delete type;
