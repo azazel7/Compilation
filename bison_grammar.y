@@ -237,7 +237,6 @@ declaration
 		Node* type = stackForTree.front();
 		stackForTree.pop_front();
 		Node* tmp = new VariableDeclaration(type, identifier);
-		tmp->setId(ID_DECLARATION); 
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -362,7 +361,6 @@ compound_statement
 		stackForTree.pop_front();
 		Node* tmp = new CompoundStatement(statement, declaration);
 		//From here, we can't be sure if statement and declaration have been freed, but CompoundStatement will manage itself everything about it
-		tmp->setId(ID_COUMPOUND_STATEMENT);
 		stackForTree.push_front(tmp);
 		}
 ;
@@ -461,8 +459,7 @@ jump_statement
 		}
 ;
 
-program
-: external_declaration {std::cout << "program -> external_declaration" << std::endl;}
+program : external_declaration {std::cout << "program -> external_declaration" << std::endl;}
 | program external_declaration {std::cout << "program -> program external_declaration" << std::endl;
 		Node* external_declaration = stackForTree.front();
 		stackForTree.pop_front();
@@ -528,8 +525,8 @@ int main (int argc, char *argv[]) {
 		/*stackForTree.front()->flattenStatement();*/
 		/*stackForTree.front()->printTree(0, 20);*/
 		stackForTree.front()->createSymboleTable();
+		stackForTree.front()->printSymboleTable();
 		stackForTree.front()->semanticsCheck();
-		/*stackForTree.front()->printSymboleTable();*/
 		stackForTree.front()->print();
 	}
 	else {
