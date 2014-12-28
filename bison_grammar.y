@@ -165,7 +165,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_L); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression '>' additive_expression {std::cout << "comparison_expression -> additive_expression > additive_expression" << std::endl;
@@ -173,7 +173,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_G); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression LE_OP additive_expression {std::cout << "comparison_expression -> additive_expression LE_OP additive_expression" << std::endl;
@@ -181,7 +181,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_LE); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression GE_OP additive_expression {std::cout << "comparison_expression -> additive_expression GE_OP additive_expression" << std::endl;
@@ -189,7 +189,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_GE); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression EQ_OP additive_expression {std::cout << "comparison_expression -> additive_expression EQ_OP additive_expression" << std::endl;
@@ -197,7 +197,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_EQ); 
 		stackForTree.push_front(tmp);
 		}
 | additive_expression NE_OP additive_expression {std::cout << "comparison_expression -> additive_expression NE_OP additive_expression" << std::endl;
@@ -205,7 +205,7 @@ comparison_expression
 		stackForTree.pop_front();
 		Node* right = stackForTree.front(); 
 		stackForTree.pop_front();
-		Node* tmp = new ComparisonExpression(*right, *left); 
+		Node* tmp = new ComparisonExpression(*right, *left, COMPARISON_NE); 
 		stackForTree.push_front(tmp);
 		}
 ;
