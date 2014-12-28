@@ -64,11 +64,9 @@ CompoundStatement::~CompoundStatement()
 		delete node;
 	for(Node* node : allDeclaration)
 		delete node;
-	//TODO find a way to delete symboleTable
 }
 void CompoundStatement::generateCode(FILE * fd) const
 {
-	//TODO Probably add a push of symbole table
 	for(Node const* statement : allStatement)
 		statement->generateCode(fd);
 }

@@ -15,7 +15,6 @@ void Expression::semanticsCheck(void) const
 	if(expressionOffset != nullptr)
 		expressionOffset->semanticsCheck();
 	expression.semanticsCheck();
-
 	Type const* typeSymbole = StackSymboleTable::getSymbole(id);
 	//TODO if typeSymbole is a pointer think about deference from this pointer
 	if(typeSymbole == nullptr)
@@ -38,8 +37,6 @@ void Expression::semanticsCheck(void) const
 			throw std::invalid_argument(id + " is a static array");
 			
 	}
-	if(expressionOffset != nullptr)
-	{}
 		//TODO watch at the pointed type
 	if(!typeExpression || *typeExpression != *typeSymbole)
 		throw std::invalid_argument(typeSymbole->getString() + " != " + typeExpression->getString());
@@ -48,4 +45,21 @@ Type const* Expression::getType()
 {
 	//TODO probably an error here
 	return StackSymboleTable::getSymbole(id);
-};
+}
+void Expression::generateCode(FILE * fd) const
+{
+	std::string location; 
+	expression.generateCode(fd);
+	if(expressionOffset != nullptr)
+	{
+		expressionOffset->generateCode(fd);
+		fprintf(fd, "pop %%ecx\n");
+		location = StackSymboleTable::getLocation(id, "%%ecx");
+	}
+	else
+	{
+		location = StackSymboleTable::getLocation(id);
+	}
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "mov %%ebx, %s\n", location.c_str());
+}
