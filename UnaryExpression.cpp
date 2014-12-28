@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include "TypeOperationConversion.hpp"
 
+const char UnaryExpression::neg = '-';
+const char UnaryExpression::no = '!';
 UnaryExpression::UnaryExpression(Node& l): Node(ID_UNARY_EXPRESSION), expression(l)
 {
 }
@@ -19,4 +21,22 @@ Type const* UnaryExpression::getType()
 	return expression.getType();
 }
 
+void UnaryExpression::generateCode(FILE * fd) const
+{
+	expression.generateCode(fd);
+	fprintf(fd, "pop %%eax\n");
+	switch(type)
+	{
+		case no:
+			fprintf(fd, "mov %%eax, %%ebx\n");//TODO What about floating number ?
+			fprintf(fd, "xor %%eax, %%eax\n");//TODO What about floating number ?
+			fprintf(fd, "cmp $0, %%eax\n");//TODO What about floating number ?
+			fprintf(fd, "sete %%al\n");//TODO What about floating number ?
+		break;
+		case neg:
+		fprintf(fd, "neg %%eax\n");//TODO What about floating number ?
+		break;
+	}
+	fprintf(fd, "push %%eax\n");
+}
 
