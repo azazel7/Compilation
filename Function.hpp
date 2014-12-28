@@ -19,11 +19,11 @@ class Function : public Node
 	
 	public:
 		Function(Node* type, Node* argumentNode, Node* bodyNode);
-		void printAsm(int fd);	
 		void print(void);
 		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		void createSymboleTable(void);
 		void printSymboleTable(void) const;
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 };
 #endif

@@ -22,9 +22,6 @@ void Function::print(void)
 	bodyNode.print();
 
 }
-void Function::printAsm(int fd)
-{
-}
 void Function::semanticsCheck(void) const
 {
 	StackSymboleTable::push(symboleTable);
@@ -58,7 +55,7 @@ void Function::createSymboleTable(void)
 	int currentOffset = 0;
 	for(auto symbole : symboleTable)
 	{
-		offsetTable[symbole.first] = currentOffset;
+		offsetTable[symbole.first] = currentOffset;//TODO change that into a location table
 		currentOffset += symbole.second->getSize();
 	}
 	bodyNode.createSymboleTable();
@@ -74,4 +71,22 @@ void Function::printSymboleTable(void) const
 	}
 	bodyNode.printSymboleTable();
 	std::cout <<"}" << std::endl;
+}
+void Function::generateCode(FILE * fd) const
+{
+	//TODO StackSymboleTable push symboles and locations
+	StackSymboleTable::push(symboleTable);
+	int sizeAllSymbole = 0;
+	
+	std::string label = StackSymboleTable::getGlobalLabel(nameFunction);
+	fprintf(fd, "%s:\n", label.c_str());
+	fprintf(fd, "push %%ebp\n");
+	fprintf(fd, "mov %%esp, %%ebp\n");
+	if(sizeAllSymbole > 0)
+		fprintf(fd, "sub $%d, %%esp\n", sizeAllSymbole);
+	bodyNode.generateCode(fd);
+	fprintf(fd, "leave\n");//leave = move ebp, esp + pop ebp
+	fprintf(fd, "ret\n");
+	//TODO StackSymboleTable pop symboles and locations
+	StackSymboleTable::pop();
 }
