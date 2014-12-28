@@ -16,7 +16,6 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 {
 	if(declaration != nullptr)
 	{
-		declaration->print();
 		declaration->getNodeById(allDeclaration, ID_DECLARATION);
 		if(allDeclaration.size() == 0)
 			allDeclaration.push_front(declaration);
@@ -29,15 +28,10 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 	else
 		delete statement;
 }
-void CompoundStatement::flattenStatement(void)
-{
-}
 void CompoundStatement::semanticsCheck(void) const
 {
-	StackSymboleTable::push(symboleTable);
 	for(Node* statement : allStatement)
 		statement->semanticsCheck();
-	StackSymboleTable::pop();
 }
 
 void CompoundStatement::print(void)
@@ -57,25 +51,12 @@ void CompoundStatement::print(void)
 	}
 	std::cout << "}" << std::endl;
 }
-void CompoundStatement::createSymboleTable(void)
+void CompoundStatement::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
 	for(Node* n : allDeclaration)
-		n->getSymbole(symboleTable);
+		n->getSymbole(symbole);
 	for(Node* n : allStatement)
-		n->createSymboleTable();
-}
-void CompoundStatement::printSymboleTable(void) const
-{
-	std::cout <<"{" << std::endl;
-	for(auto symbole : symboleTable)
-	{
-		std::cout << symbole.first << " ";
-		symbole.second->print();
-		std::cout << std::endl;
-	}
-	for(Node* statement : allStatement)
-		statement->printSymboleTable();
-	std::cout <<"}" << std::endl;
+		n->getSymbole(symbole);
 }
 CompoundStatement::~CompoundStatement()
 {

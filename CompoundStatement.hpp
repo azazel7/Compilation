@@ -8,18 +8,15 @@ class CompoundStatement : public Node
 	std::list<Node*> allDeclaration;
 	std::list<Node*> allStatement;
 	
-	std::map<std::string, Type const*> symboleTable;
 	public:
 		CompoundStatement();
 		CompoundStatement(int id);
 		CompoundStatement(std::string name, int id = -1);
 		CompoundStatement(Node* statement, Node* declaration = nullptr);
-		void flattenStatement(void);
 		void print(void);
-		void createSymboleTable(void);
-		void printSymboleTable(void) const;
 		void semanticsCheck(void) const;
 		void generateCode(FILE * fd) const;
+		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		~CompoundStatement();
 };
 #endif 
