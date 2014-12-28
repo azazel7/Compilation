@@ -2,13 +2,6 @@
 #define COMPARISON_EXPRESSION_HPP
 #include "Node.hpp"
 
-#define COMPARISON_LE 1
-#define COMPARISON_L 2
-#define COMPARISON_GE 3
-#define COMPARISON_G 4
-#define COMPARISON_EQ 5
-#define COMPARISON_NE 6
-
 class ComparisonExpression : public Node
 {
 	Type* type;
@@ -20,5 +13,11 @@ class ComparisonExpression : public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		static const char LE;
+		static const char L;
+		static const char GE;
+		static const char G;
+		static const char EQ;
+		static const char NE;
 };
 #endif
