@@ -11,5 +11,6 @@ class ProgramNode : public Node
 		ProgramNode();
 		void createSymboleTable(void);
 		void semanticsCheck(void) const;
+		void generateCode(FILE * fd) const;
 
 };
