@@ -24,3 +24,12 @@ Type const* MultiplicativeExpression::getType()
 	return TypeOperationConversion::getTypeOperation(OPERATION_BY, *tRight, *tLeft);
 }
 
+void MultiplicativeExpression::generateCode(FILE * fd) const
+{
+	right.generateCode(fd);
+	left.generateCode(fd);
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "imul %%ebx, %%eax\n");//TODO What about floating number ?
+	fprintf(fd, "push %%eax\n");
+}

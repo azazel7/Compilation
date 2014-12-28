@@ -10,5 +10,6 @@ class MultiplicativeExpression : public Node
 		MultiplicativeExpression(Node& r, Node& l);
 		void semanticsCheck(void) const;
 		Type const* getType();
+		void generateCode(FILE * fd) const;
 };
 #endif

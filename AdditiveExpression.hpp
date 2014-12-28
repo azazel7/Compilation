@@ -11,6 +11,7 @@ class AdditiveExpression : public Node
 		AdditiveExpression(Node& r, Node& l, char t);
 		void semanticsCheck(void) const;
 		Type const* getType();
+		void generateCode(FILE * fd) const;
 	static const char sub;
 	static const char add;
 };

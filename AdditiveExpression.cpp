@@ -27,3 +27,20 @@ Type const* AdditiveExpression::getType()
 	//TODO hope neither tRight, nor tLeft will be null
 	return TypeOperationConversion::getTypeOperation(OPERATION_ADD, *tRight, *tLeft);
 }
+void AdditiveExpression::generateCode(FILE * fd) const
+{
+	right.generateCode(fd);
+	left.generateCode(fd);
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "pop %%eax\n");
+	switch(type)
+	{
+		case sub:
+		fprintf(fd, "sub %%ebx, %%eax\n");
+		break;
+		case add:
+		fprintf(fd, "add %%ebx, %%eax\n");
+		break;
+	}
+	fprintf(fd, "push %%eax\n");
+}
