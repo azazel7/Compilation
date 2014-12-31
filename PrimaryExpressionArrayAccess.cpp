@@ -22,6 +22,14 @@ Type const* PrimaryExpressionArrayAccess::getType()
 	PointerType const* typeId = dynamic_cast<PointerType const*>(StackSymboleTable::getSymbole(id));
 	return typeId->getPointedType();	
 }
+void PrimaryExpressionArrayAccess::generateCode(FILE * fd) const
+{
+	expression.generateCode(fd);
+	fprintf(fd, "pop %%ebx\n");
+	std::string location = StackSymboleTable::getLocation(id, "%%ebx");
+	fprintf(fd, "mov %s, %%eax\n", location.c_str());
+	fprintf(fd, "push %%eax\n");
+}
 PrimaryExpressionArrayAccess::~PrimaryExpressionArrayAccess()
 {
 	delete &expression;

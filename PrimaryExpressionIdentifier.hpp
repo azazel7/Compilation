@@ -10,6 +10,7 @@ class PrimaryExpressionIdentifier: public Node
 		PrimaryExpressionIdentifier(std::string name);
 		void semanticsCheck(void) const;
 		Type const* getType();
+		void generateCode(FILE * fd) const;
 
 };
 #endif

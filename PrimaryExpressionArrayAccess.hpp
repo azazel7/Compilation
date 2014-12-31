@@ -9,5 +9,6 @@ class PrimaryExpressionArrayAccess: public Node
 		PrimaryExpressionArrayAccess(std::string id, Node& expression);
 		void semanticsCheck(void) const;
 		Type const* getType();
+		void generateCode(FILE * fd) const;
 		~PrimaryExpressionArrayAccess();
 };

@@ -15,3 +15,9 @@ Type const* PrimaryExpressionIdentifier::getType()
 {
 	return StackSymboleTable::getSymbole(name);
 }
+void PrimaryExpressionIdentifier::generateCode(FILE * fd) const
+{
+	std::string location = StackSymboleTable::getLocation(name);
+	fprintf(fd, "mov %s, %%eax\n", location.c_str());
+	fprintf(fd, "push %%eax\n");
+}

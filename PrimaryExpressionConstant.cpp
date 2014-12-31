@@ -20,6 +20,11 @@ Type const* PrimaryExpressionConstant::getType()
 {
 	return type;
 }
+void PrimaryExpressionConstant::generateCode(FILE * fd) const
+{
+	fprintf(fd, "mov $%s, %%eax\n", value.c_str());
+	fprintf(fd, "push %%eax\n");
+}
 
 PrimaryExpressionConstant::~PrimaryExpressionConstant()
 {
