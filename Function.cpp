@@ -51,6 +51,8 @@ void Function::createSymboleTable(void)
 {
 	for(Node* n : allParameter)
 		n->getSymbole(symboleTable);
+	for(auto pair : symboleTable)
+		isParameter[pair.first] = true;
 	bodyNode.getSymbole(symboleTable);
 	int currentOffset = 0;
 	for(auto symbole : symboleTable)
@@ -82,6 +84,7 @@ void Function::generateCode(FILE * fd) const
 	fprintf(fd, "%s:\n", label.c_str());
 	fprintf(fd, "push %%ebp\n");
 	fprintf(fd, "mov %%esp, %%ebp\n");
+	//TODO find something for the arguments
 	if(sizeAllSymbole > 0)
 		fprintf(fd, "sub $%d, %%esp\n", sizeAllSymbole);
 	bodyNode.generateCode(fd);
