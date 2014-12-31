@@ -11,8 +11,7 @@ Expression::Expression(std::string iden, Node& expr, Node* offset): Node(ID_EXPR
 }
 
 void Expression::semanticsCheck(void) const
-{
-	if(expressionOffset != nullptr)
+{ if(expressionOffset != nullptr)
 		expressionOffset->semanticsCheck();
 	expression.semanticsCheck();
 	Type const* typeSymbole = StackSymboleTable::getSymbole(id);
@@ -60,6 +59,5 @@ void Expression::generateCode(FILE * fd) const
 	{
 		location = StackSymboleTable::getLocation(id);
 	}
-	fprintf(fd, "pop %%ebx\n");
-	fprintf(fd, "mov %%ebx, %s\n", location.c_str());
+	fprintf(fd, "mov (%%ebp), %s\n", location.c_str());//Do not remove from stack, the next layer will
 }

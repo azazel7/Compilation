@@ -2,7 +2,7 @@
 #OBJDIR=obj/
 #EXEC=gazl
 
-CC=clang++
+CC=g++
 DEBUGFLAG=-O0 -g #-O2 -Os -march=native -pipe
 LINK=
 OPTION=-std=c++11  
@@ -16,7 +16,7 @@ ifeq ($(WARNING),1)
 WARNINGFLAG=-Wall -Wextra
 endif
 EXEC=gazl
-FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o PrimaryExpressionFunctionCall.o ReturnStatement.o IfStatement.o WhileStatement.o ForStatement.o IdentifierDeclarator.o PrimaryExpressionArrayAccess.o ProgramNode.o
+FILE=flex_scanner.o bison_grammar.o Function.o Type.o Node.o CompoundStatement.o VariableDeclaration.o PrimitiveType.o FunctionType.o PointerType.o TypeOperationConversion.o StackSymboleTable.o Expression.o ComparisonExpression.o AdditiveExpression.o MultiplicativeExpression.o UnaryExpression.o PrimaryExpressionIdentifier.o PrimaryExpressionConstant.o PrimaryExpressionIdentifierOperation.o PrimaryExpressionFunctionCall.o ReturnStatement.o IfStatement.o WhileStatement.o ForStatement.o IdentifierDeclarator.o PrimaryExpressionArrayAccess.o ProgramNode.o ExpressionStatement.o
 
 gazl: $(FILE) 
 	$(CC) $(OPTION) $(FILE) -o $@ $(LINK) $(DEBUGFLAG) $(WARNINGFLAG)

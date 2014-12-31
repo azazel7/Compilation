@@ -11,4 +11,5 @@ class PrimaryExpressionFunctionCall : public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		~PrimaryExpressionFunctionCall();
+		void generateCode(FILE * fd) const;
 };

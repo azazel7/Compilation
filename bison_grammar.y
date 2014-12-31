@@ -25,6 +25,8 @@
 #include "ForStatement.hpp"
 #include "IdentifierDeclarator.hpp"
 #include "ProgramNode.hpp"
+#include "ExpressionStatement.hpp"
+
 class Type;
 std::list<std::map<std::string, Type&> > allSymbole;
 std::list<Node*> stackForTree;
@@ -79,10 +81,10 @@ primary_expression
 		stackForTree.push_front(functionCall);
 		}
 | IDENTIFIER INC_OP {std::cout << "primary_expression -> IDENTIFIER INC_OP" << std::endl;
-		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
+		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1, PrimaryExpressionIdentifierOperation::inc));
 		}
 | IDENTIFIER DEC_OP {std::cout << "primary_expression -> IDENTIFIER DEC_OP" << std::endl;
-		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1));
+		stackForTree.push_front(new PrimaryExpressionIdentifierOperation($1, PrimaryExpressionIdentifierOperation::dec));
 		}
 | IDENTIFIER '[' expression ']' {std::cout << "primary_expression -> IDENTIFIER [ expression ]" << std::endl;
 		Node* expr = stackForTree.front(); //Take argument_expression_list as child
@@ -392,12 +394,10 @@ statement_list
 expression_statement
 : ';' {std::cout << "expression_statement -> ;" << std::endl;}
 | expression ';' {std::cout << "expression_statement -> expression ;" << std::endl;
-		/*Node* tmp = new Node();*/
-		/*tmp->addChild(*(new Node(";\n")));*/
-		//TODO when generate this code, think for a pop a the end because no need of the result
-		/*tmp->addChild(*stackForTree.front());*/
-		/*stackForTree.pop_front();*/
-		/*stackForTree.push_front(tmp);*/
+		Node* expression = stackForTree.front();
+		stackForTree.pop_front();
+		Node* tmp = new ExpressionStatement(*expression);
+		stackForTree.push_front(tmp);
 		}
 ;
 

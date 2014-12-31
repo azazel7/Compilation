@@ -3,9 +3,10 @@
 #include "StackSymboleTable.hpp"
 #include "TypeOperationConversion.hpp"
 
-PrimaryExpressionIdentifierOperation::PrimaryExpressionIdentifierOperation(std::string na)
+const char PrimaryExpressionIdentifierOperation::dec = '+';
+const char PrimaryExpressionIdentifierOperation::inc = '-';
+PrimaryExpressionIdentifierOperation::PrimaryExpressionIdentifierOperation(std::string na, char type): Node(), type(type), name(na)
 {
-	name = na;
 }
 void PrimaryExpressionIdentifierOperation::semanticsCheck(void) const
 {
@@ -17,4 +18,15 @@ void PrimaryExpressionIdentifierOperation::semanticsCheck(void) const
 Type const* PrimaryExpressionIdentifierOperation::getType()
 {
 	return StackSymboleTable::getSymbole(name);
+}
+void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
+{
+	std::string location = StackSymboleTable::getLocation(name);
+	fprintf(fd, "mov %s, %%eax\n", location.c_str());
+	fprintf(fd, "push %%eax\n");
+	if(type == inc)
+		fprintf(fd, "add $1, %%eax\n");
+	else
+		fprintf(fd, "sub $1, %%eax\n");
+	fprintf(fd, "mov %%eax, %s\n", location.c_str());
 }

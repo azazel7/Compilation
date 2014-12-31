@@ -39,3 +39,15 @@ PrimaryExpressionFunctionCall::~PrimaryExpressionFunctionCall()
 	for(Node* node : argumentList)
 		delete node;
 }
+void PrimaryExpressionFunctionCall::generateCode(FILE * fd) const
+{
+	for(Node* argument : argumentList)
+		argument->generateCode(fd); //Each argument will push itself to the stack
+
+	fprintf(fd, "call %s\n", StackSymboleTable::getGlobalLabel(id).c_str());
+
+	for(Node* argument : argumentList)
+		fprintf(fd, "pop %%ebx\n"); //Pop all arguments
+	
+	fprintf(fd, "push  %%eax\n");//Because the result of the function is in %eax
+}
