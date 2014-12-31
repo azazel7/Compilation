@@ -13,9 +13,6 @@ PrimaryExpressionConstant::PrimaryExpressionConstant(std::string value, char ty)
 		this->type = new PrimitiveType(PrimitiveType::int_type);	
 		
 }
-void PrimaryExpressionConstant::semanticsCheck(void) const
-{
-}
 Type const* PrimaryExpressionConstant::getType()
 {
 	return type;

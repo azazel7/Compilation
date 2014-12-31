@@ -1,5 +1,4 @@
-#ifndef PRIMARY_EXPRESSION_CONSTANT_HPP
-#define PRIMARY_EXPRESSION_CONSTANT_HPP 
+#pragma once
 
 #include "Node.hpp"
 #define CONSTANT_FLOAT 'f'
@@ -13,11 +12,8 @@ class PrimaryExpressionConstant: public Node
 	Type* type;
 	public:
 		PrimaryExpressionConstant(std::string value, char type);
-		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		~PrimaryExpressionConstant();
 
 };
-#endif
-
