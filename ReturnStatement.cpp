@@ -17,7 +17,6 @@ void ReturnStatement::generateCode(FILE * fd) const
 		//FIXME size of the pop depend of expression type
 		fprintf(fd, "pop %%eax\n");
 	}
-	
-	//FIXME probably create a goto to the label of the end of the conteining function
+	fprintf(fd, "leave\n");//leave = move ebp, esp + pop ebp
 	fprintf(fd, "ret\n");
 }
