@@ -1,5 +1,7 @@
 #include "IfStatement.hpp"
-#include <stdio.h>
+#include <cstdio>
+#include <sstream> 
+#include <iostream>     // std::cout
 
 IfStatement::IfStatement(Node& expression, Node& statement, Node* elseStatement): expression(expression), statement(statement)
 {
@@ -14,7 +16,13 @@ void IfStatement::semanticsCheck(void) const
 }
 void IfStatement::generateCode(FILE * fd) const
 {
-	std::string id = "rand string";
+	static int number = -1;
+	number++;
+	std::string id = "_if_/_statement";
+	std::stringstream stringStream;
+	stringStream << number << id;
+	id = stringStream.str();
+
 	expression.generateCode(fd);
 	fprintf(fd, "pop %%eax\n");
 	fprintf(fd, "cmp %%eax, $1\n");

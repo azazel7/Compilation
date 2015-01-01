@@ -1,4 +1,6 @@
 #include "WhileStatement.hpp"
+#include <sstream> 
+#include <iostream>     // std::cout
 
 WhileStatement::WhileStatement(Node& expression, Node& statement): expression(expression), statement(statement)
 {
@@ -10,7 +12,12 @@ void WhileStatement::semanticsCheck(void) const
 }
 void WhileStatement::generateCode(FILE * fd) const
 {
-	std::string id = "rand string";
+	static int number = -1;
+	number++;
+	std::string id = "_while_/_statement";
+	std::stringstream stringStream;
+	stringStream << number << id;
+	id = stringStream.str();
 	
 	fprintf(fd, "%s:\n", id.c_str());//Write label
 	expression.generateCode(fd);
