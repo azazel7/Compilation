@@ -1,8 +1,11 @@
 #include "StackSymboleTable.hpp"
+#include <sstream> 
+#include <iostream>     // std::cout
 #include <stdexcept>
+#include "PointerType.hpp"
 
 std::list<std::map<std::string, Type const*> > StackSymboleTable::stack;
-std::list<std::map<std::string, std::string> > StackSymboleTable::stackLocation;
+std::list<std::map<std::string, int> > StackSymboleTable::stackLocation;
 
 void StackSymboleTable::push(std::map<std::string, Type const*> table)
 {
@@ -28,15 +31,30 @@ std::string StackSymboleTable::getLocation(std::string name)
 		return "$" + getGlobalLabel(name);//The $ is here to manipulate labels
 	for(auto table : stackLocation)
 		if(table.count(name) == 1)
-			return table[name];
+		{
+			std::stringstream stringStream;
+			stringStream << table[name] << "(%ebp)";
+			return stringStream.str();
+		}
 	throw std::invalid_argument("Can't find symbole " + name + " in getLocation");
 }
 std::string StackSymboleTable::getLocation(std::string name, std::string registerOffset)
 {
-	return " ";
+	std::stringstream stringStream;
+	int offset;
+	for(auto table : stackLocation)
+		if(table.count(name) == 1)
+		{
+			offset = offset;
+			break;
+		}
+	PointerType const* type = dynamic_cast<PointerType const*>(getSymbole(name));
+	//TODO what for global symbole ?
+	stringStream << offset << "(%ebp," << registerOffset << "," <<  type->getPointedType()->getSize() <<  ")";
+	return stringStream.str();
 }
 
-void StackSymboleTable::push(std::map<std::string, Type const*> table, std::map<std::string, std::string> location)
+void StackSymboleTable::push(std::map<std::string, Type const*> table, std::map<std::string, int> location)
 {
 	stackLocation.push_front(location);
 	StackSymboleTable::push(table);

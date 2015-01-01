@@ -5,17 +5,17 @@
 #include "StackSymboleTable.hpp"
 #include "VariableDeclaration.hpp"
 #include "PointerType.hpp"
+#include "IdentifierDeclarator.hpp"
 
 Function::Function(Node* type, Node* argument, Node* body) : Node(ID_FUNCTION), typeNode(*type), bodyNode(*body)
 {
 	argument->getNodeById(allParameter, ID_PARAMETER);
-	nameFunction = argument->getName();
-	//TODO does argument is useful now ?
+	id = dynamic_cast<IdentifierDeclarator*>(argument);
 }
 
 void Function::print(void)
 {
-	std::cout << typeNode.getName() << " " << nameFunction << " (";
+	std::cout << typeNode.getName() << " " << id->getName() << " (";
 	for(Node* n : allParameter)
 		n->print();
 	std::cout << ")" << std::endl;
@@ -31,34 +31,47 @@ void Function::semanticsCheck(void) const
 
 void Function::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
-	std::string name = nameFunction;
+	std::string nameFunction = id->getName();
 	if(symbole.count(nameFunction) >= 1)
 		throw std::invalid_argument("Name of function already " + nameFunction + " exist");
 	Type* returnType = new PrimitiveType(typeNode.getName());
-	if(VariableDeclaration::isPointedId(nameFunction))
-	{
-		name.erase(name.begin());
+
+	if(id->isPointed()) //When function return pointed type
 		returnType = new PointerType(*returnType);
-	}
+	else if(id->getSize() > 0)
+		throw std::invalid_argument(nameFunction + " can not return a static array");
+
 	FunctionType* type = new FunctionType(*returnType);
 	Type const* tmp;
+	
+	//Add paramters
 	for(Node* n : allParameter)
-		if(tmp = n->getType())
+		if((tmp = n->getType()))
 			type->addParameter(tmp);
-	symbole[name] = type;
+	symbole[nameFunction] = type;
 }
 void Function::createSymboleTable(void)
 {
 	for(Node* n : allParameter)
 		n->getSymbole(symboleTable);
-	for(auto pair : symboleTable)
+	for(auto pair : symboleTable)//To separate argument of the function and other variable
 		isParameter[pair.first] = true;
 	bodyNode.getSymbole(symboleTable);
 	int currentOffset = 0;
+	int currentOffsetArg = 0;
 	for(auto symbole : symboleTable)
 	{
-		offsetTable[symbole.first] = currentOffset;//TODO change that into a location table
-		currentOffset += symbole.second->getSize();
+		//This if is for both kind of variable. The arguments of the function and the declared variables.
+		if(isParameter.count(symbole.first) == 1)
+		{
+			offsetTable[symbole.first] = currentOffsetArg;
+			currentOffsetArg += symbole.second->getSize();
+		}
+		else
+		{
+			currentOffset -= symbole.second->getSize();
+			offsetTable[symbole.first] = currentOffset;
+		}
 	}
 	bodyNode.createSymboleTable();
 }
@@ -76,20 +89,25 @@ void Function::printSymboleTable(void) const
 }
 void Function::generateCode(FILE * fd) const
 {
-	//TODO StackSymboleTable push symboles and locations
-	StackSymboleTable::push(symboleTable);
+	StackSymboleTable::push(symboleTable, offsetTable);
 	int sizeAllSymbole = 0;
 	
-	std::string label = StackSymboleTable::getGlobalLabel(nameFunction);
+	std::string label = StackSymboleTable::getGlobalLabel(id->getName());
 	fprintf(fd, "%s:\n", label.c_str());
 	fprintf(fd, "push %%ebp\n");
 	fprintf(fd, "mov %%esp, %%ebp\n");
-	//TODO find something for the arguments
-	if(sizeAllSymbole > 0)
+	if(sizeAllSymbole > 0) //Create stackFrame
 		fprintf(fd, "sub $%d, %%esp\n", sizeAllSymbole);
 	bodyNode.generateCode(fd);
 	fprintf(fd, "leave\n");//leave = move ebp, esp + pop ebp
 	fprintf(fd, "ret\n");
-	//TODO StackSymboleTable pop symboles and locations
 	StackSymboleTable::pop();
+}
+Function::~Function()
+{
+	delete id;
+	delete &typeNode;
+	delete &bodyNode;
+	for(Node* param : allParameter)
+		delete param;
 }

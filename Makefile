@@ -2,7 +2,7 @@
 #OBJDIR=obj/
 #EXEC=gazl
 
-CC=g++
+CC=clang++
 DEBUGFLAG=-O0 -g #-O2 -Os -march=native -pipe
 LINK=
 OPTION=-std=c++11  

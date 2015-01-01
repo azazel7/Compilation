@@ -1,16 +1,16 @@
-#ifndef FUNCTION_HPP 
-#define FUNCTION_HPP 
+#pragma once
 #include <list>
 #include <map>
 #include "Node.hpp"
 
 class Type;
+class IdentifierDeclarator;
 
 class Function : public Node
 {
 	std::list<Node*> allParameter;
-	std::string nameFunction;
-	Node& typeNode; //TODO not sure about it now -> return int* for exemple
+	IdentifierDeclarator* id;
+	Node& typeNode; 
 	Node& bodyNode; 
 
 	//Contain all offset of the variable in the stack frame
@@ -26,5 +26,5 @@ class Function : public Node
 		void printSymboleTable(void) const;
 		void semanticsCheck(void) const;
 		void generateCode(FILE * fd) const;
+		~Function();
 };
-#endif
