@@ -24,11 +24,7 @@ void ProgramNode::generateCode(FILE * fd) const
 	fprintf(fd, ".data\n");
 	for(Node* child : children)
 		if(child->getId() != ID_FUNCTION)
-		{
-			//TODO print label probably put them into VariableDeclaration
-			fprintf(fd, ".byte");
-			//Type const*
-		}
+			child->generateCode(fd);
 	fprintf(fd, ".text\n");
 	for(Node* child : children)
 		if(child->getId() == ID_FUNCTION)

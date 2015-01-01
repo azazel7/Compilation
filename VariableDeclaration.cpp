@@ -3,6 +3,7 @@
 #include "PrimitiveType.hpp"
 #include "PointerType.hpp"
 #include "IdentifierDeclarator.hpp"
+#include "StackSymboleTable.hpp"
 
 VariableDeclaration::VariableDeclaration(Node* type, Node* identifier): Node(ID_DECLARATION)
 {
@@ -70,5 +71,33 @@ void VariableDeclaration::getSymbole(std::map<std::string, Type const*> & symbol
 		{
 			throw std::invalid_argument("Variable " + idNode->getName() + " already exist");
 		}
+	}
+}
+void VariableDeclaration::generateCode(FILE * fd) const
+{
+	for(IdentifierDeclarator* idNode : id)
+	{
+		Type* tmpType = new PrimitiveType(type);
+		if(idNode->isPointed())
+		{
+			tmpType = new PointerType(*tmpType);
+			std::cout << "Pointed variable " << idNode->getName() << std::endl;
+		}
+		else if(idNode->getSize() > 0)
+		{
+			tmpType = new PointerType(*tmpType, idNode->getSize());
+			std::cout << "Static array " << idNode->getName() << std::endl;
+		}
+		//Put the label
+		fprintf(fd, "%s:\n", StackSymboleTable::getGlobalLabel(idNode->getName()).c_str());
+		fprintf(fd, ".byte ");
+		//allocate space with .byte
+		for(int i = 0; i < tmpType->getSize(); i++)
+			if(i == 0)
+				fprintf(fd, "0");
+			else
+				fprintf(fd, ", 0");
+		fprintf(fd, "\n");
+		delete tmpType;
 	}
 }

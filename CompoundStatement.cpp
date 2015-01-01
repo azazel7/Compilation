@@ -1,6 +1,7 @@
 #include "CompoundStatement.hpp"
 #include <iostream>
 #include <list>
+#include <algorithm>
 #include "StackSymboleTable.hpp"
 
 CompoundStatement::CompoundStatement():Node()
@@ -27,6 +28,7 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 		allStatement.push_front(statement);
 	else
 		delete statement;
+	std::reverse(allStatement.begin(), allStatement.end());
 }
 void CompoundStatement::semanticsCheck(void) const
 {

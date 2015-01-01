@@ -91,6 +91,10 @@ void Function::generateCode(FILE * fd) const
 {
 	StackSymboleTable::push(symboleTable, offsetTable);
 	int sizeAllSymbole = 0;
+	//Count the size of the stack frame
+	for(auto symbole : symboleTable)
+		if(isParameter.count(symbole.first) == 0)
+			sizeAllSymbole += symbole.second->getSize();
 	
 	std::string label = StackSymboleTable::getGlobalLabel(id->getName());
 	fprintf(fd, "%s:\n", label.c_str());

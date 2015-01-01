@@ -505,41 +505,53 @@ extern int column;
 
 char *file_name = NULL;
 
-void yyerror (const char *s) {
-    fflush (stdout);
-    fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
+void yyerror (const char *s)
+{
+	fflush (stdout);
+	fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
 }
 
 
-int main (int argc, char *argv[]) {
-    FILE *input = NULL;
+int main (int argc, char *argv[])
+{
+	FILE *input = NULL;
+	FILE *output = NULL;
 	TypeOperationConversion::initTable();
-    if (argc==2) {
-	input = fopen (argv[1], "r");
-	file_name = strdup (argv[1]);
-	if (input) {
-	    yyin = input;
-	    yyparse();
-		/*std::cout << std::endl << stackForTree.size() << std::endl;*/
-		stackForTree.front()->flattenFunction();
-		/*stackForTree.front()->flattenStatement();*/
-		/*stackForTree.front()->printTree(0, 20);*/
-		stackForTree.front()->createSymboleTable();
-		stackForTree.front()->printSymboleTable();
-		stackForTree.front()->semanticsCheck();
-		stackForTree.front()->print();
+	if (argc==2)
+	{
+		input = fopen (argv[1], "r");
+		output = fopen ("a.out.s", "w");
+		file_name = strdup (argv[1]);
+		
+		if (input)
+		{
+			yyin = input;
+			yyparse();
+			/*std::cout << std::endl << stackForTree.size() << std::endl;*/
+			stackForTree.front()->flattenFunction();
+			/*stackForTree.front()->flattenStatement();*/
+			/*stackForTree.front()->printTree(0, 20);*/
+			stackForTree.front()->createSymboleTable();
+			stackForTree.front()->printSymboleTable();
+			stackForTree.front()->semanticsCheck();
+			stackForTree.front()->generateCode(output);
+			stackForTree.front()->print();
+			fclose(input);
+			fclose(output);
+		}
+		else
+		{
+			fprintf (stderr, "%s: Could not open %s\n", *argv, argv[1]);
+			return 1;
+		}
+		free(file_name);
 	}
-	else {
-	  fprintf (stderr, "%s: Could not open %s\n", *argv, argv[1]);
-	    return 1;
+	else
+	{
+		fprintf (stderr, "%s: error: no input file\n", *argv);
+		return 1;
 	}
-	free(file_name);
-    }
-    else {
-	fprintf (stderr, "%s: error: no input file\n", *argv);
-	return 1;
-    }
-    return 0;
+	return 0;
 }
 //Les types: les types de base sont void, int et float. DONE
 //Les types construits sont les tableaux et les fonctions. DONE
@@ -547,13 +559,13 @@ int main (int argc, char *argv[]) {
 //Les tableaux peuvent être alloués statiquement ou dynamiquement.
 //Ils peuvent être déclarés soit comme des pointeurs soit comme des tableaux (alloués statiquement dans ce cas). DONE
 //Les fonctions: les fonctions sont toutes globales et on ne peut pas déclarer de fonction dans des fonctions. DONE
-//Les paramètres: Dans une définition de fonction, les paramètres peuvent être des tableaux, des entiers ou des flottants.
+//Les paramètres: Dans une définition de fonction, les paramètres peuvent être des tableaux, des entiers ou des flottants.PROBABLY DONE
 //Il est possible de déclarer des fonctions sans les définir. Cela permet de déclarer et d'appeler des fonctions qui seront définies par des bibliothèques externes. On veuillera à respecter le protocole d'appel afin de permettre cette fonctionnalité.
 //Les fonctions "printiint(int)" et "printfloat(float)" seront connues par l'utilisateur et pourront être utilisées sans déclaration dans un programme. 
 //Les operations: les règles de typage sont celles du C. DONE
 //Par ailleurs, on interdira les calculs sur les pointeurs.
 //L'affectation: comme en C. Dans une affectation, un pointeur peut prendre la valeur soit d'un autre pointeur, soit d'un tableau défini statiquement. DONE
-//Un tableau statique (déclaré avec t[cste]) ne pourra être à gauche de l'affectation.
+//Un tableau statique (déclaré avec t[cste]) ne pourra être à gauche de l'affectation. DONE
 //Les boucles: les boucles for et while se comportent comme les boucles C DONE
 //Un bloc d'instructions: comme en C DONE
 //Le if: la conditionnelle if pourra avoir ou non une partie else. DONE

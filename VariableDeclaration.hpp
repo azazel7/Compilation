@@ -1,5 +1,4 @@
-#ifndef VARIABLE_DECLARATION_HPP 
-#define VARIABLE_DECLARATION_HPP 
+#pragma once
 #include "Node.hpp"
 
 class Type;
@@ -15,5 +14,5 @@ class VariableDeclaration : public Node
 	void print(void);
 	Type* getType(void);
 	void getSymbole(std::map<std::string, Type const*> & symbole) const;
+	void generateCode(FILE * fd) const;//This function should be called only by ProgramNode to create global variable
 };
-#endif
