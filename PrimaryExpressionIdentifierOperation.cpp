@@ -21,12 +21,12 @@ Type const* PrimaryExpressionIdentifierOperation::getType()
 }
 void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
 {
-	std::string location = StackSymboleTable::getLocation(name);
-	fprintf(fd, "mov %s, %%eax\n", location.c_str());
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
+	fprintf(fd, "push (%%eax)\n");
+	fprintf(fd, "mov (%%eax), %%ebx\n");
 	if(type == inc)
-		fprintf(fd, "add $1, %%eax\n");
+		fprintf(fd, "add $1, %%ebx\n");
 	else
-		fprintf(fd, "sub $1, %%eax\n");
-	fprintf(fd, "mov %%eax, %s\n", location.c_str());
+		fprintf(fd, "sub $1, %%ebx\n");
+	fprintf(fd, "mov %%ebx, (%%eax)\n");
 }

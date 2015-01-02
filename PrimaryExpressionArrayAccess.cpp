@@ -26,9 +26,8 @@ void PrimaryExpressionArrayAccess::generateCode(FILE * fd) const
 {
 	expression.generateCode(fd);
 	fprintf(fd, "pop %%ebx\n");
-	std::string location = StackSymboleTable::getLocation(id, "%%ebx");
-	fprintf(fd, "mov %s, %%eax\n", location.c_str());
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ebx").c_str());
+	fprintf(fd, "push (%%eax)\n");
 }
 PrimaryExpressionArrayAccess::~PrimaryExpressionArrayAccess()
 {

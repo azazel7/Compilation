@@ -53,11 +53,11 @@ void Expression::generateCode(FILE * fd) const
 	{
 		expressionOffset->generateCode(fd);
 		fprintf(fd, "pop %%ecx\n");
-		location = StackSymboleTable::getLocation(id, "%%ecx");
+		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ecx").c_str());
 	}
 	else
 	{
-		location = StackSymboleTable::getLocation(id);
+		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax").c_str());
 	}
-	fprintf(fd, "mov (%%ebp), %s\n", location.c_str());//Do not remove from stack, the next layer will
+	fprintf(fd, "mov (%%ebp), (%%eax)\n");//Do not remove from stack, the next layer will
 }

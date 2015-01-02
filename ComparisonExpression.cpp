@@ -27,8 +27,8 @@ void ComparisonExpression::generateCode(FILE * fd) const
 	left.generateCode(fd);
 	fprintf(fd, "pop %%ecx\n");
 	fprintf(fd, "pop %%ebx\n");
-	fprintf(fd, "cmp %%ecx, %%ebx\n");
 	fprintf(fd, "xor %%eax, %%eax\n");
+	fprintf(fd, "cmp %%ecx, %%ebx\n");
 	switch(typeOp)
 	{
 		case LE:
