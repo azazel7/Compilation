@@ -23,6 +23,7 @@
 #include "IfStatement.hpp"
 #include "WhileStatement.hpp"
 #include "ForStatement.hpp"
+#include "PForStatement.hpp"
 #include "IdentifierDeclarator.hpp"
 #include "ProgramNode.hpp"
 #include "ExpressionStatement.hpp"
@@ -443,7 +444,15 @@ iteration_statement
 		Node* forStatement = new ForStatement(*exprInit, *exprCond, *exprVar, *statement);
 		stackForTree.push_front(forStatement);
 		}
-| PFOR '(' ICONSTANT ';' expression_statement expression_statement expression ')' statement {std::cout << "iteration_statement -> PFOR ( expression_statement expression_statement expression ) statement" << std::endl;
+| PFOR '(' IDENTIFIER '=' expression ';' IDENTIFIER '<' expression ';' IDENTIFIER INC_OP ')' statement {std::cout << "iteration_statement -> PFOR ( expression_statement expression_statement expression ) statement" << std::endl;
+		Node* statement = stackForTree.front();
+		stackForTree.pop_front();
+		Node* exprCond = stackForTree.front();
+		stackForTree.pop_front();
+		Node* exprInit = stackForTree.front();
+		stackForTree.pop_front();
+        Node* pForStatement = new PForStatement($3, *exprInit, $7, *exprCond, $11, *statement);
+		stackForTree.push_front(pForStatement);
 		}
 ;
 

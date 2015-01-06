@@ -1,5 +1,5 @@
 #include "StackSymboleTable.hpp"
-#include <sstream> 
+#include <sstream>
 #include <iostream>     // std::cout
 #include <stdexcept>
 #include "PointerType.hpp"
@@ -33,14 +33,14 @@ std::string StackSymboleTable::putLocationInto(std::string name, std::string reg
 	{
 		location = getGlobalLabel(name);
 		stringStream << "mov " << location << ", " << registerWanted << std::endl;
-		return stringStream.str(); 
+		return stringStream.str();
 	}
 	for(auto table : stackLocation)
 		if(table.count(name) == 1)
 		{
 			std::stringstream stringStream;
 			stringStream << "mov $" << table[name] << ", " << registerWanted << std::endl;
-			stringStream << "add %%ebp, " << registerWanted << std::endl;
+			stringStream << "add %ebp, " << registerWanted << std::endl;
 			return stringStream.str();
 		}
 	throw std::invalid_argument("Can't find symbole " + name + " in putLocationInto");
@@ -51,16 +51,16 @@ std::string StackSymboleTable::putLocationInto(std::string name,std::string regi
 	PointerType const* type = dynamic_cast<PointerType const*>(getSymbole(name));
 	int size = type->getPointedType()->getSize();
 	stringStream << putLocationInto(name, registerWanted);
-	stringStream << "push " << registerOffset << std::endl;	
-	stringStream << "push " << registerWanted << std::endl;	
-	stringStream << "push " << registerOffset << std::endl;	
-	stringStream << "mov  $" << size << ", %%eax" << std::endl;	
-	stringStream << "imul (%%ebp), %%eax" << std::endl;	
-	stringStream << "pop %%ebx" << std::endl;//Remove pushed registerOffset	
-	stringStream << "pop %%ebx" << std::endl;//Store in ebx the init address of the symbole	
-	stringStream << "add %%eax, %%ebx" << std::endl;	
-	stringStream << "mov %%ebx, " << registerWanted << std::endl;	
-	stringStream << "pop " << registerOffset << std::endl; //Put back registerOffset	
+	stringStream << "push " << registerOffset << std::endl;
+	stringStream << "push " << registerWanted << std::endl;
+	stringStream << "push " << registerOffset << std::endl;
+	stringStream << "mov  $" << size << ", %eax" << std::endl;
+	stringStream << "imul (%ebp), %eax" << std::endl;
+	stringStream << "pop %ebx" << std::endl;//Remove pushed registerOffset
+	stringStream << "pop %ebx" << std::endl;//Store in ebx the init address of the symbole
+	stringStream << "add %eax, %ebx" << std::endl;
+	stringStream << "mov %ebx, " << registerWanted << std::endl;
+	stringStream << "pop " << registerOffset << std::endl; //Put back registerOffset
 	return stringStream.str();
 }
 
