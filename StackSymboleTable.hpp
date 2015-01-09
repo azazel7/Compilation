@@ -19,5 +19,4 @@ class StackSymboleTable
 	static std::string putLocationInto(std::string name,std::string registerWanted);
 	static std::string putLocationInto(std::string name,std::string registerWanted, std::string registerOffset);
 	static std::string getGlobalLabel(std::string const name);
-	
 };

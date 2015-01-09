@@ -1,6 +1,7 @@
 #include "AdditiveExpression.hpp"
 #include <stdexcept>
 #include "TypeOperationConversion.hpp"
+#include "PrimitiveType.hpp"
 
 const char AdditiveExpression::sub = '-';
 const char AdditiveExpression::add = '+';
@@ -22,15 +23,15 @@ void AdditiveExpression::semanticsCheck(void) const
 }
 Type const* AdditiveExpression::getType()
 {
+	//hope neither tRight, nor tLeft will be null
+	//I don't think so, because semanticsCheck of right and left is executed before
 	Type const* tRight = right.getType();
 	Type const* tLeft = left.getType();
-	//TODO hope neither tRight, nor tLeft will be null
 	return TypeOperationConversion::getTypeOperation(OPERATION_ADD, *tRight, *tLeft);
 }
 void AdditiveExpression::generateCode(FILE * fd) const
 {
-	right.generateCode(fd);
-	left.generateCode(fd);
+	generateSubCode(fd, right, left);
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "pop %%eax\n");
 	switch(type)
@@ -43,4 +44,26 @@ void AdditiveExpression::generateCode(FILE * fd) const
 		break;
 	}
 	fprintf(fd, "push %%eax\n");
+}
+void AdditiveExpression::generateFloatingCode(FILE * fd, bool convert) const
+{
+	right.generateFloatingCode(fd);
+	left.generateFloatingCode(fd);
+	fprintf(fd, "movss (%%ebp), %%xmm1\n");
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "movss (%%ebp), %%xmm0\n");
+	fprintf(fd, "pop %%eax\n");
+	switch(type)
+	{
+		case sub:
+		fprintf(fd, "subss %%xmm1, %%xmm0\n");
+		break;
+		case add:
+		fprintf(fd, "addss %%xmm1, %%xmm0\n");
+		break;
+	}
+	fprintf(fd, "movd %%xmm0, %%eax\n");
+	fprintf(fd, "push %%eax\n");
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
 }

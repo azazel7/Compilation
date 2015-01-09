@@ -1,18 +1,18 @@
-#ifndef UNARY_EXPRESSION_HPP 
-#define UNARY_EXPRESSION_HPP 
+#pragma once
 #include "Node.hpp"
 
 class UnaryExpression: public Node
 {
+	Type* typeUnarayExpression;
 	Node& expression;
 	char type;
+	Type const* getType() const; 
 	public:
 		UnaryExpression(Node& l);
 		void semanticsCheck(void) const;
-		Type const* getType(); //TODO change the type for ! which whiche return an INT
+		Type const* getType(); 
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 	static const char neg;
 	static const char no;
 };
-#endif
-

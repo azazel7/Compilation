@@ -23,8 +23,26 @@ Type const* ComparisonExpression::getType()
 }
 void ComparisonExpression::generateCode(FILE * fd) const
 {
-	right.generateCode(fd);
-	left.generateCode(fd);
+	if(left.getType()->getType() == FLOAT_TYPE && right.getType()->getType() == FLOAT_TYPE)
+	{
+		this->generateFloatingCode(fd);
+		return;
+	}
+	else if(left.getType()->getType() == FLOAT_TYPE)
+	{
+		right.generateCode(fd);
+		left.generateFloatingCode(fd, true);
+	}
+	else if(right.getType()->getType() == FLOAT_TYPE)
+	{
+		right.generateFloatingCode(fd, true);
+		left.generateCode(fd);
+	}
+	else
+	{
+		right.generateCode(fd);
+		left.generateCode(fd);
+	}
 	fprintf(fd, "pop %%ecx\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "xor %%eax, %%eax\n");
@@ -51,4 +69,10 @@ void ComparisonExpression::generateCode(FILE * fd) const
 		break;
 	}
 	fprintf(fd, "push %%eax\n");
+}
+void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
+{
+	right.generateFloatingCode(fd);
+	left.generateFloatingCode(fd);
+	//TODO code for floating point
 }

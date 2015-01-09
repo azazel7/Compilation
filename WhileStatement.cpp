@@ -14,9 +14,9 @@ void WhileStatement::generateCode(FILE * fd) const
 {
 	static int number = -1;
 	number++;
-	std::string id = "_while_/_statement";
+	std::string id = "_while_statement";
 	std::stringstream stringStream;
-	stringStream << number << id;
+	stringStream << id << number;
 	id = stringStream.str();
 	
 	fprintf(fd, "%s:\n", id.c_str());//Write label

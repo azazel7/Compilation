@@ -14,6 +14,7 @@ class PrimaryExpressionConstant: public Node
 		PrimaryExpressionConstant(std::string value, char type);
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 		~PrimaryExpressionConstant();
 
 };

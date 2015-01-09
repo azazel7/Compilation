@@ -18,9 +18,9 @@ void IfStatement::generateCode(FILE * fd) const
 {
 	static int number = -1;
 	number++;
-	std::string id = "_if_/_statement";
+	std::string id = "_if_statement";
 	std::stringstream stringStream;
-	stringStream << number << id;
+	stringStream << id << number;
 	id = stringStream.str();
 
 	expression.generateCode(fd);

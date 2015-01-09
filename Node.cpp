@@ -1,4 +1,6 @@
 #include "Node.hpp"
+#include "Type.hpp"
+
 Node::Node()
 {
 }
@@ -163,4 +165,25 @@ void Node::generateCode(FILE * fd) const
 {
 	for(Node const* node : children)
 		node->generateCode(fd);
+}
+void Node::generateFloatingCode(FILE * fd, bool convert) const
+{
+	for(Node const* node : children)
+		node->generateFloatingCode(fd, convert);
+}
+void Node::generateSubCode(FILE * fd, Node& right, Node& left)
+{
+	//Only call by generateCode, never by generateFloatingCode
+	if(right.getType()->getType() == FLOAT_TYPE)
+		right.generateFloatingCode(fd, true);	
+	else
+		right.generateCode(fd);
+	if(left.getType()->getType() == FLOAT_TYPE)
+		left.generateFloatingCode(fd, true);	
+	else
+		left.generateCode(fd);
+}
+std::string Node::convertToInteger(void)
+{
+	return "cvttss2si (%%ebp), %%eax\npop %%ebx\npush %%eax\n";
 }

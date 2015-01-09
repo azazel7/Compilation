@@ -60,10 +60,14 @@ class Node
 		virtual Type const* getType(void);
 		//This will return the children et delete them from this node
 		virtual void generateCode(FILE * fd) const;
+		//
+		virtual void generateFloatingCode(FILE * fd, bool convert = false) const;
 		std::list<Node*> getChildren(void);
 		void setId(int id);
 		int countChildren(void) const;
 		std::string getName(void);
 		int getId(void) const;
+		static void generateSubCode(FILE * fd, Node& right, Node& left); 
+		static std::string convertToInteger(void);
 };
 //TODO TO THINK No need to flatten declarator_list -> just convert it into a symbols table 

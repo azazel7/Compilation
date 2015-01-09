@@ -29,6 +29,12 @@ void PrimaryExpressionArrayAccess::generateCode(FILE * fd) const
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ebx").c_str());
 	fprintf(fd, "push (%%eax)\n");
 }
+void PrimaryExpressionArrayAccess::generateFloatingCode(FILE * fd, bool convert) const
+{
+	expression.generateCode(fd);
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
+}
 PrimaryExpressionArrayAccess::~PrimaryExpressionArrayAccess()
 {
 	delete &expression;

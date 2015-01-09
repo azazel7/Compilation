@@ -30,3 +30,21 @@ void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
 		fprintf(fd, "sub $1, %%ebx\n");
 	fprintf(fd, "mov %%ebx, (%%eax)\n");
 }
+void PrimaryExpressionIdentifierOperation::generateFloatingCode(FILE * fd, bool convert) const
+{
+	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
+	fprintf(fd, "push (%%eax)\n");
+	fprintf(fd, "movss (%%eax), %%xmm0\n");
+	if(type == inc)
+		fprintf(fd, "mov $1, %%ebx\n");
+	else
+		fprintf(fd, "mov $-1, %%ebx\n");
+	fprintf(fd, "push %%ebx\n");
+	fprintf(fd, "pxor %%xmm1, %%xmm1\n");
+	fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "addss %%xmm1, %%xmm0\n");
+	fprintf(fd, "movss %%xmm0, (%%eax)\n");
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
+}

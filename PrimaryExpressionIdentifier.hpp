@@ -1,6 +1,4 @@
-#ifndef PRIMARY_EXPRESSION_IDENTIFIER_HPP
-#define PRIMARY_EXPRESSION_IDENTIFIER_HPP
-
+#pragma once
 #include "Node.hpp"
 
 class PrimaryExpressionIdentifier: public Node
@@ -11,6 +9,6 @@ class PrimaryExpressionIdentifier: public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 
 };
-#endif

@@ -26,10 +26,23 @@ Type const* MultiplicativeExpression::getType()
 
 void MultiplicativeExpression::generateCode(FILE * fd) const
 {
-	right.generateCode(fd);
-	left.generateCode(fd);
+	generateSubCode(fd, right, left);
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "pop %%eax\n");
 	fprintf(fd, "imul %%ebx, %%eax\n");//TODO What about floating number ?
 	fprintf(fd, "push %%eax\n");
+}
+void MultiplicativeExpression::generateFloatingCode(FILE * fd, bool convert) const
+{
+	right.generateFloatingCode(fd);
+	left.generateFloatingCode(fd);
+	fprintf(fd, "movss (%%ebp), %%xmm1\n");
+	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "movss (%%ebp), %%xmm0\n");
+	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "mulss %%xmm1, %%xmm0\n");
+	fprintf(fd, "movd %%xmm0, %%eax\n");
+	fprintf(fd, "push %%eax\n");
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
 }

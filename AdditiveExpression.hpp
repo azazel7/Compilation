@@ -1,5 +1,4 @@
-#ifndef ADDITIVE_EXPRESSION_HPP
-#define ADDITIVE_EXPRESSION_HPP
+#pragma once
 #include "Node.hpp"
 
 class AdditiveExpression : public Node
@@ -12,7 +11,7 @@ class AdditiveExpression : public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 	static const char sub;
 	static const char add;
 };
-#endif

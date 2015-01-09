@@ -48,10 +48,13 @@ Type const* Expression::getType()
 void Expression::generateCode(FILE * fd) const
 {
 	std::string location; 
-	expression.generateCode(fd);
+	if(expression.getType()->getType() == FLOAT_TYPE)
+		expression.generateFloatingCode(fd, StackSymboleTable::getSymbole(id)->getType() != FLOAT_TYPE);
+	else
+		expression.generateCode(fd);
 	if(expressionOffset != nullptr)
 	{
-		expressionOffset->generateCode(fd);
+		expressionOffset->generateCode(fd);//expressionOffset is always an integer
 		fprintf(fd, "pop %%ecx\n");
 		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ecx").c_str());
 	}
@@ -59,5 +62,11 @@ void Expression::generateCode(FILE * fd) const
 	{
 		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax").c_str());
 	}
-	fprintf(fd, "mov (%%ebp), (%%eax)\n");//Do not remove from stack, the next layer will
+	fprintf(fd, "mov (%%esp), (%%eax)\n");//Do not remove from stack, the next layer will
+}
+void Expression::generateFloatingCode(FILE * fd, bool convert) const
+{
+	this->generateCode(fd);
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
 }

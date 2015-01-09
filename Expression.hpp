@@ -1,6 +1,4 @@
-#ifndef EXPRESSION_HPP
-#define EXPRESSION_HPP
-
+#pragma once
 #include "Node.hpp"
 
 class Expression: public Node
@@ -13,5 +11,5 @@ class Expression: public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 };
-#endif

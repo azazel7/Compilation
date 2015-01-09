@@ -20,3 +20,9 @@ void PrimaryExpressionIdentifier::generateCode(FILE * fd) const
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
 	fprintf(fd, "push (%%eax)\n");
 }
+void PrimaryExpressionIdentifier::generateFloatingCode(FILE * fd, bool convert) const
+{
+	this->generateCode(fd);
+	if(convert)
+		fprintf(fd, "%s", convertToInteger().c_str());
+}

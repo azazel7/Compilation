@@ -17,9 +17,9 @@ void ForStatement::generateCode(FILE * fd) const
 {
 	static int number = -1;
 	number++;
-	std::string id = "_for_/_statement";
+	std::string id = "_for_statement";
 	std::stringstream stringStream;
-	stringStream << number << id;
+	stringStream << id << number;
 	id = stringStream.str();
 	expressionInit.generateCode(fd);
 	

@@ -1,5 +1,4 @@
-#ifndef MULTIPLICATIVE_EXPRESSION_HPP
-#define MULTIPLICATIVE_EXPRESSION_HPP
+#pragma once
 #include "Node.hpp"
 
 class MultiplicativeExpression : public Node
@@ -11,5 +10,5 @@ class MultiplicativeExpression : public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert) const;
 };
-#endif

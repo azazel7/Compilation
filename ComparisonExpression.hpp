@@ -1,5 +1,4 @@
-#ifndef COMPARISON_EXPRESSION_HPP
-#define COMPARISON_EXPRESSION_HPP
+#pragma once
 #include "Node.hpp"
 
 class ComparisonExpression : public Node
@@ -13,6 +12,7 @@ class ComparisonExpression : public Node
 		void semanticsCheck(void) const;
 		Type const* getType();
 		void generateCode(FILE * fd) const;
+		void generateFloatingCode(FILE * fd, bool convert = false) const;
 		static const char LE;
 		static const char L;
 		static const char GE;
@@ -20,4 +20,3 @@ class ComparisonExpression : public Node
 		static const char EQ;
 		static const char NE;
 };
-#endif
