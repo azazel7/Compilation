@@ -1,5 +1,6 @@
 #include "UnaryExpression.hpp"
 #include <stdexcept>
+#include <sstream> 
 #include "TypeOperationConversion.hpp"
 #include "PrimitiveType.hpp"
 
@@ -60,6 +61,13 @@ void UnaryExpression::generateCode(FILE * fd) const
 }
 void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
+	static int number = -1;
+	number++;
+	std::string id = "_comparison_expression";
+	std::stringstream stringStream;
+	stringStream << id << number;
+	id = stringStream.str();
+
 	expression.generateFloatingCode(fd);
 	fprintf(fd, "; Unary expression %c (floating)\n", type);
 	fprintf(fd, "movss (%%ebp), %%xmm0\n");
@@ -67,7 +75,18 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 	switch(type)
 	{
 		case no:
-			fprintf(fd, "Have to work on the ! symbole for floating number\n");//TODO
+		fprintf(fd, "mov $0, %%eax\n");
+		fprintf(fd, "push %%eax\n");
+		fprintf(fd, "pxor %%xmm1, %%xmm1\n");
+		fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
+		fprintf(fd, "pop %%eax\n");
+		fprintf(fd, "ucomiss %%xmm1, %%xmm0\n");
+		fprintf(fd, "jne %s_1\n", id.c_str());
+		fprintf(fd, "mov $1, %%eax\n");
+		fprintf(fd, "jmp %s_2\n", id.c_str());
+		fprintf(fd, "%s_1:\n", id.c_str());
+		fprintf(fd, "xor %%eax, %%eax\n");
+		fprintf(fd, "%s_2:\n", id.c_str());
 		break;
 		case neg:
 		fprintf(fd, "mov $-1, %%eax\n");
@@ -76,9 +95,9 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 		fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
 		fprintf(fd, "mulss %%xmm1, %%xmm0\n");
 		fprintf(fd, "pop %%eax\n");
+		fprintf(fd, "movd %%xmm0, %%eax\n");
 		break;
 	}
-	fprintf(fd, "movd %%xmm0, %%eax\n");
 	fprintf(fd, "push %%eax\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());

@@ -1,8 +1,20 @@
 #include "ProgramNode.hpp"
+#include <stdexcept>
 #include "StackSymboleTable.hpp"
+#include "FunctionType.hpp"
+#include "PrimitiveType.hpp"
+
+const std::string ProgramNode::main_name = "main";
 
 ProgramNode::ProgramNode():Node(ID_PROGRAM)
 {
+	//TODO add 2 symboles for printint and printfloat
+	FunctionType* f = new FunctionType(*(new PrimitiveType(PrimitiveType::void_type)));
+	f->addParameter(new PrimitiveType(PrimitiveType::int_type));
+	symboleTable["printint"] = f;
+	f = new FunctionType(*(new PrimitiveType(PrimitiveType::void_type)));
+	f->addParameter(new PrimitiveType(PrimitiveType::float_type));
+	symboleTable["printfloat"] = f;
 }
 void ProgramNode::createSymboleTable(void)
 {
@@ -17,6 +29,8 @@ void ProgramNode::semanticsCheck(void) const
 	for(Node* child : children)
 		child->semanticsCheck();
 	StackSymboleTable::pop();
+	if(symboleTable.count(main_name) == 0)
+		throw std::invalid_argument(std::string("function ") + main_name + " doesn't exist");
 }
 void ProgramNode::generateCode(FILE * fd) const
 {

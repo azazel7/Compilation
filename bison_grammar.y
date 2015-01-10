@@ -566,7 +566,7 @@ int main (int argc, char *argv[])
 //Les fonctions: les fonctions sont toutes globales et on ne peut pas déclarer de fonction dans des fonctions. DONE
 //Les paramètres: Dans une définition de fonction, les paramètres peuvent être des tableaux, des entiers ou des flottants.PROBABLY DONE
 //Il est possible de déclarer des fonctions sans les définir. Cela permet de déclarer et d'appeler des fonctions qui seront définies par des bibliothèques externes. On veuillera à respecter le protocole d'appel afin de permettre cette fonctionnalité.
-//Les fonctions "printiint(int)" et "printfloat(float)" seront connues par l'utilisateur et pourront être utilisées sans déclaration dans un programme. 
+//Les fonctions "printint(int)" et "printfloat(float)" seront connues par l'utilisateur et pourront être utilisées sans déclaration dans un programme. DONE
 //Les operations: les règles de typage sont celles du C. DONE
 //Par ailleurs, on interdira les calculs sur les pointeurs.
 //L'affectation: comme en C. Dans une affectation, un pointeur peut prendre la valeur soit d'un autre pointeur, soit d'un tableau défini statiquement. DONE

@@ -12,6 +12,7 @@ class ProgramNode : public Node
 		void createSymboleTable(void);
 		void semanticsCheck(void) const;
 		void generateCode(FILE * fd) const;
+		static const std::string main_name;
 		~ProgramNode();
 
 };

@@ -36,7 +36,7 @@ void PForStatement::generateCode(FILE * fd) const
     fprintf(fd, "mov 12(%%esp), %%ebx\n");
     fprintf(fd, "# ----\n");
     // à cet endroit, %ebx contient l'adresse de la variable
-    // utilisée par le pfor (unique à chaque thread, non partagée)
+    //TODO utilisée par le pfor (unique à chaque thread, non partagée)
 	statement.generateCode(fd);
     fprintf(fd, "# ----\n");
     fprintf(fd, "pop %%ebx\n");

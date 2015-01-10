@@ -1,4 +1,5 @@
 #include "ComparisonExpression.hpp"
+#include <sstream> 
 #include "PrimitiveType.hpp"
 
 const char ComparisonExpression::LE = 'a';
@@ -102,17 +103,17 @@ void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 		fprintf(fd, "jbe %s_1\n", id.c_str());
 		break;
 		case EQ:
-		fprintf(fd, "jne %s_1\n", id.c_str();
+		fprintf(fd, "jne %s_1\n", id.c_str());
 		break;
 		case NE:
-		fprintf(fd, "je %s_1\n", id.c_str();
+		fprintf(fd, "je %s_1\n", id.c_str());
 		break;
 	}
 	fprintf(fd, "mov $1, %%eax\n");
 	fprintf(fd, "jmp %s_2\n", id.c_str());
-	fprintf(fd, "%s_1:\n"), id.c_str();
+	fprintf(fd, "%s_1:\n", id.c_str());
 	fprintf(fd, "xor %%eax, %%eax\n");
-	fprintf(fd, "%s_2:\n"), id.c_str();
+	fprintf(fd, "%s_2:\n", id.c_str());
 	
 	fprintf(fd, "push %%eax\n");
 }
