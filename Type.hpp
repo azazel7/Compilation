@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#define INT_TYPE 1
-#define FLOAT_TYPE 2
-#define VOID_TYPE 3
-#define POINTER_TYPE 4
-#define FUNCTION_TYPE 5
+#define INT_TYPE 'a' 
+#define FLOAT_TYPE 'b'
+#define VOID_TYPE 'c'
+#define POINTER_TYPE 'd'
+#define FUNCTION_TYPE 'e'
 
 class Type
 {

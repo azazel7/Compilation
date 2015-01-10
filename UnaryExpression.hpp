@@ -13,6 +13,7 @@ class UnaryExpression: public Node
 		Type const* getType(); 
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;
+		~UnaryExpression();
 	static const char neg;
 	static const char no;
 };

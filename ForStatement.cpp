@@ -35,3 +35,10 @@ void ForStatement::generateCode(FILE * fd) const
 	fprintf(fd, "jmp %s\n", id.c_str());
 	fprintf(fd, "%send:\n", id.c_str());//Write label
 }
+ForStatement::~ForStatement()
+{
+	delete &expressionVariation;
+	delete &expressionInit;
+	delete &expressionCondition;
+	delete &statement;
+}

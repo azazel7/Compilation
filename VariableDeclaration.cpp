@@ -101,3 +101,8 @@ void VariableDeclaration::generateCode(FILE * fd) const
 		delete tmpType;
 	}
 }
+VariableDeclaration::~VariableDeclaration()
+{
+	for(auto i : id)
+		delete i;
+}

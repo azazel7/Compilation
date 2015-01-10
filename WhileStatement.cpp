@@ -29,3 +29,8 @@ void WhileStatement::generateCode(FILE * fd) const
 	fprintf(fd, "%send:\n", id.c_str());//Write label
 }
 
+WhileStatement::~WhileStatement()
+{
+	delete &expression;
+	delete &statement;
+}

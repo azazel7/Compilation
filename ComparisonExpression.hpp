@@ -19,4 +19,5 @@ class ComparisonExpression : public Node
 		static const char G;
 		static const char EQ;
 		static const char NE;
+		~ComparisonExpression();
 };

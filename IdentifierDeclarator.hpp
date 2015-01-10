@@ -1,5 +1,4 @@
-#ifndef IDENTIFIER_DECLARATOR_HPP
-#define IDENTIFIER_DECLARATOR_HPP
+#pragma once
 #include "Node.hpp"
 
 class IdentifierDeclarator: public Node
@@ -13,4 +12,3 @@ class IdentifierDeclarator: public Node
 		int getSize(void) const;
 		
 };
-#endif

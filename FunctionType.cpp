@@ -56,3 +56,9 @@ std::string FunctionType::getString(void) const
 	parameters = " (" + parameters + ")";
 	return returnType.getString() + parameters; 
 }
+FunctionType::~FunctionType()
+{
+	delete &returnType;
+	for(auto t : parameterType)
+		delete t;
+}

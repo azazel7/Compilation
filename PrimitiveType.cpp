@@ -22,7 +22,11 @@ void PrimitiveType::print(void) const
 }
 char PrimitiveType::getType(void) const
 {
-	return INT_TYPE;
+	if(nameType == int_type)
+		return INT_TYPE;
+	if(nameType == void_type)
+		return VOID_TYPE;
+	return FLOAT_TYPE;
 }
 int PrimitiveType::getSize() const
 {

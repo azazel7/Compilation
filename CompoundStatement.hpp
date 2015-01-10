@@ -1,5 +1,4 @@
-#ifndef COMPOUND_STATEMENT_HPP 
-#define COMPOUND_STATEMENT_HPP
+#pragma once
 #include "Node.hpp"
 #include <list>
 
@@ -19,5 +18,3 @@ class CompoundStatement : public Node
 		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		~CompoundStatement();
 };
-#endif 
-

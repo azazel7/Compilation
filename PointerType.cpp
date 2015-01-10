@@ -25,7 +25,6 @@ char PointerType::getType(void) const
 
 PointerType::~PointerType()
 {
-	//TODO not sure if it's good to delete this way
 	delete &pointedType;
 }
 int PointerType::getSize(void) const

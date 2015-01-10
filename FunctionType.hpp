@@ -1,5 +1,4 @@
-#ifndef FUNCTION_TYPE_HPP 
-#define FUNCTION_TYPE_HPP 
+#pragma once
 #include <string>
 #include <list>
 #include "Type.hpp"
@@ -17,6 +16,5 @@ class FunctionType: public Type
 	Type const* getReturnType(void) const;
 	int getSize() const;
 	std::string getString(void) const;
+	~FunctionType();
 };
-#endif
-

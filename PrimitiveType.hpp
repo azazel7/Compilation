@@ -1,5 +1,4 @@
-#ifndef PRIMITIVE_TYPE_HPP 
-#define PRIMITIVE_TYPE_HPP 
+#pragma once
 #include <string>
 #include "Type.hpp"
 
@@ -17,5 +16,3 @@ class PrimitiveType : public Type
 	int getSize() const;
 	std::string getString(void) const;
 };
-#endif
-

@@ -12,6 +12,7 @@ class AdditiveExpression : public Node
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;
+		~AdditiveExpression();
 	static const char sub;
 	static const char add;
 };

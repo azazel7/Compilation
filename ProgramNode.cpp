@@ -31,3 +31,8 @@ void ProgramNode::generateCode(FILE * fd) const
 			child->generateCode(fd);
 	StackSymboleTable::pop();
 }
+ProgramNode::~ProgramNode()
+{
+	for(auto sym : symboleTable)
+		delete sym.second;
+}

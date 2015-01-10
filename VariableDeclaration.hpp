@@ -15,4 +15,5 @@ class VariableDeclaration : public Node
 	Type* getType(void);
 	void getSymbole(std::map<std::string, Type const*> & symbole) const;
 	void generateCode(FILE * fd) const;//This function should be called only by ProgramNode to create global variable
+	~VariableDeclaration();
 };

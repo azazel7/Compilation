@@ -42,6 +42,7 @@ void UnaryExpression::generateCode(FILE * fd) const
 	else
 		expression.generateCode(fd);
 	
+	fprintf(fd, "; Unary expression %c\n", type);
 	fprintf(fd, "pop %%eax\n");
 	switch(type)
 	{
@@ -60,6 +61,7 @@ void UnaryExpression::generateCode(FILE * fd) const
 void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
 	expression.generateFloatingCode(fd);
+	fprintf(fd, "; Unary expression %c (floating)\n", type);
 	fprintf(fd, "movss (%%ebp), %%xmm0\n");
 	fprintf(fd, "pop %%ebx\n");
 	switch(type)
@@ -80,4 +82,9 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 	fprintf(fd, "push %%eax\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
+}
+UnaryExpression::~UnaryExpression()
+{
+	delete typeUnarayExpression;
+	delete &expression;
 }

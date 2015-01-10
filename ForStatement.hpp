@@ -1,6 +1,4 @@
-#ifndef FOR_STATEMENT_HPP
-#define FOR_STATEMENT_HPP
-
+#pragma once
 #include "Node.hpp"
 
 class ForStatement: public Node
@@ -13,7 +11,5 @@ class ForStatement: public Node
 		ForStatement(Node& expressionInit, Node& expressionCondition, Node& expressionVariation, Node& statement);
 		void semanticsCheck(void) const;
 		void generateCode(FILE * fd) const;
+		~ForStatement();
 };
-#endif
-
-

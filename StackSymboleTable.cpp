@@ -40,7 +40,7 @@ std::string StackSymboleTable::putLocationInto(std::string name, std::string reg
 		{
 			std::stringstream stringStream;
 			stringStream << "mov $" << table[name] << ", " << registerWanted << std::endl;
-			stringStream << "add %ebp, " << registerWanted << std::endl;
+			stringStream << "add %esp, " << registerWanted << std::endl;
 			return stringStream.str();
 		}
 	throw std::invalid_argument("Can't find symbole " + name + " in putLocationInto");
@@ -55,7 +55,7 @@ std::string StackSymboleTable::putLocationInto(std::string name,std::string regi
 	stringStream << "push " << registerWanted << std::endl;
 	stringStream << "push " << registerOffset << std::endl;
 	stringStream << "mov  $" << size << ", %eax" << std::endl;
-	stringStream << "imul (%ebp), %eax" << std::endl;
+	stringStream << "imul (%esp), %eax" << std::endl;
 	stringStream << "pop %ebx" << std::endl;//Remove pushed registerOffset
 	stringStream << "pop %ebx" << std::endl;//Store in ebx the init address of the symbole
 	stringStream << "add %eax, %ebx" << std::endl;
@@ -77,20 +77,5 @@ bool StackSymboleTable::isGlobalSymbole(std::string const name)
 
 std::string StackSymboleTable::getGlobalLabel(std::string const name)
 {
-	return "1_" + name;
-}
-std::string StackSymboleTable::randomString(const int size)
-{
-	std::string ret;
-	static const char alphanum[] =
-		"0123456789"
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz";
-
-	static const int stringLength = sizeof(alphanum) - 1;
-	for(int i = 0; i < size; i++)
-	{
-		ret += alphanum[rand() % stringLength];
-	}
-	return ret;
+	return name;
 }

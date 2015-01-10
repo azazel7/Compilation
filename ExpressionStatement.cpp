@@ -17,3 +17,7 @@ void ExpressionStatement::generateCode(FILE * fd) const
 		expression.generateCode(fd);
 	fprintf(fd, "pop %%eax\n");//Because each expression push its result
 }
+ExpressionStatement::~ExpressionStatement()
+{
+	delete &expression;
+}

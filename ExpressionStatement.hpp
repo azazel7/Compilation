@@ -8,5 +8,6 @@ class ExpressionStatement: public Node
 		ExpressionStatement(Node& expression);
 		void semanticsCheck(void) const;
 		void generateCode(FILE * fd) const;
+		~ExpressionStatement();
 };
 

@@ -1,6 +1,4 @@
-#ifndef POINTER_TYPE_HPP 
-#define POINTER_TYPE_HPP 
-
+#pragma once
 #include "Type.hpp"
 
 class PointerType: public Type
@@ -18,5 +16,3 @@ class PointerType: public Type
 	std::string getString(void) const;
 	Type const* getPointedType(void) const;
 };
-#endif
-

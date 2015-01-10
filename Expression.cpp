@@ -52,15 +52,16 @@ void Expression::generateCode(FILE * fd) const
 		expression.generateFloatingCode(fd, StackSymboleTable::getSymbole(id)->getType() != FLOAT_TYPE);
 	else
 		expression.generateCode(fd);
+	fprintf(fd, "; Copy stack top into %s\n", id.c_str());
 	if(expressionOffset != nullptr)
 	{
 		expressionOffset->generateCode(fd);//expressionOffset is always an integer
 		fprintf(fd, "pop %%ecx\n");
-		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ecx").c_str());
+		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%eax", "%ecx").c_str());
 	}
 	else
 	{
-		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax").c_str());
+		fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%eax").c_str());
 	}
 	fprintf(fd, "mov (%%esp), (%%eax)\n");//Do not remove from stack, the next layer will
 }
@@ -69,4 +70,10 @@ void Expression::generateFloatingCode(FILE * fd, bool convert) const
 	this->generateCode(fd);
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
+}
+Expression::~Expression()
+{
+	if(expressionOffset != nullptr)
+		delete expressionOffset;
+	delete &expression;
 }

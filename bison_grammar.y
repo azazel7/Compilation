@@ -53,7 +53,6 @@ void yyerror(const char *s);
 }
 %start program
 %%
-//TODO How handle void variable ?
 primary_expression
 : IDENTIFIER { std::cout << "primary_expression -> IDENTIFIER" << std::endl;
 		stackForTree.push_front(new PrimaryExpressionIdentifier($1));
@@ -228,8 +227,6 @@ expression
 		stackForTree.push_front(tmp);
 		}
 | comparison_expression {std::cout << "expression -> comparison_expression " << std::endl;
-	//TODO the others rule use comparison_expression, so if we enter in this rule, it's mean there is no equal. Probably add a pop to remove the previous result
-	//TODO or not because for offset we need to take the result somewhere
 	}
 ;
 
@@ -451,7 +448,7 @@ iteration_statement
 		stackForTree.pop_front();
 		Node* exprInit = stackForTree.front();
 		stackForTree.pop_front();
-        Node* pForStatement = new PForStatement($3, *exprInit, $7, *exprCond, $11, *statement);
+		Node* pForStatement = new PForStatement($3, *exprInit, $7, *exprCond, $11, *statement);
 		stackForTree.push_front(pForStatement);
 		}
 ;
@@ -536,9 +533,7 @@ int main (int argc, char *argv[])
 		{
 			yyin = input;
 			yyparse();
-			/*std::cout << std::endl << stackForTree.size() << std::endl;*/
 			stackForTree.front()->flattenFunction();
-			/*stackForTree.front()->flattenStatement();*/
 			/*stackForTree.front()->printTree(0, 20);*/
 			stackForTree.front()->createSymboleTable();
 			stackForTree.front()->printSymboleTable();
@@ -547,6 +542,7 @@ int main (int argc, char *argv[])
 			stackForTree.front()->print();
 			fclose(input);
 			fclose(output);
+			delete stackForTree.front();
 		}
 		else
 		{

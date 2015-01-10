@@ -11,4 +11,5 @@ class MultiplicativeExpression : public Node
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert) const;
+		~MultiplicativeExpression();
 };

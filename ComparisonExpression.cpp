@@ -43,6 +43,7 @@ void ComparisonExpression::generateCode(FILE * fd) const
 		right.generateCode(fd);
 		left.generateCode(fd);
 	}
+	fprintf(fd, "; Comparison expression\n");
 	fprintf(fd, "pop %%ecx\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "xor %%eax, %%eax\n");
@@ -72,7 +73,14 @@ void ComparisonExpression::generateCode(FILE * fd) const
 }
 void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
+	fprintf(fd, "; Comparison expression (floating) (not done)\n");
 	right.generateFloatingCode(fd);
 	left.generateFloatingCode(fd);
 	//TODO code for floating point
+}
+ComparisonExpression::~ComparisonExpression()
+{
+	delete &right;
+	delete &left;
+	delete type;
 }
