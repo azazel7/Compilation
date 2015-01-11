@@ -54,10 +54,10 @@ void PrimaryExpressionFunctionCall::generateCode(FILE * fd) const
 
 	fprintf(fd, "# Remove arg of function call\n");
 	for(Node* argument : argumentList)//TODO pop the good size ... -_-"
-		fprintf(fd, "pop %%ebx\n"); //Pop all arguments
+		fprintf(fd, "popl %%ebx\n"); //Pop all arguments
 	
 	fprintf(fd, "# Push result of function call\n");
-	fprintf(fd, "push  %%eax\n");//Because the result of the function is in %eax
+	fprintf(fd, "pushl  %%eax\n");//Because the result of the function is in %eax
 }
 void PrimaryExpressionFunctionCall::generateFloatingCode(FILE * fd, bool convert) const
 {

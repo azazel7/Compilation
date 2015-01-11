@@ -51,16 +51,16 @@ std::string StackSymboleTable::putLocationInto(std::string name,std::string regi
 	PointerType const* type = dynamic_cast<PointerType const*>(getSymbole(name));
 	int size = type->getPointedType()->getSize();
 	stringStream << putLocationInto(name, registerWanted);
-	stringStream << "push " << registerOffset << std::endl;
-	stringStream << "push " << registerWanted << std::endl;
-	stringStream << "push " << registerOffset << std::endl;
+	stringStream << "pushl " << registerOffset << std::endl;
+	stringStream << "pushl " << registerWanted << std::endl;
+	stringStream << "pushl " << registerOffset << std::endl;
 	stringStream << "mov  $" << size << ", %eax" << std::endl;
 	stringStream << "imul (%esp), %eax" << std::endl;
-	stringStream << "pop %ebx" << std::endl;//Remove pushed registerOffset
-	stringStream << "pop %ebx" << std::endl;//Store in ebx the init address of the symbole
+	stringStream << "popl %ebx" << std::endl;//Remove pushed registerOffset
+	stringStream << "popl %ebx" << std::endl;//Store in ebx the init address of the symbole
 	stringStream << "add %eax, %ebx" << std::endl;
 	stringStream << "mov %ebx, " << registerWanted << std::endl;
-	stringStream << "pop " << registerOffset << std::endl; //Put back registerOffset
+	stringStream << "popl " << registerOffset << std::endl; //Put back registerOffset
 	return stringStream.str();
 }
 

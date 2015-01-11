@@ -44,7 +44,7 @@ void UnaryExpression::generateCode(FILE * fd) const
 		expression.generateCode(fd);
 	
 	fprintf(fd, "# Unary expression %c\n", type);
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	switch(type)
 	{
 		case no:
@@ -57,7 +57,7 @@ void UnaryExpression::generateCode(FILE * fd) const
 		fprintf(fd, "neg %%eax\n");
 		break;
 	}
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 }
 void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
@@ -71,15 +71,15 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 	expression.generateFloatingCode(fd);
 	fprintf(fd, "# Unary expression %c (floating)\n", type);
 	fprintf(fd, "movss (%%ebp), %%xmm0\n");
-	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "popl %%ebx\n");
 	switch(type)
 	{
 		case no:
 		fprintf(fd, "mov $0, %%eax\n");
-		fprintf(fd, "push %%eax\n");
+		fprintf(fd, "pushl %%eax\n");
 		fprintf(fd, "pxor %%xmm1, %%xmm1\n");
 		fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
-		fprintf(fd, "pop %%eax\n");
+		fprintf(fd, "popl %%eax\n");
 		fprintf(fd, "ucomiss %%xmm1, %%xmm0\n");
 		fprintf(fd, "jne %s_1\n", id.c_str());
 		fprintf(fd, "mov $1, %%eax\n");
@@ -90,15 +90,15 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 		break;
 		case neg:
 		fprintf(fd, "mov $-1, %%eax\n");
-		fprintf(fd, "push %%eax\n");
+		fprintf(fd, "pushl %%eax\n");
 		fprintf(fd, "pxor %%xmm1, %%xmm1\n");
 		fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
 		fprintf(fd, "mulss %%xmm1, %%xmm0\n");
-		fprintf(fd, "pop %%eax\n");
+		fprintf(fd, "popl %%eax\n");
 		fprintf(fd, "movd %%xmm0, %%eax\n");
 		break;
 	}
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
 }

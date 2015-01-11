@@ -33,8 +33,8 @@ void AdditiveExpression::generateCode(FILE * fd) const
 {
 	generateSubCode(fd, right, left);
 	fprintf(fd, "# Additive expression\n");
-	fprintf(fd, "pop %%ebx\n");
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%ebx\n");
+	fprintf(fd, "popl %%eax\n");
 	switch(type)
 	{
 		case sub:
@@ -44,7 +44,7 @@ void AdditiveExpression::generateCode(FILE * fd) const
 		fprintf(fd, "add %%ebx, %%eax\n");
 		break;
 	}
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 }
 void AdditiveExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
@@ -52,9 +52,9 @@ void AdditiveExpression::generateFloatingCode(FILE * fd, bool convert) const
 	left.generateFloatingCode(fd);
 	fprintf(fd, "# Additive expression (floating)\n");
 	fprintf(fd, "movss (%%esp), %%xmm1\n");
-	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "popl %%ebx\n");
 	fprintf(fd, "movss (%%esp), %%xmm0\n");
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	switch(type)
 	{
 		case sub:
@@ -65,7 +65,7 @@ void AdditiveExpression::generateFloatingCode(FILE * fd, bool convert) const
 		break;
 	}
 	fprintf(fd, "movd %%xmm0, %%eax\n");
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
 }

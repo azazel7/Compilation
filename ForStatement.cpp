@@ -25,12 +25,12 @@ void ForStatement::generateCode(FILE * fd) const
 	
 	fprintf(fd, "%s:\n", id.c_str());//Write label
 	expressionCondition.generateCode(fd);
-	//fprintf(fd, "pop %%eax\n");//Useless because an expression_statement pop into eax, but we're not sure
+	//fprintf(fd, "popl %%eax\n");//Useless because an expression_statement popl into eax, but we're not sure
 	fprintf(fd, "cmp %%eax, $1\n");
 	fprintf(fd, "jne %send\n", id.c_str());
 	statement.generateCode(fd);
 	expressionVariation.generateCode(fd);
-	fprintf(fd, "pop %%eax\n");//Useful because, expressionVariation isn't an expression_statement
+	fprintf(fd, "popl %%eax\n");//Useful because, expressionVariation isn't an expression_statement
 
 	fprintf(fd, "jmp %s\n", id.c_str());
 	fprintf(fd, "%send:\n", id.c_str());//Write label

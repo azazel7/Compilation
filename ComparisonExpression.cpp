@@ -45,8 +45,8 @@ void ComparisonExpression::generateCode(FILE * fd) const
 		left.generateCode(fd);
 	}
 	fprintf(fd, "# Comparison expression\n");
-	fprintf(fd, "pop %%ecx\n");
-	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "popl %%ecx\n");
+	fprintf(fd, "popl %%ebx\n");
 	fprintf(fd, "xor %%eax, %%eax\n");
 	fprintf(fd, "cmp %%ecx, %%ebx\n");
 	switch(typeOp)
@@ -70,7 +70,7 @@ void ComparisonExpression::generateCode(FILE * fd) const
 		fprintf(fd, "setne %%al\n");
 		break;
 	}
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 }
 void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
@@ -84,9 +84,9 @@ void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 	id = stringStream.str();
 	fprintf(fd, "# Comparison expression (floating)\n");
 	fprintf(fd, "movss (%%esp), %%xmm1\n");
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	fprintf(fd, "movss (%%esp), %%xmm0\n");
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	fprintf(fd, "ucomiss %%xmm1, %%xmm0\n");
 	switch(typeOp)
 	{
@@ -115,7 +115,7 @@ void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 	fprintf(fd, "xor %%eax, %%eax\n");
 	fprintf(fd, "%s_2:\n", id.c_str());
 	
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 }
 ComparisonExpression::~ComparisonExpression()
 {

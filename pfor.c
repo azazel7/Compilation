@@ -3,16 +3,6 @@
 #include <pthread.h>
 #include <sys/sysinfo.h>
 
-// standard library
-
-void printint(int x) {
-    printf("%d\n", x);
-}
-
-void printfloat(float x) {
-    printf("%f\n", x);
-}
-
 // internals
 
 void (*__parallel_for_thread)(int* i) = NULL;

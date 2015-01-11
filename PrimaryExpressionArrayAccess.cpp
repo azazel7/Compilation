@@ -26,9 +26,9 @@ void PrimaryExpressionArrayAccess::generateCode(FILE * fd) const
 {
 	expression.generateCode(fd);
 	fprintf(fd, "# Access an array in %s\n", id.c_str());
-	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "popl %%ebx\n");
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(id, "%%eax", "%%ebx").c_str());
-	fprintf(fd, "push (%%eax)\n");
+	fprintf(fd, "pushl (%%eax)\n");
 }
 void PrimaryExpressionArrayAccess::generateFloatingCode(FILE * fd, bool convert) const
 {

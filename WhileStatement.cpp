@@ -21,7 +21,7 @@ void WhileStatement::generateCode(FILE * fd) const
 	
 	fprintf(fd, "%s:\n", id.c_str());//Write label
 	expression.generateCode(fd);
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	fprintf(fd, "cmp %%eax, $1\n");
 	fprintf(fd, "jne %send\n", id.c_str());
 	statement.generateCode(fd);

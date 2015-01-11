@@ -23,7 +23,7 @@ void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
 {
 	fprintf(fd, "# %s %c%c\n", name.c_str(), type, type);
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
-	fprintf(fd, "push (%%eax)\n");
+	fprintf(fd, "pushl (%%eax)\n");
 	fprintf(fd, "mov (%%eax), %%ebx\n");
 	if(type == inc)
 		fprintf(fd, "add $1, %%ebx\n");
@@ -35,16 +35,16 @@ void PrimaryExpressionIdentifierOperation::generateFloatingCode(FILE * fd, bool 
 {
 	fprintf(fd, "# %s %c%c (floating)\n", name.c_str(), type, type);
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
-	fprintf(fd, "push (%%eax)\n");
+	fprintf(fd, "pushl (%%eax)\n");
 	fprintf(fd, "movss (%%eax), %%xmm0\n");
 	if(type == inc)
 		fprintf(fd, "mov $1, %%ebx\n");
 	else
 		fprintf(fd, "mov $-1, %%ebx\n");
-	fprintf(fd, "push %%ebx\n");
+	fprintf(fd, "pushl %%ebx\n");
 	fprintf(fd, "pxor %%xmm1, %%xmm1\n");
 	fprintf(fd, "cvtsi2ssl (%%esp), %%xmm1\n");//Convert integer to fucking floating point
-	fprintf(fd, "pop %%ebx\n");
+	fprintf(fd, "popl %%ebx\n");
 	fprintf(fd, "addss %%xmm1, %%xmm0\n");
 	fprintf(fd, "movss %%xmm0, (%%eax)\n");
 	if(convert)

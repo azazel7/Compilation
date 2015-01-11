@@ -468,7 +468,13 @@ jump_statement
 		}
 ;
 
-program : external_declaration {std::cerr << "program -> external_declaration" << std::endl;}
+program : external_declaration {std::cerr << "program -> external_declaration" << std::endl;
+		Node* program = stackForTree.front();
+		stackForTree.pop_front();
+		Node* tmp = new ProgramNode();
+		tmp->addChild(*program);
+		stackForTree.push_front(tmp);
+		}
 | program external_declaration {std::cerr << "program -> program external_declaration" << std::endl;
 		Node* external_declaration = stackForTree.front();
 		stackForTree.pop_front();

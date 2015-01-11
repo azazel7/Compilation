@@ -30,8 +30,8 @@ void PForStatement::generateCode(FILE * fd) const
     fprintf(fd, "add $8, %%esp\n");
     fprintf(fd, "jmp _pfor_join%d\n", number);
 	fprintf(fd, "_pfor_thread%d:\n", number);
-    fprintf(fd, "push %%ebp\n");
-    fprintf(fd, "push %%ebx\n");
+    fprintf(fd, "pushl %%ebp\n");
+    fprintf(fd, "pushl %%ebx\n");
     fprintf(fd, "mov __parallel_for_ebp, %%ebp\n");
     fprintf(fd, "mov 12(%%esp), %%ebx\n");
     fprintf(fd, "# ----\n");
@@ -39,8 +39,8 @@ void PForStatement::generateCode(FILE * fd) const
     //TODO utilisée par le pfor (unique à chaque thread, non partagée)
 	statement.generateCode(fd);
     fprintf(fd, "# ----\n");
-    fprintf(fd, "pop %%ebx\n");
-    fprintf(fd, "pop %%ebp\n");
+    fprintf(fd, "popl %%ebx\n");
+    fprintf(fd, "popl %%ebp\n");
     fprintf(fd, "ret\n");
     fprintf(fd, "_pfor_join%d:\n", number);
     fprintf(fd, "movl __parallel_for_esp, %%esp\n");

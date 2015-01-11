@@ -1,6 +1,4 @@
-#ifndef TYPE_OPERATION_CONVERSION_HPP 
-#define TYPE_OPERATION_CONVERSION_HPP 
-
+#pragma once
 #include <map>
 
 #include "Type.hpp"
@@ -21,4 +19,3 @@ class TypeOperationConversion
 		static void initTable(void);
 		static Type const* getTypeOperation(char operation, Type const& t1, Type const& t2);
 };
-#endif

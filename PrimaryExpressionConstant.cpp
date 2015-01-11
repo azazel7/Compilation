@@ -21,11 +21,11 @@ void PrimaryExpressionConstant::generateCode(FILE * fd) const
 {
 	fprintf(fd, "# Push %s on the stack\n", value.c_str());
 	fprintf(fd, "mov $%s, %%eax\n", value.c_str());
-	fprintf(fd, "push %%eax\n");
+	fprintf(fd, "pushl %%eax\n");
 }
 void PrimaryExpressionConstant::generateFloatingCode(FILE * fd, bool convert) const
 {
-	fprintf(fd, "Don't know how to push floating constant\n");
+	fprintf(fd, "Don't know how to pushl floating constant\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
 }

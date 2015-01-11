@@ -15,7 +15,7 @@ void ExpressionStatement::generateCode(FILE * fd) const
 		expression.generateFloatingCode(fd);
 	else
 		expression.generateCode(fd);
-	fprintf(fd, "pop %%eax\n");//Because each expression push its result
+	fprintf(fd, "popl %%eax\n");//Because each expression push its result
 }
 ExpressionStatement::~ExpressionStatement()
 {

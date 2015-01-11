@@ -101,12 +101,12 @@ void Function::generateCode(FILE * fd) const
 	
 	std::string label = StackSymboleTable::getGlobalLabel(id->getName());
 	fprintf(fd, "%s:\n", label.c_str());
-	fprintf(fd, "push %%ebp\n");
+	fprintf(fd, "pushl %%ebp\n");
 	fprintf(fd, "mov %%esp, %%ebp\n");
 	if(sizeAllSymbole > 0) //Create stackFrame
 		fprintf(fd, "sub $%d, %%esp\n", sizeAllSymbole);
 	bodyNode.generateCode(fd);
-	fprintf(fd, "leave\n");//leave = move ebp, esp + pop ebp
+	fprintf(fd, "leave\n");//leave = move ebp, esp + popl ebp
 	fprintf(fd, "ret\n");
 	StackSymboleTable::pop();
 }

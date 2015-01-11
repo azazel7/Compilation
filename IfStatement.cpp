@@ -24,7 +24,7 @@ void IfStatement::generateCode(FILE * fd) const
 	id = stringStream.str();
 
 	expression.generateCode(fd);
-	fprintf(fd, "pop %%eax\n");
+	fprintf(fd, "popl %%eax\n");
 	fprintf(fd, "cmp %%eax, $1\n");
 	fprintf(fd, "jne %s\n", id.c_str());
 	statement.generateCode(fd);

@@ -3,6 +3,7 @@
 #include "StackSymboleTable.hpp"
 #include "FunctionType.hpp"
 #include "PrimitiveType.hpp"
+#include "PointerType.hpp"
 
 const std::string ProgramNode::main_name = "main";
 
@@ -15,6 +16,12 @@ ProgramNode::ProgramNode():Node(ID_PROGRAM)
 	f = new FunctionType(*(new PrimitiveType(PrimitiveType::void_type)));
 	f->addParameter(new PrimitiveType(PrimitiveType::float_type));
 	symboleTable["printfloat"] = f;
+	f = new FunctionType(*(new PointerType(*(new PrimitiveType(PrimitiveType::int_type)))));
+	f->addParameter(new PrimitiveType(PrimitiveType::int_type));
+	symboleTable["malloc_int"] = f;
+	f = new FunctionType(*(new PointerType(*(new PrimitiveType(PrimitiveType::float_type)))));
+	f->addParameter(new PrimitiveType(PrimitiveType::int_type));
+	symboleTable["malloc_float"] = f;
 }
 void ProgramNode::createSymboleTable(void)
 {
