@@ -15,11 +15,11 @@ void ReturnStatement::generateCode(FILE * fd) const
 	{
 		expression->generateCode(fd);
 		//FIXME size of the pop depend of expression type
-		fprintf(fd, "; return\n");
+		fprintf(fd, "# return\n");
 		fprintf(fd, "pop %%eax\n");
 	}
 	else
-		fprintf(fd, "; return\n");
+		fprintf(fd, "# return\n");
 	
 	fprintf(fd, "leave\n");//leave = move ebp, esp + pop ebp
 	fprintf(fd, "ret\n");

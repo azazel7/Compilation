@@ -44,7 +44,7 @@ void ComparisonExpression::generateCode(FILE * fd) const
 		right.generateCode(fd);
 		left.generateCode(fd);
 	}
-	fprintf(fd, "; Comparison expression\n");
+	fprintf(fd, "# Comparison expression\n");
 	fprintf(fd, "pop %%ecx\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "xor %%eax, %%eax\n");
@@ -82,7 +82,7 @@ void ComparisonExpression::generateFloatingCode(FILE * fd, bool convert) const
 	std::stringstream stringStream;
 	stringStream << id << number;
 	id = stringStream.str();
-	fprintf(fd, "; Comparison expression (floating)\n");
+	fprintf(fd, "# Comparison expression (floating)\n");
 	fprintf(fd, "movss (%%esp), %%xmm1\n");
 	fprintf(fd, "pop %%eax\n");
 	fprintf(fd, "movss (%%esp), %%xmm0\n");

@@ -21,7 +21,7 @@ Type const* PrimaryExpressionIdentifierOperation::getType()
 }
 void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
 {
-	fprintf(fd, "; %s %c%c\n", name.c_str(), type, type);
+	fprintf(fd, "# %s %c%c\n", name.c_str(), type, type);
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
 	fprintf(fd, "push (%%eax)\n");
 	fprintf(fd, "mov (%%eax), %%ebx\n");
@@ -33,7 +33,7 @@ void PrimaryExpressionIdentifierOperation::generateCode(FILE * fd) const
 }
 void PrimaryExpressionIdentifierOperation::generateFloatingCode(FILE * fd, bool convert) const
 {
-	fprintf(fd, "; %s %c%c (floating)\n", name.c_str(), type, type);
+	fprintf(fd, "# %s %c%c (floating)\n", name.c_str(), type, type);
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%%eax").c_str());
 	fprintf(fd, "push (%%eax)\n");
 	fprintf(fd, "movss (%%eax), %%xmm0\n");

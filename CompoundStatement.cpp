@@ -13,7 +13,7 @@ CompoundStatement::CompoundStatement(int id):Node(id)
 CompoundStatement::CompoundStatement(std::string name, int id): Node(name, id)
 {
 }
-CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(ID_COUMPOUND_STATEMENT)
+CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(ID_STATEMENT)
 {
 	if(declaration != nullptr)
 	{
@@ -55,10 +55,12 @@ void CompoundStatement::print(void)
 }
 void CompoundStatement::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
+	std::cout << "Loutre" << std::endl;
 	for(Node* n : allDeclaration)
 		n->getSymbole(symbole);
 	for(Node* n : allStatement)
 		n->getSymbole(symbole);
+	std::cout << "Loutre 1" << std::endl;
 }
 CompoundStatement::~CompoundStatement()
 {

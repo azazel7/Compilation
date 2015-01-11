@@ -323,10 +323,10 @@ parameter_declaration
 statement
 : compound_statement {std::cout << "statement -> compound_statement" << std::endl;
 		//Add an inter node because we want an additional layer for compound_statement
-		Node* tmp = new Node(ID_STATEMENT);
-		tmp->addChild(*stackForTree.front());
-		stackForTree.pop_front();
-		stackForTree.push_front(tmp);
+		/*Node* tmp = new Node(ID_STATEMENT);*/
+		/*tmp->addChild(*stackForTree.front());*/
+		/*stackForTree.pop_front();*/
+		/*stackForTree.push_front(tmp);*/
 		}
 | expression_statement  {std::cout << "statement -> expression_statement" << std::endl;
 		stackForTree.front()->setId(ID_STATEMENT);
@@ -344,7 +344,7 @@ statement
 
 compound_statement
 : '{' '}' {std::cout << "compound_statement ->  { }" << std::endl;
-		Node* tmp = new CompoundStatement("{ }", ID_COUMPOUND_STATEMENT);//Even if this node is useless, we have to let it here, else the stackForTree will be empty for the next rule using compound_statement
+		Node* tmp = new CompoundStatement("{ }", ID_STATEMENT);//Even if this node is useless, we have to let it here, else the stackForTree will be empty for the next rule using compound_statement
 		stackForTree.push_front(tmp);
 		}
 | '{' statement_list '}' {std::cout << "compound_statement -> { statement_list }" << std::endl;
@@ -517,6 +517,12 @@ void yyerror (const char *s)
 	fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
 }
 
+void replace_extension(std::string& str, std::string const extension)
+{
+	while(str[str.size() - 1] != '.')
+		str.pop_back();
+	str = str + extension;
+}
 
 int main (int argc, char *argv[])
 {
@@ -526,7 +532,9 @@ int main (int argc, char *argv[])
 	if (argc==2)
 	{
 		input = fopen (argv[1], "r");
-		output = fopen ("a.out.s", "w");
+		std::string filenameOutput = argv[1];
+		replace_extension(filenameOutput, "s");
+		output = fopen (filenameOutput.c_str(), "w");
 		file_name = strdup (argv[1]);
 		
 		if (input)
@@ -534,12 +542,11 @@ int main (int argc, char *argv[])
 			yyin = input;
 			yyparse();
 			stackForTree.front()->flattenFunction();
-			/*stackForTree.front()->printTree(0, 20);*/
 			stackForTree.front()->createSymboleTable();
 			stackForTree.front()->printSymboleTable();
 			stackForTree.front()->semanticsCheck();
 			stackForTree.front()->generateCode(output);
-			stackForTree.front()->print();
+			/*stackForTree.front()->print();*/
 			fclose(input);
 			fclose(output);
 			delete stackForTree.front();

@@ -17,7 +17,7 @@ Type const* PrimaryExpressionIdentifier::getType()
 }
 void PrimaryExpressionIdentifier::generateCode(FILE * fd) const
 {
-	fprintf(fd, "; --- put %s into the stack\n", name.c_str());
+	fprintf(fd, "# put %s into the stack\n", name.c_str());
 	fprintf(fd, "%s", StackSymboleTable::putLocationInto(name, "%eax").c_str());
 	fprintf(fd, "push (%%eax)\n");
 }

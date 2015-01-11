@@ -52,7 +52,7 @@ void Expression::generateCode(FILE * fd) const
 		expression.generateFloatingCode(fd, StackSymboleTable::getSymbole(id)->getType() != FLOAT_TYPE);
 	else
 		expression.generateCode(fd);
-	fprintf(fd, "; Copy stack top into %s\n", id.c_str());
+	fprintf(fd, "# Copy stack top into %s\n", id.c_str());
 	if(expressionOffset != nullptr)
 	{
 		expressionOffset->generateCode(fd);//expressionOffset is always an integer

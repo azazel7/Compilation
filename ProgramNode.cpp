@@ -39,6 +39,7 @@ void ProgramNode::generateCode(FILE * fd) const
 	for(Node* child : children)
 		if(child->getId() != ID_FUNCTION)
 			child->generateCode(fd);
+	fprintf(fd, ".global %s\n", main_name.c_str());
 	fprintf(fd, ".text\n");
 	for(Node* child : children)
 		if(child->getId() == ID_FUNCTION)

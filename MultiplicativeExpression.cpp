@@ -27,7 +27,7 @@ Type const* MultiplicativeExpression::getType()
 void MultiplicativeExpression::generateCode(FILE * fd) const
 {
 	generateSubCode(fd, right, left);
-	fprintf(fd, "; Multiplicative expression\n");
+	fprintf(fd, "# Multiplicative expression\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "pop %%eax\n");
 	fprintf(fd, "imul %%ebx, %%eax\n");//TODO What about floating number ?
@@ -37,7 +37,7 @@ void MultiplicativeExpression::generateFloatingCode(FILE * fd, bool convert) con
 {
 	right.generateFloatingCode(fd);
 	left.generateFloatingCode(fd);
-	fprintf(fd, "; Multiplicative expression (floating)\n");
+	fprintf(fd, "# Multiplicative expression (floating)\n");
 	fprintf(fd, "movss (%%ebp), %%xmm1\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "movss (%%ebp), %%xmm0\n");

@@ -32,7 +32,7 @@ Type const* AdditiveExpression::getType()
 void AdditiveExpression::generateCode(FILE * fd) const
 {
 	generateSubCode(fd, right, left);
-	fprintf(fd, "; Additive expression\n");
+	fprintf(fd, "# Additive expression\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "pop %%eax\n");
 	switch(type)
@@ -50,7 +50,7 @@ void AdditiveExpression::generateFloatingCode(FILE * fd, bool convert) const
 {
 	right.generateFloatingCode(fd);
 	left.generateFloatingCode(fd);
-	fprintf(fd, "; Additive expression (floating)\n");
+	fprintf(fd, "# Additive expression (floating)\n");
 	fprintf(fd, "movss (%%esp), %%xmm1\n");
 	fprintf(fd, "pop %%ebx\n");
 	fprintf(fd, "movss (%%esp), %%xmm0\n");

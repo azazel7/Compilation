@@ -43,7 +43,7 @@ void UnaryExpression::generateCode(FILE * fd) const
 	else
 		expression.generateCode(fd);
 	
-	fprintf(fd, "; Unary expression %c\n", type);
+	fprintf(fd, "# Unary expression %c\n", type);
 	fprintf(fd, "pop %%eax\n");
 	switch(type)
 	{
@@ -69,7 +69,7 @@ void UnaryExpression::generateFloatingCode(FILE * fd, bool convert) const
 	id = stringStream.str();
 
 	expression.generateFloatingCode(fd);
-	fprintf(fd, "; Unary expression %c (floating)\n", type);
+	fprintf(fd, "# Unary expression %c (floating)\n", type);
 	fprintf(fd, "movss (%%ebp), %%xmm0\n");
 	fprintf(fd, "pop %%ebx\n");
 	switch(type)
