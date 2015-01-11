@@ -2,10 +2,12 @@
 #include <sstream>
 #include <iostream>     // std::cout
 #include <stdexcept>
+#include <algorithm>
 #include "PointerType.hpp"
 
 std::list<std::map<std::string, Type const*> > StackSymboleTable::stack;
 std::list<std::map<std::string, int> > StackSymboleTable::stackLocation;
+std::list<std::string> StackSymboleTable::allFloatingNumber;
 
 void StackSymboleTable::push(std::map<std::string, Type const*> table)
 {
@@ -78,4 +80,21 @@ bool StackSymboleTable::isGlobalSymbole(std::string const name)
 std::string StackSymboleTable::getGlobalLabel(std::string const name)
 {
 	return name;
+}
+std::string StackSymboleTable::getLabelFloatingNumber(std::string name)
+{
+	std::replace(name.begin(), name.end(), '.', '_');
+	return std::string("floating_number_") + name;
+}
+void StackSymboleTable::addFloatingNumber(std::string const name)
+{
+	auto it = std::find(allFloatingNumber.begin(), allFloatingNumber.end(), name);
+	if(it != allFloatingNumber.end())
+		return;
+	allFloatingNumber.push_front(name);
+}
+void StackSymboleTable::writeFloatingNumber(FILE* fd)
+{
+	for(std::string f : allFloatingNumber)
+		fprintf(fd, ".lcomm %s %s\n", getLabelFloatingNumber(f).c_str(), f.c_str());
 }

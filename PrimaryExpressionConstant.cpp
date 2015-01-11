@@ -25,7 +25,10 @@ void PrimaryExpressionConstant::generateCode(FILE * fd) const
 }
 void PrimaryExpressionConstant::generateFloatingCode(FILE * fd, bool convert) const
 {
-	fprintf(fd, "Don't know how to pushl floating constant\n");
+	StackSymboleTable::addFloatingNumber(value);
+	fprintf(fd, "# Push %s on the stack\n", value.c_str());
+	fprintf(fd, "mov $%s, %%eax\n", StackSymboleTable::getLabelFloatingNumber(value).c_str());
+	fprintf(fd, "pushl (%%eax)\n");
 	if(convert)
 		fprintf(fd, "%s", convertToInteger().c_str());
 }

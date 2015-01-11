@@ -9,7 +9,6 @@ const std::string ProgramNode::main_name = "main";
 
 ProgramNode::ProgramNode():Node(ID_PROGRAM)
 {
-	//TODO add 2 symboles for printint and printfloat
 	FunctionType* f = new FunctionType(*(new PrimitiveType(PrimitiveType::void_type)));
 	f->addParameter(new PrimitiveType(PrimitiveType::int_type));
 	symboleTable["printint"] = f;
@@ -52,6 +51,7 @@ void ProgramNode::generateCode(FILE * fd) const
 		if(child->getId() == ID_FUNCTION)
 			child->generateCode(fd);
 	StackSymboleTable::pop();
+	StackSymboleTable::writeFloatingNumber(fd);
 }
 ProgramNode::~ProgramNode()
 {

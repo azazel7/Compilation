@@ -9,6 +9,7 @@ class StackSymboleTable
 {
 	static std::list<std::map<std::string, Type const*> > stack;
 	static std::list<std::map<std::string, int> > stackLocation;
+	static std::list<std::string> allFloatingNumber;
 	public:
 	static void push(std::map<std::string, Type const*> table);
 	static void push(std::map<std::string, Type const*> table, std::map<std::string, int> location);
@@ -18,4 +19,7 @@ class StackSymboleTable
 	static std::string putLocationInto(std::string name,std::string registerWanted);
 	static std::string putLocationInto(std::string name,std::string registerWanted, std::string registerOffset);
 	static std::string getGlobalLabel(std::string const name);
+	static std::string getLabelFloatingNumber(std::string name);
+	static void addFloatingNumber(std::string const name);
+	static void writeFloatingNumber(FILE* fd);
 };
