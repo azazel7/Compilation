@@ -57,9 +57,6 @@ void Function::createSymboleTable(void)
 	for(auto pair : symboleTable)//To separate argument of the function and other variable
 		isParameter[pair.first] = true;
 	bodyNode.getSymbole(symboleTable);
-	for(auto e : symboleTable)
-		std::cout << e.first << " ";
-	std::cout << std::endl;
 	int currentOffset = 0;
 	int currentOffsetArg = 0;
 	for(auto symbole : symboleTable)

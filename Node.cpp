@@ -185,9 +185,9 @@ void Node::generateSubCode(FILE * fd, Node& right, Node& left)
 }
 std::string Node::convertToInteger(void)
 {
-	return "cvttss2si (%%esp), %%eax\npop %%ebx\npush %%eax\n";
+	return "cvttss2si (%esp), %eax\npop %ebx\npush %eax\n";
 }
 std::string Node::convertToFloat(void)
 {
-	return "cvtsi2ssl (%%esp), %xmm1\nmovss %%xmm1, %%eax\npop %%ebx\npush %%eax\n";
+	return "cvtsi2ssl (%esp), %xmm1\nmovss %xmm1, %eax\npop %ebx\npush %eax\n";
 }

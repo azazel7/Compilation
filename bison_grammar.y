@@ -29,7 +29,6 @@
 #include "ExpressionStatement.hpp"
 
 class Type;
-std::list<std::map<std::string, Type&> > allSymbole;
 std::list<Node*> stackForTree;
 
 
@@ -577,7 +576,7 @@ int main (int argc, char *argv[])
 //Les types: les types de base sont void, int et float. DONE
 //Les types construits sont les tableaux et les fonctions. DONE
 //Les tableaux ne peuvent être que des tableaux à une dimension, de taille quelconque. DONE
-//Les tableaux peuvent être alloués statiquement ou dynamiquement.
+//Les tableaux peuvent être alloués statiquement ou dynamiquement. DONE
 //Ils peuvent être déclarés soit comme des pointeurs soit comme des tableaux (alloués statiquement dans ce cas). DONE
 //Les fonctions: les fonctions sont toutes globales et on ne peut pas déclarer de fonction dans des fonctions. DONE
 //Les paramètres: Dans une définition de fonction, les paramètres peuvent être des tableaux, des entiers ou des flottants.PROBABLY DONE
