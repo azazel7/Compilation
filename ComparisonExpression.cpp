@@ -13,7 +13,7 @@ ComparisonExpression::ComparisonExpression(Node& r, Node &l, char t):Node(ID_COM
 {
 	type = new PrimitiveType(PrimitiveType::int_type);
 }
-void ComparisonExpression::semanticsCheck(void) const
+void ComparisonExpression::semanticsCheck(void)
 {
 	right.semanticsCheck();
 	left.semanticsCheck();

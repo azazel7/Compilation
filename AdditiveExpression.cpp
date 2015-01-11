@@ -10,7 +10,7 @@ AdditiveExpression::AdditiveExpression(Node& r, Node& l, char t): Node(ID_ADDITI
 {
 	type = t;
 }
-void AdditiveExpression::semanticsCheck(void) const
+void AdditiveExpression::semanticsCheck(void)
 {
 	right.semanticsCheck();
 	left.semanticsCheck();

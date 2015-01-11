@@ -10,7 +10,7 @@ UnaryExpression::UnaryExpression(Node& l): Node(ID_UNARY_EXPRESSION), expression
 {
 	typeUnarayExpression = new PrimitiveType(PrimitiveType::int_type);
 }
-void UnaryExpression::semanticsCheck(void) const
+void UnaryExpression::semanticsCheck(void)
 {
 	expression.semanticsCheck();
 	Type const* tRight = expression.getType();

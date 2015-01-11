@@ -30,7 +30,7 @@ CompoundStatement::CompoundStatement(Node* statement, Node* declaration) : Node(
 		delete statement;
 	std::reverse(allStatement.begin(), allStatement.end());
 }
-void CompoundStatement::semanticsCheck(void) const
+void CompoundStatement::semanticsCheck(void)
 {
 	for(Node* statement : allStatement)
 		statement->semanticsCheck();
@@ -55,12 +55,10 @@ void CompoundStatement::print(void)
 }
 void CompoundStatement::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
-	std::cout << "Loutre" << std::endl;
 	for(Node* n : allDeclaration)
 		n->getSymbole(symbole);
 	for(Node* n : allStatement)
 		n->getSymbole(symbole);
-	std::cout << "Loutre 1" << std::endl;
 }
 CompoundStatement::~CompoundStatement()
 {

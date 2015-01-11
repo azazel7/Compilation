@@ -23,7 +23,7 @@ void ProgramNode::createSymboleTable(void)
 	for(Node* child : children)
 		child->createSymboleTable();
 }
-void ProgramNode::semanticsCheck(void) const
+void ProgramNode::semanticsCheck(void)
 {
 	StackSymboleTable::push(symboleTable);
 	for(Node* child : children)

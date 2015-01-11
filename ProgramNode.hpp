@@ -10,7 +10,7 @@ class ProgramNode : public Node
 	public:
 		ProgramNode();
 		void createSymboleTable(void);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 		static const std::string main_name;
 		~ProgramNode();

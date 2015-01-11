@@ -8,7 +8,7 @@ const char PrimaryExpressionIdentifierOperation::inc = '-';
 PrimaryExpressionIdentifierOperation::PrimaryExpressionIdentifierOperation(std::string na, char type): Node(), type(type), name(na)
 {
 }
-void PrimaryExpressionIdentifierOperation::semanticsCheck(void) const
+void PrimaryExpressionIdentifierOperation::semanticsCheck(void)
 {
 	Type const* type = StackSymboleTable::getSymbole(name);
 	if( type == nullptr)

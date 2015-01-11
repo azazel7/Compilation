@@ -7,7 +7,7 @@ class WhileStatement: public Node
 	Node& statement;
 	public:
 		WhileStatement(Node& expression, Node& statement);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 		~WhileStatement();
 };

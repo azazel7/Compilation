@@ -4,7 +4,7 @@ ReturnStatement::ReturnStatement(Node* l)
 {
 	expression = l;
 }
-void ReturnStatement::semanticsCheck(void) const
+void ReturnStatement::semanticsCheck(void)
 {
 	if(expression != nullptr)
 		expression->semanticsCheck();

@@ -9,7 +9,7 @@ PrimaryExpressionFunctionCall::PrimaryExpressionFunctionCall(std::string id, std
 	this->id = id;
 	this->argumentList = argumentList;
 }
-void PrimaryExpressionFunctionCall::semanticsCheck(void) const
+void PrimaryExpressionFunctionCall::semanticsCheck(void)
 {
 	for(Node* node : argumentList)
 		node->semanticsCheck();

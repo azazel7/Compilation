@@ -5,7 +5,7 @@
 MultiplicativeExpression::MultiplicativeExpression(Node& r, Node& l): Node(ID_MULTIPLICATIVE), right(r), left(l)
 {
 }
-void MultiplicativeExpression::semanticsCheck(void) const
+void MultiplicativeExpression::semanticsCheck(void)
 {
 	right.semanticsCheck();
 	left.semanticsCheck();

@@ -13,7 +13,7 @@ class CompoundStatement : public Node
 		CompoundStatement(std::string name, int id = -1);
 		CompoundStatement(Node* statement, Node* declaration = nullptr);
 		void print(void);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		~CompoundStatement();

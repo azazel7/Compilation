@@ -9,7 +9,7 @@ class UnaryExpression: public Node
 	Type const* getType() const; 
 	public:
 		UnaryExpression(Node& l);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		Type const* getType(); 
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;

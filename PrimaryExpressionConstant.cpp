@@ -19,6 +19,7 @@ Type const* PrimaryExpressionConstant::getType()
 }
 void PrimaryExpressionConstant::generateCode(FILE * fd) const
 {
+	fprintf(fd, "# Push %s on the stack\n", value.c_str());
 	fprintf(fd, "mov $%s, %%eax\n", value.c_str());
 	fprintf(fd, "push %%eax\n");
 }

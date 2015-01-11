@@ -5,13 +5,19 @@
 #include "Type.hpp"
 #include "PointerType.hpp"
 
+const char Expression::no_convert='0';
+const char Expression::convert_to_int='i';
+const char Expression::convert_to_float='f';
+
 Expression::Expression(std::string iden, Node& expr, Node* offset): Node(ID_EXPRESSION), id(iden), expression(expr)
 {
 	expressionOffset = offset;
+	convertType = no_convert;
 }
 
-void Expression::semanticsCheck(void) const
-{ if(expressionOffset != nullptr)
+void Expression::semanticsCheck(void)
+{ 
+	if(expressionOffset != nullptr)
 		expressionOffset->semanticsCheck();
 	expression.semanticsCheck();
 	Type const* typeSymbole = StackSymboleTable::getSymbole(id);
@@ -37,7 +43,13 @@ void Expression::semanticsCheck(void) const
 			
 	}
 		//TODO watch at the pointed type
-	if(!typeExpression || *typeExpression != *typeSymbole)
+	if(!typeExpression)
+		throw std::invalid_argument("No type for expression (ID = expression)");
+	if(typeSymbole->getType() == FLOAT_TYPE && typeExpression->getType() == INT_TYPE)
+		convertType = convert_to_float;
+	else if(typeSymbole->getType() == INT_TYPE && typeExpression->getType() == FLOAT_TYPE)
+		convertType = convert_to_int;
+	else if(*typeExpression != *typeSymbole)
 		throw std::invalid_argument(typeSymbole->getString() + " != " + typeExpression->getString());
 }
 Type const* Expression::getType()
@@ -49,10 +61,14 @@ void Expression::generateCode(FILE * fd) const
 {
 	std::string location; 
 	if(expression.getType()->getType() == FLOAT_TYPE)
-		expression.generateFloatingCode(fd, StackSymboleTable::getSymbole(id)->getType() != FLOAT_TYPE);
+		expression.generateFloatingCode(fd);
 	else
 		expression.generateCode(fd);
-	fprintf(fd, "# Copy stack top into %s\n", id.c_str());
+	fprintf(fd, "# Copy stack top into %s %c\n", id.c_str(), convertType);
+	if(convertType == convert_to_int)
+		fprintf(fd, "%s", convertToInteger().c_str());
+	else if(convertType == convert_to_float)
+		fprintf(fd, "%s", convertToFloat().c_str());
 	if(expressionOffset != nullptr)
 	{
 		expressionOffset->generateCode(fd);//expressionOffset is always an integer

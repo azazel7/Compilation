@@ -5,7 +5,7 @@
 WhileStatement::WhileStatement(Node& expression, Node& statement): expression(expression), statement(statement)
 {
 }
-void WhileStatement::semanticsCheck(void) const
+void WhileStatement::semanticsCheck(void)
 {
 	expression.semanticsCheck();
 	statement.semanticsCheck();

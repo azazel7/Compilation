@@ -22,7 +22,7 @@ void Function::print(void)
 	bodyNode.print();
 
 }
-void Function::semanticsCheck(void) const
+void Function::semanticsCheck(void)
 {
 	StackSymboleTable::push(symboleTable);
 	bodyNode.semanticsCheck();

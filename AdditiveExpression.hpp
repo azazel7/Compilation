@@ -8,7 +8,7 @@ class AdditiveExpression : public Node
 	Node& left;
 	public:
 		AdditiveExpression(Node& r, Node& l, char t);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;

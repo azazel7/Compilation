@@ -7,7 +7,7 @@ IfStatement::IfStatement(Node& expression, Node& statement, Node* elseStatement)
 {
 	this->elseStatement = elseStatement;
 }
-void IfStatement::semanticsCheck(void) const
+void IfStatement::semanticsCheck(void)
 {
 	expression.semanticsCheck();
 	statement.semanticsCheck();

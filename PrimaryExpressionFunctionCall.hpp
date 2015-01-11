@@ -8,7 +8,7 @@ class PrimaryExpressionFunctionCall : public Node
 	std::string id;
 	public:
 		PrimaryExpressionFunctionCall(std::string id, std::list<Node*> argumentList);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		Type const* getType();
 		~PrimaryExpressionFunctionCall();
 		void generateCode(FILE * fd) const;

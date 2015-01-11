@@ -24,7 +24,7 @@ class Function : public Node
 		void getSymbole(std::map<std::string, Type const*> & symbole) const;
 		void createSymboleTable(void);
 		void printSymboleTable(void) const;
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 		~Function();
 };

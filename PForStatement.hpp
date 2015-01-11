@@ -10,6 +10,6 @@ class PForStatement: public Node
 	Node& statement;
 	public:
 		PForStatement(char* i1, Node& expressionInit, char* i2, Node& expressionCondition, char* i3, Node& statement);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 };

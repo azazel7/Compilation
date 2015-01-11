@@ -7,7 +7,7 @@
 PrimaryExpressionArrayAccess::PrimaryExpressionArrayAccess(std::string id, Node& expression):id(id), expression(expression)
 {
 }
-void PrimaryExpressionArrayAccess::semanticsCheck(void) const
+void PrimaryExpressionArrayAccess::semanticsCheck(void)
 {
 	expression.semanticsCheck();
 	PointerType const* typeId = dynamic_cast<PointerType const*>(StackSymboleTable::getSymbole(id));

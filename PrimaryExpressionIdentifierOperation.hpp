@@ -7,7 +7,7 @@ class PrimaryExpressionIdentifierOperation : public Node
 	char type;
 	public:
 		PrimaryExpressionIdentifierOperation(std::string na, char type);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;

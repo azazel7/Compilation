@@ -6,7 +6,7 @@ PrimaryExpressionIdentifier::PrimaryExpressionIdentifier(std::string name) : Nod
 {
 	this->name = name;
 }
-void PrimaryExpressionIdentifier::semanticsCheck(void) const
+void PrimaryExpressionIdentifier::semanticsCheck(void)
 {
 	if(StackSymboleTable::getSymbole(name) == nullptr)
 		throw std::invalid_argument("Name doesn't exist : " + name);

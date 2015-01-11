@@ -5,7 +5,7 @@
 ExpressionStatement::ExpressionStatement(Node& expression):Node(), expression(expression)
 {
 }
-void ExpressionStatement::semanticsCheck(void) const
+void ExpressionStatement::semanticsCheck(void)
 {
 	expression.semanticsCheck();
 }

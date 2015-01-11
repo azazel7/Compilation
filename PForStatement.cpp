@@ -6,7 +6,7 @@ PForStatement::PForStatement(char* i1, Node& expressionInit, char* i2, Node& exp
 {
 
 }
-void PForStatement::semanticsCheck(void) const
+void PForStatement::semanticsCheck(void)
 {
     if (i1 != i2 || i1 != i3)
         throw std::invalid_argument("unique identifier required in pfor");

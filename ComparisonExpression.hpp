@@ -9,7 +9,7 @@ class ComparisonExpression : public Node
 	char typeOp;
 	public:
 		ComparisonExpression(Node& right, Node &left, char t);
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		Type const* getType();
 		void generateCode(FILE * fd) const;
 		void generateFloatingCode(FILE * fd, bool convert = false) const;

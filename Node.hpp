@@ -54,13 +54,12 @@ class Node
 		//Create local symbole table for the node if needed
 		virtual void createSymboleTable(void);
 		//Check the semantics throw invalid argument if there is an error
-		virtual void semanticsCheck(void) const;
+		virtual void semanticsCheck(void);
 		virtual void printSymboleTable(void) const;
 		//Return the type of the node (use only in semanticsCheck to check type and operation)
 		virtual Type const* getType(void);
 		//This will return the children et delete them from this node
 		virtual void generateCode(FILE * fd) const;
-		//
 		virtual void generateFloatingCode(FILE * fd, bool convert = false) const;
 		std::list<Node*> getChildren(void);
 		void setId(int id);
@@ -69,5 +68,6 @@ class Node
 		int getId(void) const;
 		static void generateSubCode(FILE * fd, Node& right, Node& left); 
 		static std::string convertToInteger(void);
+		static std::string convertToFloat(void);
 };
 //TODO TO THINK No need to flatten declarator_list -> just convert it into a symbols table 

@@ -1,6 +1,4 @@
-#ifndef IF_STATEMENT_HPP
-#define IF_STATEMENT_HPP
-
+#pragma once
 #include "Node.hpp"
 
 class IfStatement : public Node
@@ -10,7 +8,6 @@ class IfStatement : public Node
 	Node* elseStatement;
 	public:
 		IfStatement(Node& expression, Node& statement, Node* elseStatement = nullptr );
-		void semanticsCheck(void) const;
+		void semanticsCheck(void);
 		void generateCode(FILE * fd) const;
 };
-#endif
