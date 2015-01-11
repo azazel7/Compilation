@@ -1,6 +1,4 @@
-void printint(int x) {}
-
-void test() {
+void main() {
     int a;
     pfor (a = 0; a < 10; a++)
         printint(a);

@@ -552,7 +552,7 @@ int main (int argc, char *argv[])
 			yyparse();
 			stackForTree.front()->flattenFunction();
 			stackForTree.front()->createSymboleTable();
-			stackForTree.front()->printSymboleTable();
+			/*stackForTree.front()->printSymboleTable();*/
 			stackForTree.front()->semanticsCheck();
 			stackForTree.front()->generateCode(output);
 			/*stackForTree.front()->print();*/

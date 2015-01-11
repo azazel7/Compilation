@@ -48,7 +48,10 @@ void Expression::semanticsCheck(void)
 	if(typeSymbole->getType() == FLOAT_TYPE && typeExpression->getType() == INT_TYPE)
 		convertType = convert_to_float;
 	else if(typeSymbole->getType() == INT_TYPE && typeExpression->getType() == FLOAT_TYPE)
+	{
 		convertType = convert_to_int;
+		fprintf(stderr, "Warning : Loss of precision while assigning %s\n", id.c_str());
+	}
 	else if(*typeExpression != *typeSymbole)
 		throw std::invalid_argument(typeSymbole->getString() + " != " + typeExpression->getString());
 }
