@@ -524,6 +524,7 @@ void yyerror (const char *s)
 {
 	fflush (stdout);
 	fprintf (stderr, "%s:%d:%d: %s\n", file_name, yylineno, column, s);
+	exit(0);
 }
 
 void replace_extension(std::string& str, std::string const extension)
