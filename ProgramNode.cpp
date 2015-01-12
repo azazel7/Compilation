@@ -51,7 +51,6 @@ void ProgramNode::generateCode(FILE * fd) const
 		if(child->getId() == ID_FUNCTION)
 			child->generateCode(fd);
 	StackSymboleTable::pop();
-	StackSymboleTable::writeFloatingNumber(fd);
 }
 ProgramNode::~ProgramNode()
 {

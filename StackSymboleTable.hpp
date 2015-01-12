@@ -9,7 +9,6 @@ class StackSymboleTable
 {
 	static std::list<std::map<std::string, Type const*> > stack;
 	static std::list<std::map<std::string, int> > stackLocation;
-	static std::list<std::string> allFloatingNumber;
 	static std::string pforVariable;
 	static std::string pforVariableLocation;
 	static bool pforActivated;
@@ -22,9 +21,6 @@ class StackSymboleTable
 	static std::string putLocationInto(std::string name,std::string registerWanted);
 	static std::string putLocationInto(std::string name,std::string registerWanted, std::string registerOffset);
 	static std::string getGlobalLabel(std::string const name);
-	static std::string getLabelFloatingNumber(std::string name);
-	static void addFloatingNumber(std::string const name);
-	static void writeFloatingNumber(FILE* fd);
 	static void enablePFor(std::string variable, std::string location);
 	static void disablePFor(void);
 };
