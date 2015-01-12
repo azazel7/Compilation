@@ -189,5 +189,5 @@ std::string Node::convertToInteger(void)
 }
 std::string Node::convertToFloat(void)
 {
-	return "cvtsi2ssl (%esp), %xmm1\nmovss %xmm1, %eax\npop %ebx\npush %eax\n";
+	return "cvtsi2ssl (%esp), %xmm1\nmovss %xmm1, (%esp)\n";
 }
