@@ -58,7 +58,7 @@ void Function::createSymboleTable(void)
 		isParameter[pair.first] = true;
 	bodyNode.getSymbole(symboleTable);
 	int currentOffset = 0;
-	int currentOffsetArg = 0;
+	int currentOffsetArg = 8;//8 because there is the previous ebp on the stack and the return addr from call
 	for(auto symbole : symboleTable)
 	{
 		//This if is for both kind of variable. The arguments of the function and the declared variables.

@@ -42,7 +42,7 @@ std::string StackSymboleTable::putLocationInto(std::string name, std::string reg
 		{
 			std::stringstream stringStream;
 			stringStream << "mov $" << table[name] << ", " << registerWanted << std::endl;
-			stringStream << "add %esp, " << registerWanted << std::endl;
+			stringStream << "add %ebp, " << registerWanted << std::endl;
 			return stringStream.str();
 		}
 	throw std::invalid_argument("Can't find symbole " + name + " in putLocationInto");
