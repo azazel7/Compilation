@@ -8,6 +8,9 @@
 std::list<std::map<std::string, Type const*> > StackSymboleTable::stack;
 std::list<std::map<std::string, int> > StackSymboleTable::stackLocation;
 std::list<std::string> StackSymboleTable::allFloatingNumber;
+std::string StackSymboleTable::pforVariable;
+std::string StackSymboleTable::pforVariableLocation;
+bool StackSymboleTable::pforActivated = false;
 
 void StackSymboleTable::push(std::map<std::string, Type const*> table)
 {
@@ -31,6 +34,11 @@ std::string StackSymboleTable::putLocationInto(std::string name, std::string reg
 {
 	std::stringstream stringStream;
 	std::string location;
+	if(pforActivated && name == pforVariable)
+	{
+		stringStream << "mov " << pforVariableLocation << ", " << registerWanted << std::endl;
+		return stringStream.str();
+	}
 	if(isGlobalSymbole(name))
 	{
 		location = getGlobalLabel(name);
@@ -97,4 +105,14 @@ void StackSymboleTable::writeFloatingNumber(FILE* fd)
 {
 	for(std::string f : allFloatingNumber)
 		fprintf(fd, ".lcomm %s %s\n", getLabelFloatingNumber(f).c_str(), f.c_str());
+}
+void StackSymboleTable::enablePFor(std::string variable, std::string location)
+{
+	pforActivated = true;
+	pforVariableLocation = location;
+	pforVariable = variable;
+}
+void StackSymboleTable::disablePFor(void)
+{
+	pforActivated = false;
 }

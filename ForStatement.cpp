@@ -26,7 +26,8 @@ void ForStatement::generateCode(FILE * fd) const
 	fprintf(fd, "%s:\n", id.c_str());//Write label
 	expressionCondition.generateCode(fd);
 	//fprintf(fd, "popl %%eax\n");//Useless because an expression_statement popl into eax, but we're not sure
-	fprintf(fd, "cmp %%eax, $1\n");
+	fprintf(fd, "mov $1, %%ebx\n");
+	fprintf(fd, "cmp %%eax, %%ebx\n");
 	fprintf(fd, "jne %send\n", id.c_str());
 	statement.generateCode(fd);
 	expressionVariation.generateCode(fd);

@@ -25,7 +25,8 @@ void IfStatement::generateCode(FILE * fd) const
 
 	expression.generateCode(fd);
 	fprintf(fd, "popl %%eax\n");
-	fprintf(fd, "cmp %%eax, $1\n");
+	fprintf(fd, "mov $1, %%ebx\n");
+	fprintf(fd, "cmp %%eax, %%ebx\n");
 	fprintf(fd, "jne %s\n", id.c_str());
 	statement.generateCode(fd);
 	if(elseStatement != nullptr)

@@ -1,5 +1,6 @@
 #include "VariableDeclaration.hpp"
 #include <string>
+#include <stdexcept>
 #include "PrimitiveType.hpp"
 #include "PointerType.hpp"
 #include "IdentifierDeclarator.hpp"
@@ -19,7 +20,10 @@ VariableDeclaration::VariableDeclaration(Node* type, Node* identifier): Node(ID_
 		identifier->getNodeById(tmpId, ID_DECLARATOR);
 		delete identifier;
 	}
+	//if(allParameter.size() > 0 && tmpId.size() > 1)
+		//throw std::invalid_argument("You can't declare many function without body in one declaration");
 	
+		//TODO check for a forward declaration
 	for(Node* n : tmpId)
 	{
 		id.push_front(dynamic_cast<IdentifierDeclarator*>(n));
@@ -50,26 +54,21 @@ Type* VariableDeclaration::getType(void)
 }
 void VariableDeclaration::getSymbole(std::map<std::string, Type const*> & symbole) const
 {
+	std::list<Node*> allParameter; //To declare function without the real function
 	for(IdentifierDeclarator* idNode : id)
 	{
 		if(symbole.count(idNode->getName()) == 0)
 		{
 			Type* tmpType = new PrimitiveType(type);
 			if(idNode->isPointed())
-			{
 				tmpType = new PointerType(*tmpType);
-				std::cout << "Pointed variable " << idNode->getName() << std::endl;
-			}
 			else if(idNode->getSize() > 0)
-			{
 				tmpType = new PointerType(*tmpType, idNode->getSize());
-				std::cout << "Static array " << idNode->getName() << std::endl;
-			}
 			symbole[idNode->getName()] = tmpType;
 		}
 		else
 		{
-			throw std::invalid_argument("Variable " + idNode->getName() + " already exist");
+			throw std::invalid_argument("Variable " + idNode->getName() + " already exist somewhere");
 		}
 	}
 }

@@ -235,6 +235,7 @@ declaration
 		stackForTree.pop_front();
 		Node* type = stackForTree.front();
 		stackForTree.pop_front();
+		identifier->printTree(0);
 		Node* tmp = new VariableDeclaration(type, identifier);
 		stackForTree.push_front(tmp);
 		}

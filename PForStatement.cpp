@@ -1,6 +1,7 @@
 #include "PForStatement.hpp"
 #include <sstream>
 #include <stdexcept>
+#include "StackSymboleTable.hpp"
 
 PForStatement::PForStatement(char* i1, Node& expressionInit, char* i2, Node& expressionCondition, char* i3, Node& statement): i1(i1), expressionInit(expressionInit), i2(i2), expressionCondition(expressionCondition), i3(i3), statement(statement)
 {
@@ -33,10 +34,11 @@ void PForStatement::generateCode(FILE * fd) const
     fprintf(fd, "pushl %%ebp\n");
     fprintf(fd, "pushl %%ebx\n");
     fprintf(fd, "mov __parallel_for_ebp, %%ebp\n");
-    fprintf(fd, "mov 12(%%esp), %%ebx\n");
+    fprintf(fd, "mov 12(%%esp), %%edi\n");
     fprintf(fd, "# ----\n");
     // à cet endroit, %ebx contient l'adresse de la variable
     //TODO utilisée par le pfor (unique à chaque thread, non partagée)
+    StackSymboleTable::enablePFor(i1 , "%edi");
 	statement.generateCode(fd);
     fprintf(fd, "# ----\n");
     fprintf(fd, "popl %%ebx\n");
