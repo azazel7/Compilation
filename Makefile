@@ -33,6 +33,6 @@ bison_grammar.o: bison_grammar.y
 	$(CC) $(OPTION) -c $< -o $@ $(DEBUGFLAG) $(WARNINGFLAG)
 
 clean:
-	rm -f flex_scanner.cpp bison_grammar.cpp *.o gazl
+	rm -f flex_scanner.cpp bison_grammar.cpp *.o gazl tests/*.s
 
 rebuild: clean gazl
