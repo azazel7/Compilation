@@ -2,6 +2,7 @@ Compiler
 ========
 
 Pour compiler l'application, il faut exécuter la commande « make » ou « make -j ».
+L'exécutable « gazl » doit être apparu.
 
 Usage
 =====
@@ -19,6 +20,23 @@ Le compilateur générere du code 32 bits.
 Il a été écrit en C++ essentiellement pour profiter des structures proposées par la STL comme les map ou les list. Par ailleurs nous faisons un usage intensif de l'héritage et des exceptions.
 Il a été fait comme choix de construire complétement l'arbre syntaxique correspondant au code source durant l'exécution des différentes régles de la grammaire puis de travailler dessus. 
 Ce qui explique nottement que l'on peut appeler des fonctions qui seront déclarées plus bas dans le code source.
+La transmission des valeurs et des résultat se fait sur la pile à l'exception des fonctions qui renvoient leur résultat dans le registre aex par soucis de stardard et de technique. (Le ret effectuant un pop de l'adresse de retour).
+Le compilateur fournit les fonctions printint et printfloat ainsi que celle d'allocation de tableaux.
+Par ailleurs, le compilateur remplit les critéres suivant :
+* Les types de base sont *void*, *int* et *float*
+* Les types construits sont les tableaux et les fonctions.
+* TODO ...
+
+Les tests
+=========
+
+Le test t6.c ne passe pas, car il n'est pas possible de déclarer une fonction par son seul prototype.
+Les tests tp2.c, tp3.c, tp7.c, tp8.c, tp9.c et tp10.c sont des tests sensés générer des erreurs sémantiques ou syntaxiques.
+Les test tc4.c, tc5.c, tc6.c et tc7.c doivent aussi générer des erreurs.
+* tc4.c = Affectation d'un entier à un tableau statique.
+* tc5.c = Affectation d'un entier à un pointeur.
+* tc6.c = Erreur dans les types des arguments
+* tc7.c = Erreur dans le nombre d'arguments.
 
 Problémes
 =========
@@ -28,4 +46,5 @@ Le compilateur implémente l'extension de la boucle parralélle, mais les boucle
 Il est impossible de déclarer des fonctions externes par leur seule prototype comme en C.
 Il existe deux fonctions malloc_int et malloc_float qui sont sensées allouer dynamiquement des tableaux. Bien qu'elles puissent être appelées, leur fonctionnement n'est pas une science exacte.
 De plus, les opérations sur les pointeurs sont autorisées.
-
+Les variables de type void sont autorisées bien que presque inutilisables car aucun *cast* automatique n'est effectué.
+Il est possible de déclare dans une fonction un prototype de la forme « int i(int a); ». Étant donné que nous ne prenons pas en compte les prototypes, cette déclaration est équivalente à « int i; ». Donc bien que cela soit possible, aucune fonction n'est crée à l'intérieur de la fonction.
