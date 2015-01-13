@@ -8,10 +8,11 @@ Usage
 =====
 
 Pour compiler le fichier « poisson.c », exécutez la commande « gazl poisson.c », ce qui aura pour effet de générer le fichier « poisson.s ».
-Ensuite, il ne reste plus qu'à faire « gcc poisson.s -o poisson » pour obtenir un exécutable. Notez au passage qu'il faudra sans doute ajouter l'option -m32 pour compiler sur une machine 64 bits.
-Si vous utilisez des fonctions intégrées comme « malloc_int » ou « print_int », la commande devient « gcc poisson.s buildin.c -o poisson ». Pour une machine 64 bits, il est possible que des erreurs surviennent au moment du link car vous ne disposez pas des librairie 32 bits.
+Ensuite, il ne reste plus qu'à faire « gcc poisson.s -o poisson » pour obtenir un exécutable. Notez au passage qu'il faudra sans doute ajouter l'option « -m32 » pour compiler sur une machine 64 bits.
+Si vous utilisez des fonctions intégrées comme « printint » ou « printfloat », la commande devient « gcc poisson.s buildin.c -o poisson ». Pour une machine 64 bits, il est possible que des erreurs surviennent au moment du *link* car vous ne disposez pas des librairie 32 bits.
 Si vous utilisez la boucle parralléle, la commande devient « gcc poisson.s pfor.c -o poisson -lpthread ». Même remarque que précédement pour les machines 64 bits.
 Pour lancer la compilation sur tous les fichiers de test du dossier « tests », lancez le script « ./test.sh ».
+Attention, les tests ne générent que des fichier assembleur qu'il faudra ensuite assembler et *linker* au besoin avec les commandes gcc fournies plus haut.
 
 Le compilateur
 ==============
@@ -33,8 +34,8 @@ Par ailleurs, le compilateur remplit les critéres suivant :
 * Les régles de typage sont celles du C.
 * L'affectation fonctionne comme en C
 * Un tableau statique ne peut pas être à gauche d'une affectation.
-* Les boucles « for » et « while » se comportent comme en C.
-* Le « if » peut avoir une partie « else ».
+* Les boucles *for* et *while* se comportent comme en C.
+* Le *if* peut avoir une partie *else*.
 * Les blocs d'instructions fonctionnent comme en C.
 
 Les tests
