@@ -21,11 +21,21 @@ Il a été écrit en C++ essentiellement pour profiter des structures proposées
 Il a été fait comme choix de construire complétement l'arbre syntaxique correspondant au code source durant l'exécution des différentes régles de la grammaire puis de travailler dessus. 
 Ce qui explique nottement que l'on peut appeler des fonctions qui seront déclarées plus bas dans le code source.
 La transmission des valeurs et des résultat se fait sur la pile à l'exception des fonctions qui renvoient leur résultat dans le registre aex par soucis de stardard et de technique. (Le ret effectuant un pop de l'adresse de retour).
-Le compilateur fournit les fonctions printint et printfloat ainsi que celle d'allocation de tableaux.
 Par ailleurs, le compilateur remplit les critéres suivant :
 * Les types de base sont *void*, *int* et *float*
 * Les types construits sont les tableaux et les fonctions.
-* TODO ...
+* Les tableaux ne peuvent avoir qu'une seule dimension
+* Les tableaux peuvent être alloué dynamiquement ou statiquement
+* Les tableaux peuvent être déclarés comme des pointeurs ou des tableaux.
+* Les fonctions sont globales.
+* Les paramètres d'une fonction peuvent être des tableaux, des entiers, des flottant ou des pointeurs.
+* Les fonctions « printint(int) » et « printfloat(float) » seront connues par l'utilisateur et pourront être utilisées sans déclaration.
+* Les régles de typage sont celles du C.
+* L'affectation fonctionne comme en C
+* Un tableau statique ne peut pas être à gauche d'une affectation.
+* Les boucles « for » et « while » se comportent comme en C.
+* Le « if » peut avoir une partie « else ».
+* Les blocs d'instructions fonctionnent comme en C.
 
 Les tests
 =========

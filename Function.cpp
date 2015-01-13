@@ -47,7 +47,12 @@ void Function::getSymbole(std::map<std::string, Type const*> & symbole) const
 	//Add paramters
 	for(Node* n : allParameter)
 		if((tmp = n->getType()))
-			type->addParameter(tmp);
+		{
+			if(tmp->getType() == VOID_TYPE)
+				throw std::invalid_argument("Can not have void parameter");
+			else
+				type->addParameter(tmp);
+		}
 	symbole[nameFunction] = type;
 }
 void Function::createSymboleTable(void)
